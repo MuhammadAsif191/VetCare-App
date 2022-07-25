@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'PostSolutionDoctorsent.dart';
 import 'FlateListData.dart';
-import 'package:flutter/cupertino.dart';
 
 class PostSolutionDoctor extends StatefulWidget {
   @override

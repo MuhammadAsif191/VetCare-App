@@ -29,81 +29,83 @@ class complaintBoxforAdminPage extends State<complaintBoxforAdmin> {
         backgroundColor: Colors.green[800],
         title: Text('Complaints'),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: data.length,
-              padding: EdgeInsets.only(top: 10, bottom: 10),
-              // physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return messagePrintForAdmin(
-                  massageType: data[index].person,
-                  massages: data[index].massage,
-                  timeNow: data[index].currentTime,
-                  userName: data[index].userName,
-                );
-              },
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
-              width: double.infinity,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      minLines: 1,
-                      maxLines: 5,
-                      keyboardType: TextInputType.multiline,
-                      controller: msgSent,
-                      decoration: InputDecoration(
-                          hintText: "Write message...",
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      setState(() {
-                        DateTime now = DateTime.now();
-                        time = now.hour.toString() + ' PM';
-                        if (msgSent.text != '')
-                          data.add(
-                            userComplaintsforAdmin(
-                              "sender",
-                              msgSent.text,
-                              time,
-                              "You",
-                            ),
-                          );
-                        msgSent.text = '';
-                      });
-                    },
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                    backgroundColor: Colors.green[800],
-                    elevation: 0,
-                  ),
-                ],
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: data.length,
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                // physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return messagePrintForAdmin(
+                    massageType: data[index].person,
+                    massages: data[index].massage,
+                    timeNow: data[index].currentTime,
+                    userName: data[index].userName,
+                  );
+                },
               ),
             ),
-          ),
-        ],
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+                height: 60,
+                width: double.infinity,
+                color: Colors.white,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        minLines: 1,
+                        maxLines: 5,
+                        keyboardType: TextInputType.multiline,
+                        controller: msgSent,
+                        decoration: InputDecoration(
+                            hintText: "Write message...",
+                            hintStyle: TextStyle(color: Colors.black54),
+                            border: InputBorder.none),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    FloatingActionButton(
+                      onPressed: () {
+                        setState(() {
+                          DateTime now = DateTime.now();
+                          time = now.hour.toString() + ' PM';
+                          if (msgSent.text != '')
+                            data.add(
+                              userComplaintsforAdmin(
+                                "sender",
+                                msgSent.text,
+                                time,
+                                "You",
+                              ),
+                            );
+                          msgSent.text = '';
+                        });
+                      },
+                      child: Icon(
+                        Icons.send,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      backgroundColor: Colors.green[800],
+                      elevation: 0,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

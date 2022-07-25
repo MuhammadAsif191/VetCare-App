@@ -45,17 +45,15 @@ class _userListsState extends State<userLists> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-        itemCount: obj.length,
-        itemBuilder: (context, index) {
-          return userAccess(
-            userName: obj[index].userName,
-            onlineNow: obj[index].onlineNow,
-            time: obj[index].time,
-          );
-        },
-      ),
+    return ListView.builder(
+      itemCount: obj.length,
+      itemBuilder: (context, index) {
+        return userAccess(
+          userName: obj[index].userName,
+          onlineNow: obj[index].onlineNow,
+          time: obj[index].time,
+        );
+      },
     );
   }
 }
