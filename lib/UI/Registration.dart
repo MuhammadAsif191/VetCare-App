@@ -54,7 +54,7 @@ class _RegistrationPage extends State<Registration> {
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
               child: const Text(
-                'SignUp for a new account',
+                'SignUp for a new User',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.blue,
@@ -287,6 +287,7 @@ class _RegistrationPage extends State<Registration> {
                 TextButton(
                   child: const Text(
                     'terms',
+                    style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {},
                 ),

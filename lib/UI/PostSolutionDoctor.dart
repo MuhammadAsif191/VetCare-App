@@ -86,7 +86,7 @@ class _PostSolutionDoctorPage extends State<PostSolutionDoctor> {
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.search),
                         border: UnderlineInputBorder(),
-                        labelText: "Search doctor name",
+                        labelText: "Search User name",
                       ),
                       onChanged: (Text) => onSearch(Text),
                     );

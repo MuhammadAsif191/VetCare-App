@@ -133,7 +133,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text(''),
+        title: Text(widget.productTitle),
         actions: [
           IconButton(
             onPressed: () {

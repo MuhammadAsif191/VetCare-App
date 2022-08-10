@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-class Profiles extends StatefulWidget {
+class UserProfile extends StatefulWidget {
+  UserProfile({required this.userName});
+  final String userName;
   @override
-  State<Profiles> createState() => myProfile();
+  State<UserProfile> createState() => UserProfilePAge();
 }
 
-class myProfile extends State<Profiles> {
-  String name = "Sheraz Khalid";
+class UserProfilePAge extends State<UserProfile> {
+  // String name = "Sheraz Khalid";
   String email = "sherazkhalid123@gmail.com";
   String number = '+923008546933';
   String address = 'Punjab, Gujrat, Marghazasr';
@@ -14,7 +16,6 @@ class myProfile extends State<Profiles> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    name;
     email;
     number;
     address;
@@ -27,7 +28,7 @@ class myProfile extends State<Profiles> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.green[500],
-        title: Text('Profile'),
+        title: Text('User Profile'),
       ),
       body: Container(
         alignment: Alignment.topCenter,
@@ -42,7 +43,7 @@ class myProfile extends State<Profiles> {
               ),
             ),
             Text(
-              name,
+              widget.userName,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Pacifico',

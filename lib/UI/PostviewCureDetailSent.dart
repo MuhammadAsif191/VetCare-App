@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 
-class ComplainData {
-  final String person;
-  final String currentTime;
-  final String massage;
-  ComplainData(this.person, this.massage, this.currentTime);
+class Message {
+  final String text;
+  final DateTime date;
+  final bool isSentByMe;
+  const Message({
+    required this.text,
+    required this.date,
+    required this.isSentByMe,
+  });
 }
 
 class viewcureDetail extends StatefulWidget {
@@ -18,161 +23,132 @@ class viewcureDetail extends StatefulWidget {
 }
 
 class viewcureDetailPage extends State<viewcureDetail> {
-  List<ComplainData> data = [];
-  DateTime now = DateTime.now();
-  String time = '02 AM';
-  TextEditingController msgSent = TextEditingController();
+  List<Message> message = [
+    Message(
+      text: 'Yes Sure',
+      date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+      isSentByMe: false,
+    ),
+    Message(
+      text: 'No don\'t worry',
+      date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
+      isSentByMe: true,
+    ),
+    Message(
+      text: 'great',
+      date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
+      isSentByMe: false,
+    ),
+  ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    message;
+  }
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[800],
-        title: Text(
-          'Your feedback to ${widget.DoctorName}',
-          style: TextStyle(
-            fontSize: 15,
-          ),
-        ),
+        title: Text('${widget.DoctorName}'),
       ),
-      body: Stack(
-        children: <Widget>[
+      body: Column(
+        children: [
           Expanded(
-            child: ListView.builder(
-              // shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              // physics: ,
-              itemCount: data.length,
-              padding: EdgeInsets.only(top: 10, bottom: 10),
-              itemBuilder: (context, index) {
-                return MassagePrint(
-                  massageType: data[index].person,
-                  massages: data[index].massage,
-                  timeNow: data[index].currentTime,
-                );
-              },
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 100,
-              width: double.infinity,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: msgSent,
-                      decoration: new InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 2.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          borderSide:
-                              BorderSide(color: Colors.black, width: 2.0),
-                        ),
-                        hintText: 'Write Feedback ....',
+            child: GroupedListView<Message, DateTime>(
+              padding: const EdgeInsets.all(8),
+              reverse: true,
+              order: GroupedListOrder.DESC,
+              useStickyGroupSeparators: true,
+              floatingHeader: true,
+              elements: message,
+              groupBy: (message) => DateTime(
+                message.date.year,
+                message.date.month,
+                message.date.day,
+              ),
+              groupHeaderBuilder: (Message message) => SizedBox(
+                height: 40,
+                child: Center(
+                  child: Card(
+                    color: Colors.green[500],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        DateFormat.yMMMd().format(message.date),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 15,
+                ),
+              ),
+              itemBuilder: (context, Message message) => Align(
+                alignment: message.isSentByMe
+                    ? Alignment.centerLeft
+                    : Alignment.centerRight,
+                child: Card(
+                  color: message.isSentByMe ? Colors.white : Colors.green,
+                  elevation: 8,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Text(message.text),
                   ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      setState(() {
-                        DateTime now = DateTime.now();
-                        time = now.hour.toString() +
-                            ':' +
-                            now.minute.toString() +
-                            ' PM';
-                        if (msgSent.text != '')
-                          data.add(
-                            ComplainData("sender", msgSent.text, time),
-                          );
-                        msgSent.text = '';
-                      });
-                    },
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                    backgroundColor: Colors.green[800],
-                    elevation: 0,
-                  )
-                ],
+                ),
               ),
             ),
           ),
+          bottomBar(context),
         ],
       ),
     );
   }
-}
 
-class MassagePrint extends StatelessWidget {
-  MassagePrint({
-    this.timeNow = '',
-    this.massageType = '',
-    this.massages = '',
-  });
-  String timeNow;
-  String massageType;
-  String massages;
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: massageType == "receiver"
-            ? EdgeInsets.fromLTRB(0, 0, 50, 0)
-            : EdgeInsets.fromLTRB(50, 0, 0, 0),
-        alignment:
-            massageType == "receiver" ? Alignment.topLeft : Alignment.topRight,
-        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
-        child: Align(
-          alignment: (massageType == "receiver"
-              ? Alignment.topLeft
-              : Alignment.topRight),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: (massageType == "receiver"
-                  ? Colors.grey.shade200
-                  : Colors.green[600]),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  padding:
-                      EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 0),
-                  child: Text(
-                    massages,
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.bottomRight,
-                  padding:
-                      EdgeInsets.only(left: 0, right: 10, top: 10, bottom: 10),
-                  child: Text(
-                    timeNow,
-                    style: TextStyle(
-                      fontSize: 10,
-                    ),
-                  ),
-                ),
-              ],
+  Widget bottomBar(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    TextEditingController chatValue = new TextEditingController();
+    return Container(
+      width: size.width,
+      height: 60,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: TextFormField(
+              controller: chatValue,
+              decoration: const InputDecoration(
+                contentPadding: EdgeInsets.all(12),
+                hintText: 'Type your message here...',
+              ),
             ),
           ),
-        ),
+          SizedBox(
+            width: 15,
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              setState(() {
+                if (chatValue.text != '')
+                  message.add(
+                    Message(
+                      text: chatValue.text,
+                      date: DateTime.now()
+                          .subtract(Duration(days: 3, minutes: 3)),
+                      isSentByMe: false,
+                    ),
+                  );
+              });
+            },
+            child: Icon(
+              Icons.send,
+              color: Colors.white,
+              size: 18,
+            ),
+            backgroundColor: Colors.green[800],
+            elevation: 0,
+          ),
+        ],
       ),
     );
   }

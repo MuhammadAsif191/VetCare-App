@@ -51,6 +51,7 @@ class _doctorsChatListState extends State<doctorsChatList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green[500],
         title: Text("Doctors"),
       ),
       body: Container(

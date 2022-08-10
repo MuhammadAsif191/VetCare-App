@@ -45,7 +45,7 @@ class _LoginPage extends State<Login> {
             Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
-              child: const Text('Login'),
+              child: const Text('Login to user acount'),
             ),
             Container(
               alignment: Alignment.center,

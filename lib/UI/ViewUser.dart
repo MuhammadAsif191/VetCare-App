@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vet_care_app/UI/UserProfileForDoctor.dart';
 import 'DoctorMakeCall.dart';
 
 class FlateUser {
@@ -100,7 +101,16 @@ class UserComponent extends StatelessWidget {
           ),
         ],
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserProfile(
+              userName: userName,
+            ),
+          ),
+        );
+      },
     );
   }
 }

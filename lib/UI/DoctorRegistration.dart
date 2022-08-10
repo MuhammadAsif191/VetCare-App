@@ -291,6 +291,7 @@ class _DoctorRegistrationPage extends State<DoctorRegistration> {
                 TextButton(
                   child: const Text(
                     'terms',
+                    style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {},
                 ),

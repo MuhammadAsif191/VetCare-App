@@ -244,7 +244,7 @@ class DoctorMenuPage extends State<DoctorMenu> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Registration(),
+                              builder: (context) => DoctorAddPaymentsDetail(),
                             ),
                           );
                         },

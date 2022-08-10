@@ -12,28 +12,28 @@ class _feedbackPage extends State<feedback> {
   final List<FlateListData> allData = [
     FlateListData(
       3,
-      "orange",
+      "Dr.Waleed",
       '3101 N Tarrant Pkwy',
       100,
       '5:00',
     ),
     FlateListData(
       4,
-      "banana",
+      "Dr.Farhana",
       '3101 N Tarrant Pkwy',
       120,
       '00:12',
     ),
     FlateListData(
       2,
-      "pomagranade",
+      "Dr.Khalid",
       '3101 N Tarrant Pkwy',
       1000,
       '6:00',
     ),
     FlateListData(
       3,
-      "watermallon",
+      "Dr.Rizwan",
       '3101 N Tarrant Pkwy',
       50,
       '00:49',
@@ -43,7 +43,7 @@ class _feedbackPage extends State<feedback> {
   Map<dynamic, dynamic> get newMethod {
     return {
       "countRating": 2,
-      "titleName": "apple",
+      "titleName": "Dr.Bilal",
       "location": '3101 N Tarrant Pkwy',
       "rating": 3,
       "distance": 1200,

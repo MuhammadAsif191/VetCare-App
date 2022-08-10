@@ -12,28 +12,28 @@ class _HospitalPage extends State<ComplaintsDoctor> {
   final List<FlateListData> allData = [
     FlateListData(
       3,
-      "orange",
+      "Dr.Rizwan",
       '3101 N Tarrant Pkwy',
       100,
       '5:00',
     ),
     FlateListData(
       4,
-      "banana",
+      "Dr.Ali",
       '3101 N Tarrant Pkwy',
       120,
       '00:12',
     ),
     FlateListData(
       2,
-      "pomagranade",
+      "Dr.Aysha",
       '3101 N Tarrant Pkwy',
       1000,
       '6:00',
     ),
     FlateListData(
       3,
-      "watermallon",
+      "Dr.Alya",
       '3101 N Tarrant Pkwy',
       50,
       '00:49',
@@ -43,7 +43,7 @@ class _HospitalPage extends State<ComplaintsDoctor> {
   Map<dynamic, dynamic> get newMethod {
     return {
       "countRating": 2,
-      "titleName": "apple",
+      "titleName": "Dr.ayan",
       "location": '3101 N Tarrant Pkwy',
       "rating": 3,
       "time": '12:12',

@@ -204,6 +204,7 @@ class _LoginPage extends State<Login> {
                 TextButton(
                   child: const Text(
                     'password',
+                    style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {
                     Navigator.push(
