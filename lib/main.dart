@@ -15,7 +15,7 @@ class vet_App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'VetCare A.pp',
+      title: 'VetCare App',
       debugShowCheckedModeBanner: false,
       color: Colors.white,
       home: Scaffold(

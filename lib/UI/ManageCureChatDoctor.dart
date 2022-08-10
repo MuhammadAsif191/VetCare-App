@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 
-class ComplainData {
+class ManageCureDoctorMessageData {
   final String person;
   final String currentTime;
   final String massage;
-  ComplainData(this.person, this.massage, this.currentTime);
+  ManageCureDoctorMessageData(this.person, this.massage, this.currentTime);
 }
 
-class postSolutions extends StatefulWidget {
-  const postSolutions({Key? mykey, required this.DoctorName})
+class ManageCureDoctorMessageClassed extends StatefulWidget {
+  const ManageCureDoctorMessageClassed({Key? mykey, required this.DoctorName})
       : super(key: mykey);
   final String DoctorName;
 
   @override
-  postSolutionsPage createState() => postSolutionsPage();
+  ManageCureDoctorMessageClassedPage createState() =>
+      ManageCureDoctorMessageClassedPage();
 }
 
-class postSolutionsPage extends State<postSolutions> {
-  List<ComplainData> data = [];
+class ManageCureDoctorMessageClassedPage
+    extends State<ManageCureDoctorMessageClassed> {
+  List<ManageCureDoctorMessageData> data = [];
   DateTime now = DateTime.now();
   String time = '02 AM';
   TextEditingController msgSent = TextEditingController();
@@ -43,7 +45,7 @@ class postSolutionsPage extends State<postSolutions> {
               itemCount: data.length,
               padding: EdgeInsets.only(top: 10, bottom: 10),
               itemBuilder: (context, index) {
-                return MassagePrint(
+                return ManageCureDoctorMassagePrint(
                   massageType: data[index].person,
                   massages: data[index].massage,
                   timeNow: data[index].currentTime,
@@ -94,7 +96,8 @@ class postSolutionsPage extends State<postSolutions> {
                             ' PM';
                         if (msgSent.text != '')
                           data.add(
-                            ComplainData("sender", msgSent.text, time),
+                            ManageCureDoctorMessageData(
+                                "sender", msgSent.text, time),
                           );
                         msgSent.text = '';
                       });
@@ -117,8 +120,8 @@ class postSolutionsPage extends State<postSolutions> {
   }
 }
 
-class MassagePrint extends StatelessWidget {
-  MassagePrint({
+class ManageCureDoctorMassagePrint extends StatelessWidget {
+  ManageCureDoctorMassagePrint({
     this.timeNow = '',
     this.massageType = '',
     this.massages = '',

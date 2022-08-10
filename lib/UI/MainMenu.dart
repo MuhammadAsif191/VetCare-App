@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:vet_care_app/UI/PaymentFromUser.dart';
 import 'package:vet_care_app/UI/postFeedBack.dart';
+import 'package:vet_care_app/UI/storeForVetCare.dart';
 import 'UserData.dart';
 import 'ViewLDoctor.dart';
 import 'Complaints.dart';
 import 'ComplaintStatus.dart';
 import 'Profile.dart';
 import 'viewCureDetail.dart';
-import 'viewReport.dart';
 
 class UserMenu extends StatefulWidget {
   @override
@@ -37,22 +37,6 @@ class UserMenuPage extends State<UserMenu> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.home,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.volume_mute),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.email_outlined),
-          ),
-        ],
         automaticallyImplyLeading: false,
       ),
       body: Column(
@@ -286,26 +270,25 @@ class UserMenuPage extends State<UserMenu> {
                   ),
                   Expanded(
                     child: FlatButton(
-                      child: Container(
-                        child: UserCard(
-                          Notification: ReportNoti,
-                          icon: Icon(Icons.post_add_sharp),
-                          text: 'View Report',
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => viewReports(),
+                        child: Container(
+                          child: UserCard(
+                            Notification: ReportNoti,
+                            icon: Icon(Icons.shopping_cart_outlined),
+                            text: 'Store',
                           ),
-                        );
-                      },
-                    ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StoreMainScreen(),
+                            ),
+                          );
+                        }),
                   ),
                   SizedBox(
                     width: 5,

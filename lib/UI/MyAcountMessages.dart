@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 
-class ComplainData {
+class UserChatData {
   final String person;
   final String currentTime;
   final String massage;
-  ComplainData(this.person, this.massage, this.currentTime);
+  UserChatData(this.person, this.massage, this.currentTime);
 }
 
-class postSolutions extends StatefulWidget {
-  const postSolutions({Key? mykey, required this.DoctorName})
-      : super(key: mykey);
-  final String DoctorName;
+class USerChatBox extends StatefulWidget {
+  const USerChatBox({Key? mykey, required this.shopName}) : super(key: mykey);
+  final String shopName;
 
   @override
-  postSolutionsPage createState() => postSolutionsPage();
+  USerChatBoxPage createState() => USerChatBoxPage();
 }
 
-class postSolutionsPage extends State<postSolutions> {
-  List<ComplainData> data = [];
+class USerChatBoxPage extends State<USerChatBox> {
+  List<UserChatData> data = [
+    UserChatData("receiver", "hi", '02:15'),
+    UserChatData("receiver", "how are you", '02:15'),
+  ];
   DateTime now = DateTime.now();
   String time = '02 AM';
   TextEditingController msgSent = TextEditingController();
@@ -26,24 +28,18 @@ class postSolutionsPage extends State<postSolutions> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[800],
-        title: Text(
-          '${widget.DoctorName}',
-          style: TextStyle(
-            fontSize: 15,
-          ),
-        ),
+        title: Text('${widget.shopName}'),
       ),
-      body: Stack(
+      body: Column(
         children: <Widget>[
           Expanded(
             child: ListView.builder(
-              // shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              // physics: ,
               itemCount: data.length,
               padding: EdgeInsets.only(top: 10, bottom: 10),
+              // physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                return MassagePrint(
+                return UserMassageDisplay(
                   massageType: data[index].person,
                   massages: data[index].massage,
                   timeNow: data[index].currentTime,
@@ -55,7 +51,7 @@ class postSolutionsPage extends State<postSolutions> {
             alignment: Alignment.bottomLeft,
             child: Container(
               padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 100,
+              height: 60,
               width: double.infinity,
               color: Colors.white,
               child: Row(
@@ -64,21 +60,15 @@ class postSolutionsPage extends State<postSolutions> {
                     width: 15,
                   ),
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
+                      minLines: 1,
+                      maxLines: 5,
+                      keyboardType: TextInputType.multiline,
                       controller: msgSent,
-                      decoration: new InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 2.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          borderSide:
-                              BorderSide(color: Colors.black, width: 2.0),
-                        ),
-                        hintText: 'Write Feedback ....',
-                      ),
+                      decoration: InputDecoration(
+                          hintText: "Write message...",
+                          hintStyle: TextStyle(color: Colors.black54),
+                          border: InputBorder.none),
                     ),
                   ),
                   SizedBox(
@@ -88,13 +78,10 @@ class postSolutionsPage extends State<postSolutions> {
                     onPressed: () {
                       setState(() {
                         DateTime now = DateTime.now();
-                        time = now.hour.toString() +
-                            ':' +
-                            now.minute.toString() +
-                            ' PM';
+                        time = now.hour.toString() + ' PM';
                         if (msgSent.text != '')
                           data.add(
-                            ComplainData("sender", msgSent.text, time),
+                            UserChatData("sender", msgSent.text, time),
                           );
                         msgSent.text = '';
                       });
@@ -106,7 +93,7 @@ class postSolutionsPage extends State<postSolutions> {
                     ),
                     backgroundColor: Colors.green[800],
                     elevation: 0,
-                  )
+                  ),
                 ],
               ),
             ),
@@ -117,8 +104,8 @@ class postSolutionsPage extends State<postSolutions> {
   }
 }
 
-class MassagePrint extends StatelessWidget {
-  MassagePrint({
+class UserMassageDisplay extends StatelessWidget {
+  UserMassageDisplay({
     this.timeNow = '',
     this.massageType = '',
     this.massages = '',
@@ -137,9 +124,6 @@ class MassagePrint extends StatelessWidget {
             massageType == "receiver" ? Alignment.topLeft : Alignment.topRight,
         padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
         child: Align(
-          alignment: (massageType == "receiver"
-              ? Alignment.topLeft
-              : Alignment.topRight),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -150,8 +134,9 @@ class MassagePrint extends StatelessWidget {
             child: Column(
               children: [
                 Container(
+                  alignment: Alignment.topLeft,
                   padding:
-                      EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 0),
+                      EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 0),
                   child: Text(
                     massages,
                     style: TextStyle(fontSize: 15),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vet_care_app/UI/AdminChatToDoctors.dart';
 import 'package:vet_care_app/UI/UserComplaintsForAdmin.dart';
 import 'view_Users_and_Doctor.dart';
 
@@ -43,7 +44,14 @@ class _adminPanelsState extends State<adminPanels> {
                       icon: Icon(Icons.man_sharp),
                       Notification: monitorDoctorNoti,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => doctorsChatList(),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 Container(

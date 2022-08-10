@@ -78,10 +78,22 @@ class doctorAccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: () {},
-      onLongPress: () {
-        print(doctorName);
-      },
+      onPressed: () => showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            FlatButton(
+              minWidth: double.infinity,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Block'),
+            ),
+          ],
+        ),
+      ),
       child: Column(
         children: [
           ListTile(

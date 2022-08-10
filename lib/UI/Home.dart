@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vet_care_app/UI/storeForVetCare.dart';
 import 'AdminLogin.dart';
 import 'UseMain.dart';
 import 'DocterMan.dart';
@@ -130,32 +131,6 @@ class Homepage extends State<Home> {
                   ),
                   SizedBox(
                     height: 10.0,
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: SizedBox(
-                      height: 60,
-                      width: 300,
-                      child: RaisedButton(
-                        color: Colors.green[600],
-                        onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => Registration()),
-                          // );
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Text(
-                          "Store",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 23,
-                          ),
-                        ),
-                      ),
-                    ),
                   ),
                 ],
               ),

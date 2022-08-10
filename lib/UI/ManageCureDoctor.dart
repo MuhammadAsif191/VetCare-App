@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'PostSolutionDoctorsent.dart';
+import 'package:vet_care_app/UI/ManageCureChatDoctor.dart';
 
-class FlateListUser {
-  FlateListUser(
+class FlateListRecientUser {
+  FlateListRecientUser(
     this.userName,
     this.onlineNow,
   );
@@ -10,37 +10,39 @@ class FlateListUser {
   final bool onlineNow;
 }
 
-class PostSolutionDoctor extends StatefulWidget {
+class ManageCureDoctorWithRecientUsers extends StatefulWidget {
   @override
-  State<PostSolutionDoctor> createState() => _PostSolutionDoctorPage();
+  State<ManageCureDoctorWithRecientUsers> createState() =>
+      _ManageCureDoctorWithRecientUsersPage();
 }
 
-class _PostSolutionDoctorPage extends State<PostSolutionDoctor> {
-  final List<FlateListUser> allData = [
-    FlateListUser(
+class _ManageCureDoctorWithRecientUsersPage
+    extends State<ManageCureDoctorWithRecientUsers> {
+  final List<FlateListRecientUser> allData = [
+    FlateListRecientUser(
       "Rizwan",
       true,
     ),
-    FlateListUser(
+    FlateListRecientUser(
       "Sajid",
       false,
     ),
-    FlateListUser(
+    FlateListRecientUser(
       "Maryam",
       true,
     ),
-    FlateListUser(
+    FlateListRecientUser(
       "Ali",
       false,
     ),
   ];
 
-  List<FlateListUser> foundList = [];
+  List<FlateListRecientUser> foundList = [];
   TextEditingController searchController = TextEditingController();
   Icon CostumIcon = Icon(Icons.search);
   bool IconControl = false;
   Widget TextInput = Text(
-    'Post Solution',
+    'Manage Cure',
     style: TextStyle(
       fontSize: 18,
     ),
@@ -56,7 +58,7 @@ class _PostSolutionDoctorPage extends State<PostSolutionDoctor> {
   onSearch(String search) {
     setState(() {
       foundList = allData
-          .where((FlateListUser) => FlateListUser.userName
+          .where((FlateListRecientUser) => FlateListRecientUser.userName
               .toLowerCase()
               .contains(search.toLowerCase()))
           .toList();
@@ -130,7 +132,7 @@ class _PostSolutionDoctorPage extends State<PostSolutionDoctor> {
                             scrollDirection: Axis.vertical,
                             itemCount: foundList.length,
                             itemBuilder: (BuildContext ctxt, int index) {
-                              return hospitalList(
+                              return RecientUsersList(
                                 userName: foundList[index].userName,
                                 onlineNow: foundList[index].onlineNow,
                               );
@@ -154,8 +156,8 @@ class _PostSolutionDoctorPage extends State<PostSolutionDoctor> {
   }
 }
 
-class hospitalList extends StatelessWidget {
-  hospitalList({
+class RecientUsersList extends StatelessWidget {
+  RecientUsersList({
     required this.userName,
     required this.onlineNow,
   });
@@ -200,9 +202,10 @@ class hospitalList extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => postSolutions(
-                    DoctorName: userName,
-                  )),
+            builder: (context) => ManageCureDoctorMessageClassed(
+              DoctorName: userName,
+            ),
+          ),
         );
       },
     );

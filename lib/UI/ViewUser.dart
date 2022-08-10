@@ -5,30 +5,28 @@ class FlateUser {
   FlateUser(
     this.userName,
     this.onlineNow,
-    this.time,
   );
   final String userName;
   final bool onlineNow;
-  final String time;
 }
 
 final List<FlateUser> allData = [
   FlateUser(
     "Rizwan",
     true,
-    '12 PM',
   ),
   FlateUser(
     "Sajid",
     false,
-    '10 PM',
   ),
   FlateUser(
     "Maryam",
     true,
-    '09 AM',
   ),
-  FlateUser("Ali", false, '01 AM'),
+  FlateUser(
+    "Ali",
+    false,
+  ),
 ];
 
 class Users extends StatefulWidget {
@@ -52,7 +50,6 @@ class _UsersState extends State<Users> {
           return UserComponent(
             userName: allData[index].userName,
             onlineNow: allData[index].onlineNow,
-            time: allData[index].time,
           );
         },
       ),
@@ -64,12 +61,10 @@ class UserComponent extends StatelessWidget {
   const UserComponent({
     Key? key,
     required this.onlineNow,
-    required this.time,
     required this.userName,
   }) : super(key: key);
   final String userName;
   final bool onlineNow;
-  final String time;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -96,12 +91,6 @@ class UserComponent extends StatelessWidget {
                     ),
                   )
                 : Text(''),
-            trailing: Text(
-              time,
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ),
           ),
           Divider(
             height: 0,

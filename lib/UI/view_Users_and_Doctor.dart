@@ -35,9 +35,23 @@ class UserAndDoctorState extends State<UserAndDoctor>
             style: TextStyle(fontSize: 15),
           ),
           actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.more_vert),
+            PopupMenuButton(
+              onSelected: (value) {
+                if (value == 1) {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => MyAccountScreen(),
+                  //   ),
+                  // );
+                }
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  child: Text('Blocked'),
+                ),
+              ],
             ),
           ],
           bottom: TabBar(

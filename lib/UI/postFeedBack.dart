@@ -14,7 +14,6 @@ class _feedbackPage extends State<feedback> {
       3,
       "orange",
       '3101 N Tarrant Pkwy',
-      2,
       100,
       '5:00',
     ),
@@ -22,7 +21,6 @@ class _feedbackPage extends State<feedback> {
       4,
       "banana",
       '3101 N Tarrant Pkwy',
-      2,
       120,
       '00:12',
     ),
@@ -30,7 +28,6 @@ class _feedbackPage extends State<feedback> {
       2,
       "pomagranade",
       '3101 N Tarrant Pkwy',
-      3,
       1000,
       '6:00',
     ),
@@ -38,7 +35,6 @@ class _feedbackPage extends State<feedback> {
       3,
       "watermallon",
       '3101 N Tarrant Pkwy',
-      3,
       50,
       '00:49',
     ),
@@ -146,7 +142,6 @@ class _feedbackPage extends State<feedback> {
                                 titleName: foundList[index].titleName,
                                 countRating: foundList[index].countRating,
                                 rating: foundList[index].rating,
-                                distance: foundList[index].distance,
                                 location: foundList[index].location,
                               );
                             },
@@ -175,7 +170,6 @@ class hospitalList extends StatelessWidget {
     this.titleName = 'hello',
     this.location = 'asif',
     this.rating = 1,
-    this.distance = 1300,
     this.countRating = 3,
   });
   String mint;
@@ -183,7 +177,6 @@ class hospitalList extends StatelessWidget {
   String titleName;
   String location;
   int rating;
-  int distance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -292,26 +285,6 @@ class hospitalList extends StatelessWidget {
                                     ),
                             ),
                           ],
-                        ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                child: Icon(
-                                  Icons.location_on_outlined,
-                                  color: Colors.blue[400],
-                                ),
-                              ),
-                              Container(
-                                child: Text(
-                                  distance.toString() + 'm',
-                                  style: TextStyle(color: Colors.blue[400]),
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
                       ],
                     ),
