@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'FlateListData.dart';
 import 'PostFeedBackSent.dart';
 
@@ -129,34 +130,28 @@ class _feedbackPage extends State<feedback> {
             ),
           ),
           Expanded(
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                    child: foundList.length > 0
-                        ? ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: foundList.length,
-                            itemBuilder: (BuildContext ctxt, int index) {
-                              return hospitalList(
-                                mint: foundList[index].time,
-                                titleName: foundList[index].titleName,
-                                countRating: foundList[index].countRating,
-                                rating: foundList[index].rating,
-                                location: foundList[index].location,
-                              );
-                            },
-                          )
-                        : Center(
-                            child: Text(
-                              'Oops...\nDoctor not found.',
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
-                            ),
-                          )),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
+            child: foundList.length > 0
+                ? ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: foundList.length,
+                    itemBuilder: (BuildContext ctxt, int index) {
+                      return hospitalList(
+                        mint: foundList[index].time,
+                        titleName: foundList[index].titleName,
+                        countRating: foundList[index].countRating,
+                        rating: foundList[index].rating,
+                        location: foundList[index].location,
+                      );
+                    },
+                  )
+                : Center(
+                    child: Text(
+                      'Oops...\nDoctor not found.',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
           )
         ],
       ),
@@ -193,105 +188,104 @@ class hospitalList extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
           shadowColor: MaterialStateProperty.all<Color>(Colors.black),
         ),
-        child: Expanded(
-          child: Container(
-            margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: Expanded(
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+        child: Container(
+          margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                flex: 3,
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        titleName,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        location,
+                        style: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
                         Container(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            titleName,
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          child: (countRating < 1)
+                              ? Icon(
+                                  Icons.star_border,
+                                  color: Colors.yellow,
+                                )
+                              : Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                ),
                         ),
                         Container(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            location,
-                            style: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                          ),
+                          child: (countRating < 2)
+                              ? Icon(
+                                  Icons.star_border,
+                                  color: Colors.yellow,
+                                )
+                              : Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                ),
                         ),
-                        Row(
-                          children: <Widget>[
-                            Container(
-                              child: (countRating < 1)
-                                  ? Icon(
-                                      Icons.star_border,
-                                      color: Colors.yellow,
-                                    )
-                                  : Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    ),
-                            ),
-                            Container(
-                              child: (countRating < 2)
-                                  ? Icon(
-                                      Icons.star_border,
-                                      color: Colors.yellow,
-                                    )
-                                  : Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    ),
-                            ),
-                            Container(
-                              child: (countRating < 3)
-                                  ? Icon(
-                                      Icons.star_border,
-                                      color: Colors.yellow,
-                                    )
-                                  : Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    ),
-                            ),
-                            Container(
-                              child: (countRating < 4)
-                                  ? Icon(
-                                      Icons.star_border,
-                                      color: Colors.yellow,
-                                    )
-                                  : Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    ),
-                            ),
-                            Container(
-                              child: (countRating < 5)
-                                  ? Icon(
-                                      Icons.star_border,
-                                      color: Colors.yellow,
-                                    )
-                                  : Icon(
-                                      Icons.star,
-                                      color: Colors.yellow,
-                                    ),
-                            ),
-                          ],
+                        Container(
+                          child: (countRating < 3)
+                              ? Icon(
+                                  Icons.star_border,
+                                  color: Colors.yellow,
+                                )
+                              : Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                ),
+                        ),
+                        Container(
+                          child: (countRating < 4)
+                              ? Icon(
+                                  Icons.star_border,
+                                  color: Colors.yellow,
+                                )
+                              : Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                ),
+                        ),
+                        Container(
+                          child: (countRating < 5)
+                              ? Icon(
+                                  Icons.star_border,
+                                  color: Colors.yellow,
+                                )
+                              : Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),

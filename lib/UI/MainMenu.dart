@@ -24,6 +24,7 @@ class UserMenuPage extends State<UserMenu> {
   int ReportNoti = 6;
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -39,7 +40,7 @@ class UserMenuPage extends State<UserMenu> {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           Container(
             margin: EdgeInsets.all(10),
@@ -64,238 +65,214 @@ class UserMenuPage extends State<UserMenu> {
           SizedBox(
             height: 5,
           ),
-          Expanded(
-            child: Container(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: FlatButton(
-                      child: Container(
-                        child: UserCard(
-                          Notification: ReportNoti,
-                          icon: Icon(Icons.person),
-                          text: 'My Profile',
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Profiles()),
-                        );
-                      },
+          Row(
+            children: [
+              Expanded(
+                child: FlatButton(
+                  child: Container(
+                    child: UserCard(
+                      Notification: ReportNoti,
+                      icon: Icon(Icons.person),
+                      text: 'My Profile',
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
                     ),
                   ),
-                  Expanded(
-                    child: FlatButton(
-                      child: Container(
-                        child: UserCard(
-                          Notification: CureDetailsNoti,
-                          icon: Icon(Icons.payment),
-                          text: 'Make Payment',
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => userpayments()),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Profiles()),
+                    );
+                  },
+                ),
               ),
-            ),
+              Expanded(
+                child: FlatButton(
+                  child: Container(
+                    child: UserCard(
+                      Notification: CureDetailsNoti,
+                      icon: Icon(Icons.payment),
+                      text: 'Make Payment',
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => userpayments()),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
           SizedBox(
             height: 5,
           ),
-          Expanded(
-            child: Container(
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: FlatButton(
-                      child: Container(
-                        child: UserCard(
-                          Notification: ComplaintsNoti,
-                          icon: Icon(Icons.message),
-                          text: 'Complaints',
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ComplaintsDoctor()),
-                        );
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: FlatButton(
-                      child: Container(
-                        child: UserCard(
-                          Notification: DoctorNoti,
-                          icon: Icon(Icons.man_sharp),
-                          text: 'View Doctor',
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Hospital()),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                ],
+          Row(
+            children: [
+              SizedBox(
+                width: 5,
               ),
-            ),
+              Expanded(
+                child: FlatButton(
+                  child: Container(
+                    child: UserCard(
+                      Notification: ComplaintsNoti,
+                      icon: Icon(Icons.message),
+                      text: 'Complaints',
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ComplaintsDoctor()),
+                    );
+                  },
+                ),
+              ),
+              Expanded(
+                child: FlatButton(
+                  child: Container(
+                    child: UserCard(
+                      Notification: DoctorNoti,
+                      icon: Icon(Icons.man_sharp),
+                      text: 'View Doctor',
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Hospital()),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+            ],
           ),
           SizedBox(
             height: 5,
           ),
-          Expanded(
-            child: Container(
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: FlatButton(
-                      child: Container(
-                        child: UserCard(
-                          Notification: PostFeedbackNoti,
-                          icon: Icon(Icons.feedback_outlined),
-                          text: 'Post Feedback',
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => feedback()),
-                        );
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: FlatButton(
-                      child: Container(
-                        child: UserCard(
-                          Notification: ComplaintsStatusNoti,
-                          icon: Icon(Icons.messenger_sharp),
-                          text: 'Complaint Status',
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => complaintsStatus()),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                ],
+          Row(
+            children: [
+              SizedBox(
+                width: 5,
               ),
-            ),
+              Expanded(
+                child: FlatButton(
+                  child: Container(
+                    child: UserCard(
+                      Notification: PostFeedbackNoti,
+                      icon: Icon(Icons.feedback_outlined),
+                      text: 'Post Feedback',
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => feedback()),
+                    );
+                  },
+                ),
+              ),
+              Expanded(
+                child: FlatButton(
+                  child: Container(
+                    child: UserCard(
+                      Notification: ComplaintsStatusNoti,
+                      icon: Icon(Icons.messenger_sharp),
+                      text: 'Complaint Status',
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => complaintsStatus()),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+            ],
           ),
           SizedBox(
             height: 5.0,
           ),
-          Expanded(
-            child: Container(
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: FlatButton(
-                      child: Container(
-                        child: UserCard(
-                          Notification: CureDetailsNoti,
-                          icon: Icon(Icons.data_saver_off_rounded),
-                          text: 'View Vet Cure Details',
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => viewCureDetail(),
-                          ),
-                        );
-                      },
+          Row(
+            children: [
+              SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: FlatButton(
+                  onPressed: () {},
+                  child: Container(
+                    child: UserCard(
+                      Notification: CureDetailsNoti,
+                      icon: Icon(Icons.data_saver_off_rounded),
+                      text: 'View Vet Cure Details',
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
                     ),
                   ),
-                  Expanded(
-                    child: FlatButton(
-                        child: Container(
-                          child: UserCard(
-                            Notification: ReportNoti,
-                            icon: Icon(Icons.shopping_cart_outlined),
-                            text: 'Store',
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => StoreMainScreen(),
-                            ),
-                          );
-                        }),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                ],
+                ),
               ),
-            ),
+              Expanded(
+                child: FlatButton(
+                    child: Container(
+                      child: UserCard(
+                        Notification: ReportNoti,
+                        icon: Icon(Icons.shopping_cart_outlined),
+                        text: 'Store',
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StoreMainScreen(),
+                        ),
+                      );
+                    }),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+            ],
           ),
           SizedBox(
             height: 5,
@@ -318,7 +295,9 @@ class UserCard extends StatelessWidget {
   final Icon? icon;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Container(
+      height: 150,
+      width: 150,
       child: Column(
         children: <Widget>[
           Column(

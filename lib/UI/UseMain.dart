@@ -54,7 +54,7 @@ class UserMainpage extends State<UserMain> {
           SizedBox(
             height: 10.0,
           ),
-          Expanded(
+          Container(
             child: Column(
               children: <Widget>[
                 Container(
@@ -122,43 +122,30 @@ class _Splash extends StatelessWidget {
   final String text, image;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 12),
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.blue,
-              ),
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 12),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.blue,
             ),
           ),
-          Spacer(
-            flex: 2,
+        ),
+        SizedBox(
+          height: 100,
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 12),
+          child: Image.asset(
+            image,
+            height: 300,
+            width: 300,
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 12),
-            child: Image.asset(
-              image,
-              height: 300,
-              width: 300,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
-    // Container buildDot() {
-    //   return Container(
-    //     margin: EdgeInsets.only(right: 5),
-    //     height: 6,
-    //     width: 6,
-    //     decoration: BoxDecoration(
-    //       color: Colors.tealAccent,
-    //       borderRadius: BorderRadius.circular(3),
-    //     ),
-    //   );
-    // }
   }
 }

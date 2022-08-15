@@ -15,7 +15,7 @@ class DoctorMainpage extends State<DoctorMain> {
         backgroundColor: Colors.green[600],
         centerTitle: true,
         title: Text(
-          'Login or registration account',
+          'Login or registration Doctor account',
           style: TextStyle(
             fontSize: 18,
           ),
