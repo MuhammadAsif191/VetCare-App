@@ -27,6 +27,10 @@ class vet_App extends StatelessWidget {
         home: Container(
             child: RaisedButton(
           onPressed: () async {
+            createUser();
+            // sing
+
+            // Firebassen((value) => print(value));
             // try {
             // FirebaseAuth.instance.createUserWithEmailAndPassword(
             //     email: "Asiflogin@gmail.com".trim(),
@@ -35,10 +39,10 @@ class vet_App extends StatelessWidget {
             //     .collection("sheraz")
             //     .doc("Key")
             //     .set({"name": "huda"});
-            final Aopp = FirebaseFirestore.instance
-                .collection("Sheraz")
-                .doc("Key123456");
-            await Aopp.set({'name': "Sheraz", 'love': "Koi b Nahi"});
+            // final Aopp = FirebaseFirestore.instance
+            //     .collection("Sheraz")
+            //     .doc("Key123456");
+            // await Aopp.set({'name': "Sheraz", 'love': "Koi b Nahi"});
 
             // .set({});
             // } on FirebaseAuthException catch (err) {
@@ -52,4 +56,11 @@ class vet_App extends StatelessWidget {
         // ),
         );
   }
+}
+
+Future createUser() async {
+  final docuser = FirebaseFirestore.instance.collection('user').doc('my-key');
+  final json = {'name': 'sheraz', 'age': '21', 'birthday': '18'};
+
+  await docuser.set(json);
 }
