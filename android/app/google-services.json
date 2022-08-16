@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "190177782644",
+    "project_id": "vetcare-562f9",
+    "storage_bucket": "vetcare-562f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190177782644:android:8f6fdc6bb27bba8c1c1a21",
+        "android_client_info": {
+          "package_name": "com.example.vet_care_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "190177782644-m9lsilc6blb1rijq1apn84g6488s26s0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs3XR3C3joIWHnqhu9uzumLmsDp5Z-gBE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "190177782644-m9lsilc6blb1rijq1apn84g6488s26s0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
