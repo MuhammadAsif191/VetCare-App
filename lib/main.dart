@@ -24,43 +24,47 @@ class vet_App extends StatelessWidget {
         title: 'VetCare App',
         debugShowCheckedModeBanner: false,
         color: Colors.white,
-        home: Container(
-            child: RaisedButton(
-          onPressed: () async {
-            createUser();
-            // sing
-
-            // Firebassen((value) => print(value));
-            // try {
-            // FirebaseAuth.instance.createUserWithEmailAndPassword(
-            //     email: "Asiflogin@gmail.com".trim(),
-            //     password: "Huda i love you".trim());
-            // FirebaseFirestore.instance
-            //     .collection("sheraz")
-            //     .doc("Key")
-            //     .set({"name": "huda"});
-            // final Aopp = FirebaseFirestore.instance
-            //     .collection("Sheraz")
-            //     .doc("Key123456");
-            // await Aopp.set({'name': "Sheraz", 'love': "Koi b Nahi"});
-
-            // .set({});
-            // } on FirebaseAuthException catch (err) {
-            //   print(err);
-            // }
-          },
-          child: Text("Press"),
-        ))
-        // home: Scaffold(
-        //   body: Home(),
-        // ),
-        );
+        home: Home());
   }
 }
 
-Future createUser() async {
-  final docuser = FirebaseFirestore.instance.collection('user').doc('my-key');
-  final json = {'name': 'sheraz', 'age': '21', 'birthday': '18'};
+// Future createUser() async {
+//   final docuser = FirebaseFirestore.instance.collection('user').doc('my-key');
+//   final json = {'name': 'sheraz', 'age': '21', 'birthday': '18'};
 
-  await docuser.set(json);
-}
+//   await docuser.set(json);
+// }
+
+
+
+
+// Container(
+//             child: RaisedButton(
+//           onPressed: () async {
+//             createUser();
+//             // sing
+
+//             // Firebassen((value) => print(value));
+//             // try {
+//             // FirebaseAuth.instance.createUserWithEmailAndPassword(
+//             //     email: "Asiflogin@gmail.com".trim(),
+//             //     password: "Huda i love you".trim());
+//             // FirebaseFirestore.instance
+//             //     .collection("sheraz")
+//             //     .doc("Key")
+//             //     .set({"name": "huda"});
+//             // final Aopp = FirebaseFirestore.instance
+//             //     .collection("Sheraz")
+//             //     .doc("Key123456");
+//             // await Aopp.set({'name': "Sheraz", 'love': "Koi b Nahi"});
+
+//             // .set({});
+//             // } on FirebaseAuthException catch (err) {
+//             //   print(err);
+//             // }
+//           },
+//           child: Text("Press"),
+//         ))
+//         // home: Scaffold(
+//         //   body: Home(),
+//         // ),
