@@ -3,11 +3,42 @@ import 'package:vet_care_app/UI/FlateListData.dart';
 
 class doctors {
   String doctorName;
-  String time;
   bool onlineNow;
   // String img;
-  doctors(this.doctorName, this.time, this.onlineNow);
+  doctors(this.doctorName, this.onlineNow);
 }
+
+List<doctors> obj = [
+  doctors("Dr.Rizwan", true),
+  doctors("Dr.Ali", true),
+  doctors("Dr.Farhana", false),
+  doctors("Dr.Hussnain", true),
+  doctors("Dr.Rizwan", true),
+  doctors("Dr.Ali", true),
+  doctors("Dr.Farhana", false),
+  doctors("Dr.Hussnain", true),
+  doctors("Dr.Rizwan", true),
+  doctors("Dr.Ali", true),
+  doctors("Dr.Farhana", false),
+  doctors("Dr.Hussnain", true),
+  doctors("Dr.Rizwan", true),
+  doctors("Dr.Ali", true),
+  doctors("Dr.Farhana", false),
+  doctors("Dr.Hussnain", true),
+  doctors("Dr.Rizwan", true),
+  doctors("Dr.Ali", true),
+  doctors("Dr.Farhana", false),
+  doctors("Dr.Hussnain", true),
+  doctors("Dr.Rizwan", true),
+  doctors("Dr.Ali", true),
+  doctors("Dr.Farhana", false),
+  doctors("Dr.Hussnain", true),
+  doctors("Dr.Rizwan", true),
+  doctors("Dr.Ali", true),
+  doctors("Dr.Farhana", false),
+  doctors("Dr.Hussnain", true),
+];
+List<doctors> BlockedDoctor = [];
 
 class doctorLists extends StatefulWidget {
   const doctorLists({Key? key}) : super(key: key);
@@ -17,37 +48,14 @@ class doctorLists extends StatefulWidget {
 }
 
 class _doctorListsState extends State<doctorLists> {
-  List<doctors> obj = [
-    doctors("Dr.Rizwan", "02:14 PM", true),
-    doctors("Dr.Ali", "02:14 PM", true),
-    doctors("Dr.Farhana", "02:14 PM", false),
-    doctors("Dr.Hussnain", "02:14 PM", true),
-    doctors("Dr.Rizwan", "02:14 PM", true),
-    doctors("Dr.Ali", "02:14 PM", true),
-    doctors("Dr.Farhana", "02:14 PM", false),
-    doctors("Dr.Hussnain", "02:14 PM", true),
-    doctors("Dr.Rizwan", "02:14 PM", true),
-    doctors("Dr.Ali", "02:14 PM", true),
-    doctors("Dr.Farhana", "02:14 PM", false),
-    doctors("Dr.Hussnain", "02:14 PM", true),
-    doctors("Dr.Rizwan", "02:14 PM", true),
-    doctors("Dr.Ali", "02:14 PM", true),
-    doctors("Dr.Farhana", "02:14 PM", false),
-    doctors("Dr.Hussnain", "02:14 PM", true),
-    doctors("Dr.Rizwan", "02:14 PM", true),
-    doctors("Dr.Ali", "02:14 PM", true),
-    doctors("Dr.Farhana", "02:14 PM", false),
-    doctors("Dr.Hussnain", "02:14 PM", true),
-    doctors("Dr.Rizwan", "02:14 PM", true),
-    doctors("Dr.Ali", "02:14 PM", true),
-    doctors("Dr.Farhana", "02:14 PM", false),
-    doctors("Dr.Hussnain", "02:14 PM", true),
-    doctors("Dr.Rizwan", "02:14 PM", true),
-    doctors("Dr.Ali", "02:14 PM", true),
-    doctors("Dr.Farhana", "02:14 PM", false),
-    doctors("Dr.Hussnain", "02:14 PM", true),
-  ];
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    obj.add(doctors("Dr.Hassan", true));
+    BlockedDoctor = [];
+  }
+
   Widget build(BuildContext context) {
     return Container(
       child: ListView.builder(
@@ -56,7 +64,7 @@ class _doctorListsState extends State<doctorLists> {
           return doctorAccess(
             doctorName: obj[index].doctorName,
             onlineNow: obj[index].onlineNow,
-            time: obj[index].time,
+            ind: index,
           );
         },
       ),
@@ -64,17 +72,22 @@ class _doctorListsState extends State<doctorLists> {
   }
 }
 
-class doctorAccess extends StatelessWidget {
-  doctorAccess({
+class doctorAccess extends StatefulWidget {
+  const doctorAccess({
+    Key? key,
     this.doctorName = '',
     this.onlineNow = true,
-    this.time = "02:38",
-    // this.img = '',
-  });
-  final String doctorName;
-  final String time;
+    this.ind = -1,
+  }) : super(key: key);
   final bool onlineNow;
-  // String img;
+  final String doctorName;
+  final int ind;
+
+  @override
+  State<doctorAccess> createState() => _doctorAccessState();
+}
+
+class _doctorAccessState extends State<doctorAccess> {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
@@ -87,6 +100,10 @@ class doctorAccess extends StatelessWidget {
             FlatButton(
               minWidth: double.infinity,
               onPressed: () {
+                setState(() {
+                  BlockedDoctor.add(obj[widget.ind]);
+                  obj.removeAt(widget.ind);
+                });
                 Navigator.pop(context);
               },
               child: Text('Block'),
@@ -105,8 +122,8 @@ class doctorAccess extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25.0),
               ),
             ),
-            title: Text(doctorName),
-            subtitle: onlineNow == true
+            title: Text(widget.doctorName),
+            subtitle: widget.onlineNow == true
                 ? Text(
                     'Online',
                     style: TextStyle(
@@ -114,12 +131,6 @@ class doctorAccess extends StatelessWidget {
                     ),
                   )
                 : Text(''),
-            trailing: Text(
-              time,
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ),
           ),
           Divider(
             height: 0,

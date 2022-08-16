@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 class users {
   String userName;
-  String time;
   bool onlineNow;
   // String img;
-  users(this.userName, this.time, this.onlineNow);
+  users(this.userName, this.onlineNow);
 }
 
 class userLists extends StatefulWidget {
@@ -15,35 +14,45 @@ class userLists extends StatefulWidget {
   State<userLists> createState() => _userListsState();
 }
 
+List<users> obj = [
+  users("Ihtisham", true),
+  users("Ali", true),
+  users("Farhana_but", false),
+  users("Hussnain_guru", true),
+  users("Sheraz_Khalid", true),
+  users("Ihtisham", false),
+  users("Ali", true),
+  users("Farhana_but", false),
+  users("Hussnain_guru", true),
+  users("Sheraz_Khalid", false),
+  users("Ihtisham", true),
+  users("Ali", true),
+  users("Farhana_but", false),
+  users("Hussnain_guru", true),
+  users("Sheraz_Khalid", true),
+  users("Ihtisham", false),
+  users("Ali", true),
+  users("Farhana_but", false),
+  users("Hussnain_guru", false),
+  users("Sheraz_Khalid", true),
+  users("Ihtisham", true),
+  users("Ali", false),
+  users("Farhana_but", false),
+  users("Hussnain_guru", true),
+  users("Sheraz_Khalid", true),
+];
+List<users> BlockedUser = [];
+
 class _userListsState extends State<userLists> {
-  List<users> obj = [
-    users("Ihtisham", "02:14 PM", true),
-    users("Ali", "02:14 PM", true),
-    users("Farhana_but", "02:14 PM", false),
-    users("Hussnain_guru", "02:14 PM", true),
-    users("Sheraz_Khalid", "02:14 PM", true),
-    users("Ihtisham", "02:14 PM", false),
-    users("Ali", "02:14 PM", true),
-    users("Farhana_but", "02:14 PM", false),
-    users("Hussnain_guru", "02:14 PM", true),
-    users("Sheraz_Khalid", "02:14 PM", false),
-    users("Ihtisham", "02:14 PM", true),
-    users("Ali", "02:14 PM", true),
-    users("Farhana_but", "02:14 PM", false),
-    users("Hussnain_guru", "02:14 PM", true),
-    users("Sheraz_Khalid", "02:14 PM", true),
-    users("Ihtisham", "02:14 PM", false),
-    users("Ali", "02:14 PM", true),
-    users("Farhana_but", "02:14 PM", false),
-    users("Hussnain_guru", "02:14 PM", false),
-    users("Sheraz_Khalid", "02:14 PM", true),
-    users("Ihtisham", "02:14 PM", true),
-    users("Ali", "02:14 PM", false),
-    users("Farhana_but", "02:14 PM", false),
-    users("Hussnain_guru", "02:14 PM", true),
-    users("Sheraz_Khalid", "02:14 PM", true),
-  ];
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    obj.add(users("Sheraz_Khalid", true));
+
+    BlockedUser = [];
+  }
+
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: obj.length,
@@ -51,24 +60,29 @@ class _userListsState extends State<userLists> {
         return userAccess(
           userName: obj[index].userName,
           onlineNow: obj[index].onlineNow,
-          time: obj[index].time,
+          ind: index,
         );
       },
     );
   }
 }
 
-class userAccess extends StatelessWidget {
-  userAccess({
+class userAccess extends StatefulWidget {
+  const userAccess({
+    Key? key,
     this.userName = '',
     this.onlineNow = true,
-    this.time = "02:38",
-    // this.img = '',
-  });
-  final String userName;
-  final String time;
+    this.ind = -1,
+  }) : super(key: key);
   final bool onlineNow;
-  // String img;
+  final String userName;
+  final int ind;
+
+  @override
+  State<userAccess> createState() => _userAccessState();
+}
+
+class _userAccessState extends State<userAccess> {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
@@ -81,6 +95,10 @@ class userAccess extends StatelessWidget {
             FlatButton(
               minWidth: double.infinity,
               onPressed: () {
+                setState(() {
+                  BlockedUser.add(obj[widget.ind]);
+                  obj.removeAt(widget.ind);
+                });
                 Navigator.pop(context);
               },
               child: Text('Block'),
@@ -99,8 +117,8 @@ class userAccess extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25.0),
               ),
             ),
-            title: Text(userName),
-            subtitle: onlineNow == true
+            title: Text(widget.userName),
+            subtitle: widget.onlineNow == true
                 ? Text(
                     'Online',
                     style: TextStyle(
@@ -108,12 +126,6 @@ class userAccess extends StatelessWidget {
                     ),
                   )
                 : Text(''),
-            trailing: Text(
-              time,
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ),
           ),
           Divider(
             height: 0,

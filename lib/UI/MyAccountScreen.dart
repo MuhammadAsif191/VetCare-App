@@ -239,10 +239,10 @@ class MyProducts extends StatelessWidget {
     required this.shipping,
     required this.title,
   }) : super(key: key);
-  String imageLoc;
-  String title;
-  int price;
-  String shipping;
+  final String imageLoc;
+  final String title;
+  final int price;
+  final String shipping;
 
   @override
   Widget build(BuildContext context) {

@@ -6,18 +6,22 @@ class Profiles extends StatefulWidget {
 }
 
 class myProfile extends State<Profiles> {
-  String name = "Sheraz Khalid";
-  String email = "sherazkhalid123@gmail.com";
-  String number = '+923008546933';
-  String address = 'Punjab, Gujrat, Marghazasr';
+  TextEditingController _name = TextEditingController();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _number = TextEditingController();
+  TextEditingController _address = TextEditingController();
+  String name = '';
+  String email = '';
+  String number = '';
+  String address = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    name;
-    email;
-    number;
-    address;
+    name = "Sheraz Khalid";
+    email = "sherazkhalid123@gmail.com";
+    number = '+923008546933';
+    address = 'Punjab, Gujrat, Marghazasr';
   }
 
   @override
@@ -99,7 +103,10 @@ class myProfile extends State<Profiles> {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) => editPhone(),
+                      ),
                       child: Container(
                         margin: EdgeInsets.only(right: 10),
                         alignment: Alignment.topRight,
@@ -134,7 +141,10 @@ class myProfile extends State<Profiles> {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) => EditAddress(),
+                      ),
                       child: Container(
                         margin: EdgeInsets.only(right: 10),
                         alignment: Alignment.topRight,
@@ -147,6 +157,82 @@ class myProfile extends State<Profiles> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget editPhone() {
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 20, right: 20),
+            child: TextField(
+              controller: _number,
+              decoration: InputDecoration(
+                hintText: 'Enter Your Phone Number...',
+                labelText: 'Phone Number',
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                Navigator.pop(context);
+                number = _number.text;
+              });
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 15),
+              alignment: Alignment.center,
+              height: 50,
+              width: 170,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.green,
+              ),
+              child: Text('Submit'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget EditAddress() {
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 20, right: 20),
+            child: TextField(
+              controller: _address,
+              decoration: InputDecoration(
+                hintText: 'Enter Your Address...',
+                labelText: 'Address',
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                Navigator.pop(context);
+                address = _address.text;
+              });
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 15),
+              alignment: Alignment.center,
+              height: 50,
+              width: 170,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.green,
+              ),
+              child: Text('Submit'),
+            ),
+          ),
+        ],
       ),
     );
   }
