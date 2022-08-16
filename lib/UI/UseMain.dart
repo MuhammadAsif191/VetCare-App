@@ -15,7 +15,7 @@ class UserMainpage extends State<UserMain> {
         backgroundColor: Colors.green[600],
         centerTitle: true,
         title: Text(
-          'Login or registration account',
+          'Login or registration User account',
           style: TextStyle(
             fontSize: 18,
           ),
