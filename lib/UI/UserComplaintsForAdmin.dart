@@ -78,7 +78,7 @@ class complaintBoxforAdminPage extends State<complaintBoxforAdmin> {
               ),
               itemBuilder: (context, Message message) => Container(
                 child: Card(
-                  color: Colors.green,
+                  color: Colors.grey[400],
                   elevation: 8,
                   child: Padding(
                     padding: const EdgeInsets.all(12),

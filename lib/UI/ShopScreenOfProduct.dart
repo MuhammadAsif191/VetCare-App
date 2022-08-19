@@ -158,12 +158,12 @@ class ProductContainer extends StatelessWidget {
     required this.shipping,
     required this.title,
   }) : super(key: key);
-  String imageLoc;
-  String title;
-  int price;
-  String shipping;
-  int rating;
-  String description;
+  final String imageLoc;
+  final String title;
+  final int price;
+  final String shipping;
+  final int rating;
+  final String description;
 
   @override
   Widget build(BuildContext context) {

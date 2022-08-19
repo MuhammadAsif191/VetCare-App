@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'UserLogin.dart';
-import 'Registration.dart';
 
-class UserMain extends StatefulWidget {
+import 'StoreLogin.dart';
+import 'StoreRegistration.dart';
+
+class StoreMain extends StatefulWidget {
   @override
-  UserMainpage createState() => UserMainpage();
+  StoreMainpage createState() => StoreMainpage();
 }
 
-class UserMainpage extends State<UserMain> {
+class StoreMainpage extends State<StoreMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +16,7 @@ class UserMainpage extends State<UserMain> {
         backgroundColor: Colors.green[600],
         centerTitle: true,
         title: Text(
-          'Login or registration User account',
+          'Login or registration Store account',
           style: TextStyle(
             fontSize: 18,
           ),
@@ -68,7 +69,7 @@ class UserMainpage extends State<UserMain> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Registration()),
+                              builder: (context) => StoreRegistration()),
                         );
                       },
                       child: Text(
@@ -99,7 +100,7 @@ class UserMainpage extends State<UserMain> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Login()),
+                        MaterialPageRoute(builder: (context) => StoreLogin()),
                       );
                     },
                   ),

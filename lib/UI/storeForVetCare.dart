@@ -215,26 +215,26 @@ class StoreMainScreenState extends State<StoreMainScreen>
           "Vet Medical Store",
           style: TextStyle(fontSize: 15),
         ),
-        actions: [
-          PopupMenuButton(
-            onSelected: (value) {
-              if (value == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyAccountScreen(),
-                  ),
-                );
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 1,
-                child: Text('My Account'),
-              ),
-            ],
-          ),
-        ],
+        // actions: [
+        // PopupMenuButton(
+        //   onSelected: (value) {
+        //     if (value == 1) {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (context) => MyAccountScreen(),
+        //         ),
+        //       );
+        //     }
+        //   },
+        //   itemBuilder: (context) => [
+        //     PopupMenuItem(
+        //       value: 1,
+        //       child: Text('My Account'),
+        //     ),
+        //   ],
+        // ),
+        // ],
         bottom: TabBar(
           controller: tabController,
           indicatorColor: Colors.white,
@@ -257,81 +257,73 @@ class StoreMainScreenState extends State<StoreMainScreen>
       body: TabBarView(
         controller: tabController,
         children: <Widget>[
-          Expanded(
-            child: GridView.builder(
-              itemCount: Cate1.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 4.0,
-                mainAxisSpacing: 4.0,
-                childAspectRatio: 0.75,
-              ),
-              itemBuilder: ((context, index) => ProductContainer(
-                    imageLoc: Cate1[index].imageLocation,
-                    description: Cate1[index].productDescription,
-                    price: Cate1[index].productPrice,
-                    rating: Cate1[index].productRating,
-                    shipping: Cate1[index].productShipping,
-                    title: Cate1[index].productName,
-                  )),
+          GridView.builder(
+            itemCount: Cate1.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 4.0,
+              mainAxisSpacing: 4.0,
+              childAspectRatio: 0.75,
             ),
+            itemBuilder: ((context, index) => ProductContainer(
+                  imageLoc: Cate1[index].imageLocation,
+                  description: Cate1[index].productDescription,
+                  price: Cate1[index].productPrice,
+                  rating: Cate1[index].productRating,
+                  shipping: Cate1[index].productShipping,
+                  title: Cate1[index].productName,
+                )),
           ),
-          Expanded(
-            child: GridView.builder(
-              itemCount: Cate2.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 4.0,
-                mainAxisSpacing: 4.0,
-                childAspectRatio: 0.75,
-              ),
-              itemBuilder: ((context, index) => ProductContainer(
-                    imageLoc: Cate2[index].imageLocation,
-                    description: Cate2[index].productDescription,
-                    price: Cate2[index].productPrice,
-                    rating: Cate2[index].productRating,
-                    shipping: Cate2[index].productShipping,
-                    title: Cate2[index].productName,
-                  )),
+          GridView.builder(
+            itemCount: Cate2.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 4.0,
+              mainAxisSpacing: 4.0,
+              childAspectRatio: 0.75,
             ),
+            itemBuilder: ((context, index) => ProductContainer(
+                  imageLoc: Cate2[index].imageLocation,
+                  description: Cate2[index].productDescription,
+                  price: Cate2[index].productPrice,
+                  rating: Cate2[index].productRating,
+                  shipping: Cate2[index].productShipping,
+                  title: Cate2[index].productName,
+                )),
           ),
-          Expanded(
-            child: GridView.builder(
-              itemCount: Cate3.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 4.0,
-                mainAxisSpacing: 4.0,
-                childAspectRatio: 0.75,
-              ),
-              itemBuilder: ((context, index) => ProductContainer(
-                    imageLoc: Cate3[index].imageLocation,
-                    description: Cate3[index].productDescription,
-                    price: Cate3[index].productPrice,
-                    rating: Cate3[index].productRating,
-                    shipping: Cate3[index].productShipping,
-                    title: Cate3[index].productName,
-                  )),
+          GridView.builder(
+            itemCount: Cate3.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 4.0,
+              mainAxisSpacing: 4.0,
+              childAspectRatio: 0.75,
             ),
+            itemBuilder: ((context, index) => ProductContainer(
+                  imageLoc: Cate3[index].imageLocation,
+                  description: Cate3[index].productDescription,
+                  price: Cate3[index].productPrice,
+                  rating: Cate3[index].productRating,
+                  shipping: Cate3[index].productShipping,
+                  title: Cate3[index].productName,
+                )),
           ),
-          Expanded(
-            child: GridView.builder(
-              itemCount: Cate4.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 4.0,
-                mainAxisSpacing: 4.0,
-                childAspectRatio: 0.75,
-              ),
-              itemBuilder: ((context, index) => ProductContainer(
-                    imageLoc: Cate4[index].imageLocation,
-                    description: Cate4[index].productDescription,
-                    price: Cate4[index].productPrice,
-                    rating: Cate4[index].productRating,
-                    shipping: Cate4[index].productShipping,
-                    title: Cate4[index].productName,
-                  )),
+          GridView.builder(
+            itemCount: Cate4.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 4.0,
+              mainAxisSpacing: 4.0,
+              childAspectRatio: 0.75,
             ),
+            itemBuilder: ((context, index) => ProductContainer(
+                  imageLoc: Cate4[index].imageLocation,
+                  description: Cate4[index].productDescription,
+                  price: Cate4[index].productPrice,
+                  rating: Cate4[index].productRating,
+                  shipping: Cate4[index].productShipping,
+                  title: Cate4[index].productName,
+                )),
           ),
         ],
       ),

@@ -5,39 +5,34 @@ import 'package:intl/intl.dart';
 class Message {
   final String text;
   final DateTime date;
-  final bool isSentByMe;
+  final String doctorName;
   const Message({
     required this.text,
     required this.date,
-    required this.isSentByMe,
+    required this.doctorName,
   });
 }
 
 class complaintsDoctors extends StatefulWidget {
-  const complaintsDoctors({Key? mykey, required this.DoctorName})
-      : super(key: mykey);
-  final String DoctorName;
-
   @override
-  complaintsDoctorsPage createState() => complaintsDoctorsPage();
+  feedbackDoctorPage createState() => feedbackDoctorPage();
 }
 
-class complaintsDoctorsPage extends State<complaintsDoctors> {
+class feedbackDoctorPage extends State<complaintsDoctors> {
   List<Message> message = [
     Message(
-      text: 'Yes Sure',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
-      isSentByMe: false,
-    ),
+        text: 'Yes Sure',
+        date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+        doctorName: 'Dr.Rizwan'),
     Message(
       text: 'No don\'t worry',
       date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
-      isSentByMe: true,
+      doctorName: 'Dr.Ali',
     ),
     Message(
       text: 'great',
       date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
-      isSentByMe: false,
+      doctorName: 'Dr.Aysha',
     ),
   ];
   @override
@@ -53,17 +48,13 @@ class complaintsDoctorsPage extends State<complaintsDoctors> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[800],
-        title: Text('${widget.DoctorName}'),
+        title: Text('Complaint Status'),
       ),
       body: Column(
         children: [
           Expanded(
             child: GroupedListView<Message, DateTime>(
               padding: const EdgeInsets.all(8),
-              reverse: true,
-              order: GroupedListOrder.DESC,
-              useStickyGroupSeparators: true,
-              floatingHeader: true,
               elements: message,
               groupBy: (message) => DateTime(
                 message.date.year,
@@ -85,68 +76,31 @@ class complaintsDoctorsPage extends State<complaintsDoctors> {
                   ),
                 ),
               ),
-              itemBuilder: (context, Message message) => Align(
-                alignment: message.isSentByMe
-                    ? Alignment.centerLeft
-                    : Alignment.centerRight,
-                child: Card(
-                  color: message.isSentByMe ? Colors.white : Colors.green,
-                  elevation: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Text(message.text),
+              itemBuilder: (context, Message message) => Card(
+                color: Colors.grey[400],
+                elevation: 8,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.fromLTRB(5, 10, 40, 0),
+                        child: Text(
+                          message.doctorName.toString() + ' :',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+                        alignment: Alignment.topLeft,
+                        child: Text(message.text),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-          ),
-          bottomBar(context),
-        ],
-      ),
-    );
-  }
-
-  Widget bottomBar(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    TextEditingController chatValue = new TextEditingController();
-    return Container(
-      width: size.width,
-      height: 60,
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextFormField(
-              controller: chatValue,
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(12),
-                hintText: 'Type your message here...',
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 15,
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                if (chatValue.text != '')
-                  message.add(
-                    Message(
-                      text: chatValue.text,
-                      date: DateTime.now()
-                          .subtract(Duration(days: 3, minutes: 3)),
-                      isSentByMe: false,
-                    ),
-                  );
-              });
-            },
-            child: Icon(
-              Icons.send,
-              color: Colors.white,
-              size: 18,
-            ),
-            backgroundColor: Colors.green[800],
-            elevation: 0,
           ),
         ],
       ),

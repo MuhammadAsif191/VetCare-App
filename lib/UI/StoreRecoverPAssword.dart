@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'validMail.dart';
-import 'UserData.dart';
 
 int? EMAIL;
 
-class forgetPass extends StatefulWidget {
+class forgetStorePassword extends StatefulWidget {
   @override
-  State<forgetPass> createState() => _forgetPassPage();
+  State<forgetStorePassword> createState() => _forgetStorePasswordPage();
 }
 
-class _forgetPassPage extends State<forgetPass> {
+class _forgetStorePasswordPage extends State<forgetStorePassword> {
   TextEditingController EmailController = TextEditingController();
-  UserData Objforget = UserData();
   String validmail = '';
   bool flagMail = false;
   @override
@@ -106,11 +104,7 @@ class _forgetPassPage extends State<forgetPass> {
                   validmail = 'Enter valid email';
                   flagMail = true;
                 }
-                if (!flagMail) {
-                  if (Objforget.findMail(EmailController.text)) {
-                    EMAIL = Objforget.forgetPass(EmailController.text);
-                  }
-                }
+                if (!flagMail) {}
               },
             ),
           ),

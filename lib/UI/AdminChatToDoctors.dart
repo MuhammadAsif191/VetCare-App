@@ -4,9 +4,8 @@ import 'AdminComplaintsToDoctors.dart';
 
 class doctorsChat {
   String doctorName;
-  String time;
   // String img;
-  doctorsChat(this.doctorName, this.time);
+  doctorsChat(this.doctorName);
 }
 
 class doctorsChatList extends StatefulWidget {
@@ -18,34 +17,34 @@ class doctorsChatList extends StatefulWidget {
 
 class _doctorsChatListState extends State<doctorsChatList> {
   List<doctorsChat> obj = [
-    doctorsChat("Dr.Rizwan", "02:14 PM"),
-    doctorsChat("Dr.Ali", "02:14 PM"),
-    doctorsChat("Dr.Farhana", "02:14 PM"),
-    doctorsChat("Dr.Hussnain", "02:14 PM"),
-    doctorsChat("Dr.Rizwan", "02:14 PM"),
-    doctorsChat("Dr.Ali", "02:14 PM"),
-    doctorsChat("Dr.Farhana", "02:14 PM"),
-    doctorsChat("Dr.Hussnain", "02:14 PM"),
-    doctorsChat("Dr.Rizwan", "02:14 PM"),
-    doctorsChat("Dr.Ali", "02:14 PM"),
-    doctorsChat("Dr.Farhana", "02:14 PM"),
-    doctorsChat("Dr.Hussnain", "02:14 PM"),
-    doctorsChat("Dr.Rizwan", "02:14 PM"),
-    doctorsChat("Dr.Ali", "02:14 PM"),
-    doctorsChat("Dr.Farhana", "02:14 PM"),
-    doctorsChat("Dr.Hussnain", "02:14 PM"),
-    doctorsChat("Dr.Rizwan", "02:14 PM"),
-    doctorsChat("Dr.Ali", "02:14 PM"),
-    doctorsChat("Dr.Farhana", "02:14 PM"),
-    doctorsChat("Dr.Hussnain", "02:14 PM"),
-    doctorsChat("Dr.Rizwan", "02:14 PM"),
-    doctorsChat("Dr.Ali", "02:14 PM"),
-    doctorsChat("Dr.Farhana", "02:14 PM"),
-    doctorsChat("Dr.Hussnain", "02:14 PM"),
-    doctorsChat("Dr.Rizwan", "02:14 PM"),
-    doctorsChat("Dr.Ali", "02:14 PM"),
-    doctorsChat("Dr.Farhana", "02:14 PM"),
-    doctorsChat("Dr.Hussnain", "02:14 PM"),
+    doctorsChat("Dr.Rizwan"),
+    doctorsChat("Dr.Ali"),
+    doctorsChat("Dr.Farhana"),
+    doctorsChat("Dr.Hussnain"),
+    doctorsChat("Dr.Rizwan"),
+    doctorsChat("Dr.Ali"),
+    doctorsChat("Dr.Farhana"),
+    doctorsChat("Dr.Hussnain"),
+    doctorsChat("Dr.Rizwan"),
+    doctorsChat("Dr.Ali"),
+    doctorsChat("Dr.Farhana"),
+    doctorsChat("Dr.Hussnain"),
+    doctorsChat("Dr.Rizwan"),
+    doctorsChat("Dr.Ali"),
+    doctorsChat("Dr.Farhana"),
+    doctorsChat("Dr.Hussnain"),
+    doctorsChat("Dr.Rizwan"),
+    doctorsChat("Dr.Ali"),
+    doctorsChat("Dr.Farhana"),
+    doctorsChat("Dr.Hussnain"),
+    doctorsChat("Dr.Rizwan"),
+    doctorsChat("Dr.Ali"),
+    doctorsChat("Dr.Farhana"),
+    doctorsChat("Dr.Hussnain"),
+    doctorsChat("Dr.Rizwan"),
+    doctorsChat("Dr.Ali"),
+    doctorsChat("Dr.Farhana"),
+    doctorsChat("Dr.Hussnain"),
   ];
   @override
   Widget build(BuildContext context) {
@@ -60,7 +59,6 @@ class _doctorsChatListState extends State<doctorsChatList> {
           itemBuilder: (context, index) {
             return doctorsComplaintChat(
               doctorName: obj[index].doctorName,
-              time: obj[index].time,
             );
           },
         ),
@@ -72,11 +70,9 @@ class _doctorsChatListState extends State<doctorsChatList> {
 class doctorsComplaintChat extends StatelessWidget {
   doctorsComplaintChat({
     this.doctorName = '',
-    this.time = "02:38",
     // this.img = '',
   });
   final String doctorName;
-  final String time;
   // String img;
   @override
   Widget build(BuildContext context) {
@@ -101,12 +97,6 @@ class doctorsComplaintChat extends StatelessWidget {
               ),
             ),
             title: Text(doctorName),
-            trailing: Text(
-              time,
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ),
           ),
           Divider(
             height: 0,

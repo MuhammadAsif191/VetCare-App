@@ -84,30 +84,21 @@ class UserProfilePAge extends State<UserProfile> {
             Container(
               child: Row(
                 children: <Widget>[
+                  Container(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Text('Phone : ')),
                   Expanded(
                     child: Container(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Text('Phone : ')),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 13),
-                    child: Text(
-                      number,
-                      style: TextStyle(
-                        fontSize: 18,
+                      alignment: Alignment.topCenter,
+                      margin: EdgeInsets.only(left: 13),
+                      child: Text(
+                        number,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        margin: EdgeInsets.only(right: 10),
-                        alignment: Alignment.topRight,
-                        child: Icon(Icons.edit),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),
@@ -117,11 +108,9 @@ class UserProfilePAge extends State<UserProfile> {
             Container(
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                    child: Container(
-                        padding: EdgeInsets.only(left: 18),
-                        child: Text('Address : ')),
-                  ),
+                  Container(
+                      padding: EdgeInsets.only(left: 18),
+                      child: Text('Address : ')),
                   Expanded(
                     child: Container(
                       alignment: Alignment.topCenter,
@@ -133,16 +122,6 @@ class UserProfilePAge extends State<UserProfile> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        margin: EdgeInsets.only(right: 10),
-                        alignment: Alignment.topRight,
-                        child: Icon(Icons.edit),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),

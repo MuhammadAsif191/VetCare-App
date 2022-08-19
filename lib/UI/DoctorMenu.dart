@@ -13,13 +13,14 @@ class DoctorMenu extends StatefulWidget {
 }
 
 class DoctorMenuPage extends State<DoctorMenu> {
-  UserData User = UserData();
+  // UserData User = UserData();
   int ComplaintsNoti = 1;
   int DoctorNoti = 2;
   int PostFeedbackNoti = 3;
   int ComplaintsStatusNoti = 4;
   int CureDetailsNoti = 5;
   int ReportNoti = 6;
+  String User = 'Qasim';
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -54,7 +55,7 @@ class DoctorMenuPage extends State<DoctorMenu> {
                   ),
                   Container(
                     child: Text(
-                      User.getUserName(),
+                      User,
                       style: TextStyle(color: Colors.green, fontSize: 20),
                     ),
                   ),
@@ -111,7 +112,10 @@ class DoctorMenuPage extends State<DoctorMenu> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PostSolutionDoctor()),
+                              builder: (context) => PostSolutionDoctor(
+                                DoctorName: User,
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -150,9 +154,7 @@ class DoctorMenuPage extends State<DoctorMenu> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const complaintsDoctors(
-                                DoctorName: "Sheraz",
-                              ),
+                              builder: (context) => complaintsDoctors(),
                             ),
                           );
                         },

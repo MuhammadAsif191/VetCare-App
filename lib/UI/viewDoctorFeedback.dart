@@ -48,7 +48,7 @@ class feedbackDoctorPage extends State<feedbackDoctors> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[800],
-        title: Text('Complaint Status'),
+        title: Text('Feedback'),
       ),
       body: Column(
         children: [
@@ -77,7 +77,7 @@ class feedbackDoctorPage extends State<feedbackDoctors> {
                 ),
               ),
               itemBuilder: (context, Message message) => Card(
-                color: Colors.green,
+                color: Colors.grey[400],
                 elevation: 8,
                 child: Padding(
                   padding: const EdgeInsets.all(12),

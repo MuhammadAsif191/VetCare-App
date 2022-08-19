@@ -24,14 +24,14 @@ class SellerProducts {
   final String Shipping;
 }
 
-class MyAccountScreen extends StatefulWidget {
-  const MyAccountScreen({Key? key}) : super(key: key);
+class MyAccountMainScreen extends StatefulWidget {
+  const MyAccountMainScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyAccountScreen> createState() => _MyAccountScreenState();
+  State<MyAccountMainScreen> createState() => _MyAccountMainScreenState();
 }
 
-class _MyAccountScreenState extends State<MyAccountScreen> {
+class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
   profile profileData = profile(img: 'images/Doctor.jpeg', shopName: 'daraz');
   List<SellerProducts> myProductData = [
     SellerProducts(
@@ -114,13 +114,32 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       ),
       body: Column(
         children: [
-          ListTile(
-            leading: Image.asset(
-              profileData.img,
-            ),
-            title: Text(
-              profileData.shopName,
-              style: TextStyle(fontSize: 20),
+          Container(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Shop Name :',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      profileData.shopName,
+                      style:
+                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Container(
@@ -239,10 +258,10 @@ class MyProducts extends StatelessWidget {
     required this.shipping,
     required this.title,
   }) : super(key: key);
-  String imageLoc;
-  String title;
-  int price;
-  String shipping;
+  final String imageLoc;
+  final String title;
+  final int price;
+  final String shipping;
 
   @override
   Widget build(BuildContext context) {

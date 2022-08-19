@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'UI/Home.dart';
 import 'package:flutter/services.dart';
 
@@ -21,6 +22,7 @@ class vet_App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< HEAD
         title: 'VetCare App',
         debugShowCheckedModeBanner: false,
         color: Colors.white,
@@ -31,6 +33,54 @@ class vet_App extends StatelessWidget {
 // Future createUser() async {
 //   final docuser = FirebaseFirestore.instance.collection('user').doc('my-key');
 //   final json = {'name': 'sheraz', 'age': '21', 'birthday': '18'};
+=======
+      title: 'VetCare App',
+      debugShowCheckedModeBanner: false,
+      color: Colors.white,
+      // home: Container(
+      //     child: RaisedButton(
+      //   onPressed: () async {
+      //     createUser();
+      // sing
+
+      // Firebassen((value) => print(value));
+      // try {
+      // FirebaseAuth.instance.createUserWithEmailAndPassword(
+      //     email: "Asiflogin@gmail.com".trim(),
+      //     password: "Huda i love you".trim());
+      // FirebaseFirestore.instance
+      //     .collection("sheraz")
+      //     .doc("Key")
+      //     .set({"name": "huda"});
+      // final Aopp = FirebaseFirestore.instance
+      //     .collection("Sheraz")
+      //     .doc("Key123456");
+      // await Aopp.set({'name': "Sheraz", 'love': "Koi b Nahi"});
+
+      // .set({});
+      // } on FirebaseAuthException catch (err) {
+      //   print(err);
+      // }
+      //   },
+      // child: Text("Press"),
+      // ),),
+      home: Scaffold(
+        body: Home(),
+      ),
+    );
+  }
+}
+
+Future createUser() async {
+  const uuid = Uuid();
+  var id = uuid.v5(Uuid.NAMESPACE_URL, 'www.flutter.dev');
+  final docuser = FirebaseFirestore.instance.collection('user').doc(id);
+  final json = {
+    'name': 'sheraz',
+    'age': '21',
+    'birthday': '18',
+  };
+>>>>>>> cb018086bcaa176fb06a95aab881d0662baa2b89
 
 //   await docuser.set(json);
 // }
