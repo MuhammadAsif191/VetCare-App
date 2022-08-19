@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'UserData.dart';
 import 'AdminPanel.dart';
@@ -8,6 +10,8 @@ import 'SimpleScreen.dart';
 void func() {
   // print('1');
 }
+var eml = '';
+var pwd = '';
 
 class Login extends StatefulWidget {
   @override
@@ -15,6 +19,17 @@ class Login extends StatefulWidget {
 }
 
 class _LoginPage extends State<Login> {
+  @override
+  void initState() {
+    GetUser();
+    super.initState();
+
+    // setState(() {
+    //   GetEmail = '';
+    //   GetPassword = '';
+    // });
+  }
+
   UserData obj = UserData();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -25,7 +40,14 @@ class _LoginPage extends State<Login> {
   bool _errorDetector = false;
   String password = '';
   String _signin = '';
+  String GetEmail = '';
+  String GetPassword = '';
   @override
+
+  // TODO: implement
+  // initState
+  // super.initState();
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -178,8 +200,8 @@ class _LoginPage extends State<Login> {
                       });
                     }
                     if (!_errorDetector) {
-                      if (obj.signin(
-                          nameController.text, passwordController.text)) {
+                      if (nameController.text == GetEmail &&
+                          GetPassword == passwordController.text) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -223,5 +245,37 @@ class _LoginPage extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future GetUser() async {
+    print("Arrive");
+    // await Firebase.initializeApp();
+    await Firebase.initializeApp();
+    // await FirebaseFirestore.instance
+    //     .collection("admin")
+    //     .snapshots()
+    //     .map((event) => print(event));
+    // app.toString();
+    // print(app.toString());
+    // print(object)
+    // await FirebaseFirestore.instance
+    //     .collection("sheraz")
+    //     .doc("Key")
+    //     .set({"name": "huda"});
+
+    await FirebaseFirestore.instance
+        .collection('admin')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        print(doc["email"] + doc["password"]);
+        setState(() {
+          GetEmail = doc["email"];
+          GetPassword = doc["password"];
+        });
+      });
+    });
+
+    print(this.GetEmail);
   }
 }

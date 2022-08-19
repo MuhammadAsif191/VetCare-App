@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'UserData.dart';
 import 'validMail.dart';
 // import 'FlatList.dart';
@@ -267,11 +270,8 @@ class _DoctorRegistrationPage extends State<DoctorRegistration> {
                       obj.setEmail(EmailController.text);
                       obj.setPassword(PasswordController.text);
                       if (obj.signUp()) {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             CustomCard(index: 5, onPress: ,),),);
+                        // Navigator.pop(context);
+                        SignUpDoctor();
                       }
                       // Navigator.pop(context);
 
@@ -303,5 +303,28 @@ class _DoctorRegistrationPage extends State<DoctorRegistration> {
         ),
       ),
     );
+  }
+
+  Future StoreData() async {
+//   final Aopp = FirebaseFirestore.instance
+// //             //     .collection("Sheraz")
+//             //     .doc("Key123456");
+    const uuid = Uuid();
+    // var id = uuid.v5(Uuid.NAMESPACE_URL, 'www.flutter.dev');
+    print(uuid.v5(Uuid.NAMESPACE_URL, 'www.flutter.dev'));
+    final Aopp = FirebaseFirestore.instance.collection('doctor');
+    await Aopp.add({
+      "name": NameController.text,
+      "email": EmailController.text,
+      "status": "active"
+    }).then((value) => {Navigator.pop(context)});
+  }
+
+  Future SignUpDoctor() async {
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: EmailController.text, password: PasswordController.text)
+        .then((value) => {print(value), StoreData()})
+        .catchError((error) => {print(error)});
   }
 }

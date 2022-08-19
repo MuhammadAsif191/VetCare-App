@@ -3,6 +3,17 @@ import 'package:vet_care_app/UI/storeForVetCare.dart';
 import 'AdminLogin.dart';
 import 'UseMain.dart';
 import 'DocterMan.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   // await Firebase.initializeApp();
+//   // SystemChrome.setPreferredOrientations([
+//   //   DeviceOrientation.portraitUp,
+//   //   DeviceOrientation.portraitDown,
+//   // ]);
+//   runApp(Home());
+// }
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
