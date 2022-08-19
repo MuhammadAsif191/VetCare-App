@@ -215,26 +215,26 @@ class StoreMainScreenState extends State<StoreMainScreen>
           "Vet Medical Store",
           style: TextStyle(fontSize: 15),
         ),
-        actions: [
-          PopupMenuButton(
-            onSelected: (value) {
-              if (value == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyAccountScreen(),
-                  ),
-                );
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 1,
-                child: Text('My Account'),
-              ),
-            ],
-          ),
-        ],
+        // actions: [
+        // PopupMenuButton(
+        //   onSelected: (value) {
+        //     if (value == 1) {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (context) => MyAccountScreen(),
+        //         ),
+        //       );
+        //     }
+        //   },
+        //   itemBuilder: (context) => [
+        //     PopupMenuItem(
+        //       value: 1,
+        //       child: Text('My Account'),
+        //     ),
+        //   ],
+        // ),
+        // ],
         bottom: TabBar(
           controller: tabController,
           indicatorColor: Colors.white,

@@ -5,8 +5,8 @@ import 'package:vet_care_app/UI/storeForVetCare.dart';
 import 'UserData.dart';
 import 'ViewLDoctor.dart';
 import 'Complaints.dart';
-import 'ComplaintStatus.dart';
 import 'Profile.dart';
+import 'ViewVetCureDetailsUser.dart';
 import 'viewCureDetail.dart';
 
 class UserMenu extends StatefulWidget {
@@ -15,13 +15,13 @@ class UserMenu extends StatefulWidget {
 }
 
 class UserMenuPage extends State<UserMenu> {
-  UserData User = UserData();
   int ComplaintsNoti = 1;
   int DoctorNoti = 2;
   int PostFeedbackNoti = 3;
   int ComplaintsStatusNoti = 4;
   int CureDetailsNoti = 5;
   int ReportNoti = 6;
+  String User = 'Qasim';
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -55,7 +55,7 @@ class UserMenuPage extends State<UserMenu> {
                 ),
                 Container(
                   child: Text(
-                    User.getUserName(),
+                    User,
                     style: TextStyle(color: Colors.green, fontSize: 20),
                   ),
                 ),
@@ -198,42 +198,15 @@ class UserMenuPage extends State<UserMenu> {
               ),
               Expanded(
                 child: FlatButton(
-                  child: Container(
-                    child: UserCard(
-                      Notification: ComplaintsStatusNoti,
-                      icon: Icon(Icons.messenger_sharp),
-                      text: 'Complaint Status',
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                    ),
-                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => complaintsStatus()),
+                          builder: (context) => ViewSolutionUser(
+                                UserName: User,
+                              )),
                     );
                   },
-                ),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 5.0,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child: FlatButton(
-                  onPressed: () {},
                   child: Container(
                     child: UserCard(
                       Notification: CureDetailsNoti,
@@ -247,6 +220,16 @@ class UserMenuPage extends State<UserMenu> {
                   ),
                 ),
               ),
+              SizedBox(
+                width: 5,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          Row(
+            children: [
               Expanded(
                 child: FlatButton(
                     child: Container(
@@ -268,6 +251,12 @@ class UserMenuPage extends State<UserMenu> {
                         ),
                       );
                     }),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: Container(),
               ),
               SizedBox(
                 width: 5,

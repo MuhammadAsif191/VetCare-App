@@ -146,24 +146,24 @@ class _ProductDetailsState extends State<ProductDetails> {
             },
             icon: Icon(Icons.shopping_cart_outlined),
           ),
-          PopupMenuButton(
-            onSelected: (value) {
-              if (value == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyAccountScreen(),
-                  ),
-                );
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 1,
-                child: Text('My Account'),
-              ),
-            ],
-          ),
+          // PopupMenuButton(
+          //   onSelected: (value) {
+          //     if (value == 1) {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) => MyAccountScreen(),
+          //         ),
+          //       );
+          //     }
+          //   },
+          //   itemBuilder: (context) => [
+          //     PopupMenuItem(
+          //       value: 1,
+          //       child: Text('My Account'),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
       body: Column(
