@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'UserData.dart';
 import 'passRecoverDoctor.dart';
@@ -182,10 +184,11 @@ class _DoctorLoginPage extends State<DoctorLogin> {
                     if (!_errorDetector) {
                       if (obj.signin(
                           nameController.text, passwordController.text)) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DoctorMenu()),
-                        );
+                        Next();
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => DoctorMenu()),
+                        // );
                       } else {
                         setState(() {
                           _signin = 'Your email or password wrong!';
@@ -227,5 +230,33 @@ class _DoctorLoginPage extends State<DoctorLogin> {
         ),
       ),
     );
+  }
+
+  Future Seach() async {
+    await FirebaseFirestore.instance
+        .collection('doctor')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        print(doc["email"]);
+      });
+    });
+    // FirebaseFirestore
+  }
+
+  Future Next() async {
+    // await FirebaseAuth.instance
+    //     .signInWithEmailAndPassword(
+    //         email: nameController.text, password: passwordController.text)
+    //     .then((value) => {print("scuess"), Seach()});
+
+    await FirebaseFirestore.instance
+        .collection('doctor')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        print(doc["email"]);
+      });
+    });
   }
 }

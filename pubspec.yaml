@@ -39,16 +39,11 @@ dependencies:
   provider: ^4.3.1
   grouped_list: ^5.1.2
   intl: ^0.17.0
-
-  # google_maps_flutter: ^2.1.6
-  # dio: ^4.0.6
-  # flutter_polyline_points: ^1.0.0
   flutter_lints: ^1.0.0
   firebase_auth: ^3.6.3
   firebase_core: ^1.20.1
   cloud_firestore: ^3.1.5
   uuid: ^3.0.6
-  
   # firebase_auth: ^0.18.3+1
   # firebase_core: ^0.5.2+1
   # # cloud_firestore: ^0.16.0+1 
@@ -102,4 +97,5 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
+
   # see https://flutter.dev/custom-fonts/#from-packages
