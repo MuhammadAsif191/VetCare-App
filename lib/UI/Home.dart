@@ -15,10 +15,6 @@ class Homepage extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
-      // backgroundColor: ,
-=======
->>>>>>> cb018086bcaa176fb06a95aab881d0662baa2b89
       body: SafeArea(
         child: SizedBox(
           child: Column(
@@ -130,8 +126,6 @@ class Homepage extends State<Home> {
                               color: Colors.white,
                               fontSize: 23,
                             ),
-<<<<<<< HEAD
-=======
                           ),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50)),
@@ -165,19 +159,15 @@ class Homepage extends State<Home> {
                               color: Colors.white,
                               fontSize: 23,
                             ),
->>>>>>> cb018086bcaa176fb06a95aab881d0662baa2b89
                           ),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50)),
                         ),
                       ),
                     ),
-<<<<<<< HEAD
                     SizedBox(
                       height: 10.0,
                     ),
-=======
->>>>>>> cb018086bcaa176fb06a95aab881d0662baa2b89
                   ],
                 ),
               ),
