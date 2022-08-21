@@ -23,16 +23,16 @@ class feedbackDoctorPage extends State<feedbackDoctors> {
     Message(
         text: 'Yes Sure',
         date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
-        doctorName: 'Dr.Rizwan'),
+        doctorName: 'Rizwan'),
     Message(
       text: 'No don\'t worry',
       date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
-      doctorName: 'Dr.Ali',
+      doctorName: 'Ali',
     ),
     Message(
       text: 'great',
       date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
-      doctorName: 'Dr.Aysha',
+      doctorName: 'Aysha',
     ),
   ];
   @override

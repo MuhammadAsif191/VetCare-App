@@ -84,16 +84,21 @@ class USerChatBoxPage extends State<USerChatBox> {
                   ),
                 ),
               ),
-              itemBuilder: (context, Message message) => Align(
-                alignment: message.isSentByMe
-                    ? Alignment.centerLeft
-                    : Alignment.centerRight,
-                child: Card(
-                  color: message.isSentByMe ? Colors.white : Colors.green,
-                  elevation: 8,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Text(message.text),
+              itemBuilder: (context, Message message) => Padding(
+                padding: message.isSentByMe
+                    ? EdgeInsets.only(right: 30.0)
+                    : EdgeInsets.only(left: 30.0),
+                child: Align(
+                  alignment: message.isSentByMe
+                      ? Alignment.centerLeft
+                      : Alignment.centerRight,
+                  child: Card(
+                    color: message.isSentByMe ? Colors.white : Colors.green,
+                    elevation: 8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(message.text),
+                    ),
                   ),
                 ),
               ),

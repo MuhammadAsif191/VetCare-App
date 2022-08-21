@@ -181,7 +181,9 @@ class hospitalList extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => postFeedback(DoctorName: titleName)),
+                builder: (context) => PostFeedback(
+                      userName: titleName,
+                    )),
           );
         },
         style: ButtonStyle(
