@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'validMail.dart';
 
@@ -264,7 +266,8 @@ class _StoreRegistrationPage extends State<StoreRegistration> {
                     }
                     if (!_errorDetector) {
                       // if (obj.signUp()) {}
-                      Navigator.pop(context);
+                      // Navigator.pop(context);
+                      Register();
                     } else
                       print('Not Found');
                   },
@@ -291,5 +294,61 @@ class _StoreRegistrationPage extends State<StoreRegistration> {
         ),
       ),
     );
+  }
+
+  Future AddDatainFIrebase() async {
+    FirebaseFirestore.instance.collection('store').doc().set({
+      "name": NameController.text,
+      "email": EmailController.text,
+      "status": "Unblock"
+    }).then((value) => Navigator.pop(context));
+  }
+
+  Future Register() async {
+    print(NameController.text);
+    print(EmailController.text);
+    print(PasswordController.text);
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: EmailController.text.trim(),
+              password: PasswordController.text.trim())
+          .then((value) => {
+                //  var test=value;
+                AddDatainFIrebase()
+                // print(value)
+              })
+          .catchError((onError) => {
+                // onError.
+                //  if(onError)
+                // print(onError.),
+
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // return object of type Dialog
+                      return AlertDialog(
+                        title: new Text("Vet Care App"),
+                        content: new Text(onError.toString()),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    })
+              });
+      // // return object of type Dialog
+
+    } catch (e) {
+      if (e.hashCode == 'ERROR_EMAIL_ALREADY_IN_USE') {
+        /// `foo@bar.com` has alread been registered.
+        print("Welcome");
+      }
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'UserData.dart';
 import 'RecoverPass.dart';
@@ -177,10 +179,7 @@ class _LoginPage extends State<Login> {
                     if (!_errorDetector) {
                       if (obj.signin(
                           nameController.text, passwordController.text)) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => UserMenu()),
-                        );
+                        GetData();
                       } else {
                         setState(() {
                           _signin = 'Your email or password wrong!';
@@ -220,5 +219,68 @@ class _LoginPage extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future CheckStatus() async {
+    final app = await FirebaseFirestore.instance.collection('users');
+    app.get().then((QuerySnapshot querySnapshot) => {
+          querySnapshot.docs.forEach((element) {
+            if (element['email'] == nameController.text) {
+              if (element["status"] == 'Unblock') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserMenu()),
+                );
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // return object of type Dialog
+                      return AlertDialog(
+                        title: new Text("Vet Care App"),
+                        content: new Text(
+                            "PLease try to connect support of Vet Care App"),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              }
+            }
+          })
+        });
+  }
+
+  Future GetData() async {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: nameController.text, password: passwordController.text)
+        .then(((value) => {CheckStatus()}))
+        .catchError((onError) => {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // return object of type Dialog
+                    return AlertDialog(
+                      title: new Text("Vet Care App"),
+                      content: new Text("Email or password goes wrong"),
+                      actions: <Widget>[
+                        // usually buttons at the bottom of the dialog
+                        new FlatButton(
+                          child: new Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  })
+            });
   }
 }

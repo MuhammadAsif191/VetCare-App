@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'UserData.dart';
 import 'passRecoverDoctor.dart';
@@ -182,10 +184,7 @@ class _DoctorLoginPage extends State<DoctorLogin> {
                     if (!_errorDetector) {
                       if (obj.signin(
                           nameController.text, passwordController.text)) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DoctorMenu()),
-                        );
+                        GetData();
                       } else {
                         setState(() {
                           _signin = 'Your email or password wrong!';
@@ -211,12 +210,13 @@ class _DoctorLoginPage extends State<DoctorLogin> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => forgetDoctorPass(),
-                      ),
-                    );
+                    GetData();
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => forgetDoctorPass(),
+                    //   ),
+                    // );
                     // Navigator.pop(context);
                   },
                 ),
@@ -227,5 +227,48 @@ class _DoctorLoginPage extends State<DoctorLogin> {
         ),
       ),
     );
+  }
+
+  Future CheckStatus() async {
+    final app = await FirebaseFirestore.instance.collection('doctor');
+    app.get().then((QuerySnapshot querySnapshot) => {
+          querySnapshot.docs.forEach((element) {
+            if (element['email'] == nameController.text) {
+              if (element["status"] == 'Unblock') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DoctorMenu()),
+                );
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // return object of type Dialog
+                      return AlertDialog(
+                        title: new Text("Vet Care App"),
+                        content: new Text(
+                            "PLease try to connect support of Vet Care App"),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              }
+            }
+          })
+        });
+  }
+
+  Future GetData() async {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: nameController.text, password: passwordController.text)
+        .then(((value) => {CheckStatus()}));
   }
 }

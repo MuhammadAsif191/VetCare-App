@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'MyAccountScreen.dart';
 import 'UserData.dart';
@@ -178,11 +180,7 @@ class _StoreLoginPage extends State<StoreLogin> {
                     if (!_errorDetector) {
                       if (obj.signin(
                           nameController.text, passwordController.text)) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyAccountMainScreen()),
-                        );
+                        GetData();
                       } else {
                         setState(() {
                           _signin = 'Your email or password wrong!';
@@ -222,5 +220,49 @@ class _StoreLoginPage extends State<StoreLogin> {
         ),
       ),
     );
+  }
+
+  Future CheckStatus() async {
+    final app = await FirebaseFirestore.instance.collection('store');
+    app.get().then((QuerySnapshot querySnapshot) => {
+          querySnapshot.docs.forEach((element) {
+            if (element['email'] == nameController.text) {
+              if (element["status"] == 'Unblock') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyAccountMainScreen()),
+                );
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // return object of type Dialog
+                      return AlertDialog(
+                        title: new Text("Vet Care App"),
+                        content: new Text(
+                            "PLease try to connect support of Vet Care App"),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              }
+            }
+          })
+        });
+  }
+
+  Future GetData() async {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: nameController.text, password: passwordController.text)
+        .then(((value) => {CheckStatus()}));
   }
 }

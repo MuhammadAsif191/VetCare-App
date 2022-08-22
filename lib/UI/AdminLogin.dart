@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'UserData.dart';
 import 'AdminPanel.dart';
@@ -180,11 +182,7 @@ class _LoginPage extends State<Login> {
                     if (!_errorDetector) {
                       if (obj.signin(
                           nameController.text, passwordController.text)) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => adminPanels()),
-                        );
+                        GetData();
                       } else {
                         setState(() {
                           _signin = 'Your email or password wrong!';
@@ -207,12 +205,14 @@ class _LoginPage extends State<Login> {
                     style: TextStyle(color: Colors.green),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => forgetPass(),
-                      ),
-                    );
+                    GetData();
+
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => forgetPass(),
+                    //   ),
+                    // );
                     // Navigator.pop(context);
                   },
                 ),
@@ -223,5 +223,43 @@ class _LoginPage extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future GetData() async {
+    //jkh
+    final App = await FirebaseFirestore.instance.collection('admin');
+    App.get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        print(doc["email"] + doc["password"]);
+        // setState(() {});
+        if (nameController.text == doc['email'] &&
+            passwordController.text == doc['password']) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => adminPanels()),
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // return object of type Dialog
+              return AlertDialog(
+                title: new Text("Vet Care App"),
+                content: new Text("Email and password went gone wrong"),
+                actions: <Widget>[
+                  // usually buttons at the bottom of the dialog
+                  new FlatButton(
+                    child: new Text("Close"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      });
+    });
   }
 }
