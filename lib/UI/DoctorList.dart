@@ -1,44 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vet_care_app/UI/FlateListData.dart';
 
 class doctors {
   String doctorName;
-  bool onlineNow;
+  String onlineNow;
   // String img;
   doctors(this.doctorName, this.onlineNow);
 }
 
-List<doctors> obj = [
-  doctors("Dr.Rizwan", true),
-  doctors("Dr.Ali", true),
-  doctors("Dr.Farhana", false),
-  doctors("Dr.Hussnain", true),
-  doctors("Dr.Rizwan", true),
-  doctors("Dr.Ali", true),
-  doctors("Dr.Farhana", false),
-  doctors("Dr.Hussnain", true),
-  doctors("Dr.Rizwan", true),
-  doctors("Dr.Ali", true),
-  doctors("Dr.Farhana", false),
-  doctors("Dr.Hussnain", true),
-  doctors("Dr.Rizwan", true),
-  doctors("Dr.Ali", true),
-  doctors("Dr.Farhana", false),
-  doctors("Dr.Hussnain", true),
-  doctors("Dr.Rizwan", true),
-  doctors("Dr.Ali", true),
-  doctors("Dr.Farhana", false),
-  doctors("Dr.Hussnain", true),
-  doctors("Dr.Rizwan", true),
-  doctors("Dr.Ali", true),
-  doctors("Dr.Farhana", false),
-  doctors("Dr.Hussnain", true),
-  doctors("Dr.Rizwan", true),
-  doctors("Dr.Ali", true),
-  doctors("Dr.Farhana", false),
-  doctors("Dr.Hussnain", true),
-];
+List<doctors> obj = [];
+
 List<doctors> BlockedDoctor = [];
+final app = FirebaseFirestore.instance.collection('doctor').get();
+// List<doctors> obj2 = [];
 
 class doctorLists extends StatefulWidget {
   const doctorLists({Key? key}) : super(key: key);
@@ -48,17 +23,45 @@ class doctorLists extends StatefulWidget {
 }
 
 class _doctorListsState extends State<doctorLists> {
+  // List<doctors> NewArray = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    obj.add(doctors("Dr.Hassan", true));
+    app.then((QuerySnapshot querySnapshot) => {
+          obj = [],
+          querySnapshot.docs.forEach((element) {
+            setState(() {
+              obj.add(doctors(element['name'], element['status']));
+            });
+          })
+          // GetData();
+        });
+    // getValues();
+    // setState(() {
+    //   obj = [];
+
+    //   // NewArray =  obj;
+    // });
+  }
+
+  Future getValues() async {
+    obj = [];
+    await app.then((QuerySnapshot querySnapshot) => {
+          querySnapshot.docs.forEach((element) {
+            print(element['name'] + element['status']);
+
+            obj.add(doctors(element['name'], element['status']));
+          })
+          // GetData();
+        });
+    // GetData();
     BlockedDoctor = [];
   }
 
   Widget build(BuildContext context) {
     return Container(
       child: ListView.builder(
+        shrinkWrap: true,
         itemCount: obj.length,
         itemBuilder: (context, index) {
           return doctorAccess(
@@ -76,10 +79,10 @@ class doctorAccess extends StatefulWidget {
   const doctorAccess({
     Key? key,
     this.doctorName = '',
-    this.onlineNow = true,
+    this.onlineNow = '',
     this.ind = -1,
   }) : super(key: key);
-  final bool onlineNow;
+  final String onlineNow;
   final String doctorName;
   final int ind;
 
@@ -100,13 +103,11 @@ class _doctorAccessState extends State<doctorAccess> {
             FlatButton(
               minWidth: double.infinity,
               onPressed: () {
-                setState(() {
-                  BlockedDoctor.add(obj[widget.ind]);
-                  obj.removeAt(widget.ind);
-                });
                 Navigator.pop(context);
               },
-              child: Text('Block'),
+              child: widget.onlineNow == 'Unblock'
+                  ? Text('block')
+                  : Text('unblock'),
             ),
           ],
         ),
@@ -114,24 +115,21 @@ class _doctorAccessState extends State<doctorAccess> {
       child: Column(
         children: [
           ListTile(
-            leading: Container(
-              height: 50,
-              width: 50,
-              child: Icon(Icons.punch_clock),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
+              leading: Container(
+                height: 50,
+                width: 50,
+                child: Icon(Icons.punch_clock),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
               ),
-            ),
-            title: Text(widget.doctorName),
-            subtitle: widget.onlineNow == true
-                ? Text(
-                    'Online',
-                    style: TextStyle(
-                      color: Colors.green[400],
-                    ),
-                  )
-                : Text(''),
-          ),
+              title: Text(widget.doctorName),
+              subtitle: Text(
+                widget.onlineNow,
+                style: TextStyle(
+                  color: Colors.green[400],
+                ),
+              )),
           Divider(
             height: 0,
             thickness: 1,

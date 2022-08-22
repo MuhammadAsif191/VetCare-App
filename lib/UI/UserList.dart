@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class users {
   String userName;
-  bool onlineNow;
+  String onlineNow;
   // String img;
   users(this.userName, this.onlineNow);
 }
+
+final app = FirebaseFirestore.instance.collection('users').get();
 
 class userLists extends StatefulWidget {
   const userLists({Key? key}) : super(key: key);
@@ -14,43 +17,28 @@ class userLists extends StatefulWidget {
   State<userLists> createState() => _userListsState();
 }
 
-List<users> obj = [
-  users("Ihtisham", true),
-  users("Ali", true),
-  users("Farhana_but", false),
-  users("Hussnain_guru", true),
-  users("Sheraz_Khalid", true),
-  users("Ihtisham", false),
-  users("Ali", true),
-  users("Farhana_but", false),
-  users("Hussnain_guru", true),
-  users("Sheraz_Khalid", false),
-  users("Ihtisham", true),
-  users("Ali", true),
-  users("Farhana_but", false),
-  users("Hussnain_guru", true),
-  users("Sheraz_Khalid", true),
-  users("Ihtisham", false),
-  users("Ali", true),
-  users("Farhana_but", false),
-  users("Hussnain_guru", false),
-  users("Sheraz_Khalid", true),
-  users("Ihtisham", true),
-  users("Ali", false),
-  users("Farhana_but", false),
-  users("Hussnain_guru", true),
-  users("Sheraz_Khalid", true),
-];
-List<users> BlockedUser = [];
+List<users> obj = [];
+// List<users> BlockedUser = [];
 
 class _userListsState extends State<userLists> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    obj.add(users("Sheraz_Khalid", true));
+    app.then((QuerySnapshot querySnapshot) => {
+          print("object"),
+          obj = [],
+          querySnapshot.docs.forEach((element) {
+            print(element['name'] + element['status']);
+            setState(() {
+              obj.add(users(element['name'], element['status']));
+            });
+          })
+        });
 
-    BlockedUser = [];
+    // obj.add(users("Sheraz_Khalid", true));
+
+    // BlockedUser = [];
   }
 
   Widget build(BuildContext context) {
@@ -71,10 +59,10 @@ class userAccess extends StatefulWidget {
   const userAccess({
     Key? key,
     this.userName = '',
-    this.onlineNow = true,
+    this.onlineNow = '',
     this.ind = -1,
   }) : super(key: key);
-  final bool onlineNow;
+  final String onlineNow;
   final String userName;
   final int ind;
 
@@ -96,12 +84,14 @@ class _userAccessState extends State<userAccess> {
               minWidth: double.infinity,
               onPressed: () {
                 setState(() {
-                  BlockedUser.add(obj[widget.ind]);
-                  obj.removeAt(widget.ind);
+                  // BlockedUser.add(obj[widget.ind]);
+                  // obj.removeAt(widget.ind);
                 });
                 Navigator.pop(context);
               },
-              child: Text('Block'),
+              child: widget.onlineNow == 'Unblock'
+                  ? Text('block')
+                  : Text('unblock'),
             ),
           ],
         ),
@@ -118,14 +108,17 @@ class _userAccessState extends State<userAccess> {
               ),
             ),
             title: Text(widget.userName),
-            subtitle: widget.onlineNow == true
+            subtitle: widget.onlineNow == 'Unblock'
                 ? Text(
-                    'Online',
+                    widget.onlineNow,
                     style: TextStyle(
                       color: Colors.green[400],
                     ),
                   )
-                : Text(''),
+                : Text(
+                    '${widget.onlineNow}',
+                    style: TextStyle(color: Colors.green[400]),
+                  ),
           ),
           Divider(
             height: 0,
