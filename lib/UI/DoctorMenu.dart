@@ -8,6 +8,8 @@ import 'ViewUser.dart';
 import 'DoctorPaymentCardDetail.dart';
 
 class DoctorMenu extends StatefulWidget {
+  DoctorMenu({required this.DoctorName});
+  final String DoctorName;
   @override
   State<DoctorMenu> createState() => DoctorMenuPage();
 }
@@ -55,7 +57,7 @@ class DoctorMenuPage extends State<DoctorMenu> {
                   ),
                   Container(
                     child: Text(
-                      User,
+                      widget.DoctorName,
                       style: TextStyle(color: Colors.green, fontSize: 20),
                     ),
                   ),
@@ -113,7 +115,7 @@ class DoctorMenuPage extends State<DoctorMenu> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => PostSolutionDoctor(
-                                DoctorName: User,
+                                DoctorName: widget.DoctorName,
                               ),
                             ),
                           );

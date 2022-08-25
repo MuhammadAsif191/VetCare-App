@@ -22,6 +22,7 @@ class _DoctorLoginPage extends State<DoctorLogin> {
   bool _errorDetector = false;
   String password = '';
   String _signin = '';
+  String Username = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -234,10 +235,12 @@ class _DoctorLoginPage extends State<DoctorLogin> {
     app.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((element) {
             if (element['email'] == nameController.text) {
+              Username = element['name'];
               if (element["status"] == 'Unblock') {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DoctorMenu()),
+                  MaterialPageRoute(
+                      builder: (context) => DoctorMenu(DoctorName: Username)),
                 );
               } else {
                 showDialog(
