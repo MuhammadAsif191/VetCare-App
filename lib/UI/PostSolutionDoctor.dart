@@ -48,7 +48,6 @@ class _PostSolutionDoctorPage extends State<PostSolutionDoctor> {
                   description: element['Description'],
                   picturePath: element['image'],
                   likes: 200));
-              // allData.add(FlateListUser(element['name'], element['status']));
             });
           })
           // GetData();
