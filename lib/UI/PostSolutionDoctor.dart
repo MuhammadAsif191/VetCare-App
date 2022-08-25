@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 Reference get firebaseStorage => FirebaseStorage.instance.ref();
+final app = FirebaseFirestore.instance.collection('Post').get();
 
 class FlateListUser {
   FlateListUser({
@@ -22,25 +23,7 @@ class FlateListUser {
   int likes;
 }
 
-List<FlateListUser> allData = [
-  FlateListUser(
-    userName: 'Qasim',
-    description: 'this Feaver is veru dangerous',
-    picturePath: 'images/Doctor.jpeg',
-    likes: 5,
-  ),
-  FlateListUser(
-    userName: 'Qasim',
-    description: 'this Feaver is veru dangerous',
-    picturePath: 'images/Hospital.jpeg',
-    likes: 225,
-  ),
-  FlateListUser(
-      userName: 'Qasim',
-      description: 'this Feaver is veru dangerous',
-      picturePath: 'images/Doctor.jpeg',
-      likes: 2546),
-];
+List<FlateListUser> allData = [];
 
 class PostSolutionDoctor extends StatefulWidget {
   PostSolutionDoctor({required this.DoctorName});
@@ -55,7 +38,21 @@ class _PostSolutionDoctorPage extends State<PostSolutionDoctor> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    allData;
+    app.then((QuerySnapshot querySnapshot) => {
+          allData = [],
+          querySnapshot.docs.forEach((element) {
+            print(element['email']);
+            setState(() {
+              allData.add(FlateListUser(
+                  userName: element['email'],
+                  description: element['Description'],
+                  picturePath: element['image'],
+                  likes: 200));
+              // allData.add(FlateListUser(element['name'], element['status']));
+            });
+          })
+          // GetData();
+        });
   }
 
   Widget build(BuildContext context) {
@@ -97,7 +94,7 @@ class _PostSolutionDoctorPage extends State<PostSolutionDoctor> {
               itemBuilder: (BuildContext ctxt, int index) {
                 return hospitalList(
                   userName: allData[index].userName,
-                  description: widget.DoctorName,
+                  description: allData[index].description,
                   pic: allData[index].picturePath,
                   likes: allData[index].likes,
                   index: index,
@@ -237,7 +234,7 @@ class _hospitalListState extends State<hospitalList> {
             ),
             Container(
               height: 250,
-              child: Image.asset(widget.pic),
+              child: Image.network(widget.pic),
             ),
             SizedBox(
               height: 20,
@@ -517,12 +514,13 @@ class _CreatePostState extends State<CreatePost> {
     PickedFile image;
     //Check Permission
     //Select Image
+    int date = DateTime.now().microsecondsSinceEpoch;
     var file = File(_image.path);
 
     if (_image != null) {
       //Upload to Firebase
       var snapshot =
-          await _firebaseStorage.ref().child('images/imageName').putFile(file);
+          await _firebaseStorage.ref().child("${date}/").putFile(file);
       var downloadUrl = await snapshot.ref.getDownloadURL();
       // print(downloadUrl);
       AddDatainFIrebase(downloadUrl);
