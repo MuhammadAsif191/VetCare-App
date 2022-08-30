@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -14,32 +15,18 @@ class Message {
 }
 
 class complaintBox extends StatefulWidget {
-  const complaintBox({Key? mykey, required this.DoctorName})
+  const complaintBox(
+      {Key? mykey, required this.DoctorName, required this.Email})
       : super(key: mykey);
   final String DoctorName;
+  final String Email;
 
   @override
   complaintBoxPage createState() => complaintBoxPage();
 }
 
 class complaintBoxPage extends State<complaintBox> {
-  List<Message> message = [
-    Message(
-      text: 'Yes Sure',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
-      isSentByMe: false,
-    ),
-    Message(
-      text: 'No don\'t worry',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
-      isSentByMe: true,
-    ),
-    Message(
-      text: 'great',
-      date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
-      isSentByMe: false,
-    ),
-  ];
+  List<Message> message = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -114,6 +101,15 @@ class complaintBoxPage extends State<complaintBox> {
   Widget bottomBar(BuildContext context) {
     var size = MediaQuery.of(context).size;
     TextEditingController chatValue = new TextEditingController();
+
+    Future AddDatainFIrebase() async {
+      FirebaseFirestore.instance.collection('Complains').doc().set({
+        "Submitted_By": widget.Email,
+        "Doctor_Name": widget.DoctorName,
+        "Complain": chatValue.text
+      }).then((value) => Navigator.pop(context));
+    }
+
     return Container(
       width: size.width,
       height: 60,
@@ -133,6 +129,7 @@ class complaintBoxPage extends State<complaintBox> {
           ),
           FloatingActionButton(
             onPressed: () {
+              print(widget.Email);
               setState(() {
                 if (chatValue.text != '')
                   message.add(
@@ -143,6 +140,7 @@ class complaintBoxPage extends State<complaintBox> {
                       isSentByMe: false,
                     ),
                   );
+                AddDatainFIrebase();
               });
             },
             child: Icon(

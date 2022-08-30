@@ -123,7 +123,8 @@ class UserMenuPage extends State<UserMenu> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ComplaintsDoctor()),
+                          builder: (context) =>
+                              ComplaintsDoctor(Email: widget.Email)),
                     );
                   },
                 ),

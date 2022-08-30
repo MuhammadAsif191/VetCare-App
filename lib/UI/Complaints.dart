@@ -1,44 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'FlateListData.dart';
 import 'ComplainBox.dart';
 
 class ComplaintsDoctor extends StatefulWidget {
-  ComplaintsDoctor({Key? key}) : super(key: key);
+  ComplaintsDoctor({required this.Email});
+
+  // ComplaintsDoctor({Key? key}) : super(key: key);
+  final String Email;
   @override
   State<ComplaintsDoctor> createState() => _HospitalPage();
 }
 
 class _HospitalPage extends State<ComplaintsDoctor> {
-  final List<FlateListData> allData = [
-    FlateListData(
-      3,
-      "Dr.Rizwan",
-      '3101 N Tarrant Pkwy',
-      100,
-      '5:00',
-    ),
-    FlateListData(
-      4,
-      "Dr.Ali",
-      '3101 N Tarrant Pkwy',
-      120,
-      '00:12',
-    ),
-    FlateListData(
-      2,
-      "Dr.Aysha",
-      '3101 N Tarrant Pkwy',
-      1000,
-      '6:00',
-    ),
-    FlateListData(
-      3,
-      "Dr.Alya",
-      '3101 N Tarrant Pkwy',
-      50,
-      '00:49',
-    ),
-  ];
+  List<FlateListData> allData = [];
 
   Map<dynamic, dynamic> get newMethod {
     return {
@@ -55,12 +30,26 @@ class _HospitalPage extends State<ComplaintsDoctor> {
   TextEditingController searchController = TextEditingController();
   Icon CostumIcon = Icon(Icons.search);
   bool IconControl = false;
+  var Email = 'Temp';
   Widget TextInput = Text('Complaints');
   @override
   void initState() {
     super.initState();
+    var app = FirebaseFirestore.instance.collection('doctor').get();
+
+    app.then((QuerySnapshot querySnapshot) => {
+          // allData=[],
+          allData = [],
+          querySnapshot.docs.forEach((element) {
+            print(element['name']);
+            setState(() {
+              allData.add(FlateListData(0, element['name'], '', 0, ''));
+            });
+          })
+        });
     setState(() {
       foundList = allData;
+      Email = widget.Email;
     });
   }
 
@@ -131,17 +120,19 @@ class _HospitalPage extends State<ComplaintsDoctor> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                    child: foundList.length > 0
+                    child: allData.length > 0
                         ? ListView.builder(
                             scrollDirection: Axis.vertical,
-                            itemCount: foundList.length,
+                            itemCount: allData.length,
                             itemBuilder: (BuildContext ctxt, int index) {
                               return hospitalList(
-                                mint: foundList[index].time,
-                                titleName: foundList[index].titleName,
-                                countRating: foundList[index].countRating,
-                                rating: foundList[index].rating,
-                                location: foundList[index].location,
+                                mint: allData[index].time,
+                                titleName: allData[index].titleName,
+                                EmailUser: widget.Email,
+                                // Email:widget.Email;
+                                // countRating: allData[index].countRating,
+                                // rating: allData[index].rating,
+                                // location: allData[index].location,
                               );
                             },
                           )
@@ -164,18 +155,19 @@ class _HospitalPage extends State<ComplaintsDoctor> {
 }
 
 class hospitalList extends StatelessWidget {
-  hospitalList({
-    this.mint = '12:12',
-    this.titleName = 'hello',
-    this.location = 'asif',
-    this.rating = 1,
-    this.countRating = 3,
-  });
+  hospitalList(
+      {this.mint = '12:12',
+      this.titleName = 'hello',
+      this.location = 'asif',
+      this.rating = 1,
+      this.countRating = 3,
+      this.EmailUser = ''});
   String mint;
   int countRating;
   String titleName;
   String location;
   int rating;
+  String EmailUser;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -185,7 +177,8 @@ class hospitalList extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => complaintBox(DoctorName: titleName)),
+                builder: (context) =>
+                    complaintBox(DoctorName: titleName, Email: this.EmailUser)),
           );
         },
         style: ButtonStyle(
