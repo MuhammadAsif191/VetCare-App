@@ -12,7 +12,6 @@ class doctors {
 List<doctors> obj = [];
 
 List<doctors> BlockedDoctor = [];
-final app = FirebaseFirestore.instance.collection('doctor').get();
 // List<doctors> obj2 = [];
 
 class doctorLists extends StatefulWidget {
@@ -27,9 +26,13 @@ class _doctorListsState extends State<doctorLists> {
   @override
   void initState() {
     super.initState();
+    var app = FirebaseFirestore.instance.collection('doctor').get();
+
     app.then((QuerySnapshot querySnapshot) => {
           obj = [],
+
           querySnapshot.docs.forEach((element) {
+            print(element['name']);
             setState(() {
               obj.add(doctors(element['name'], element['status']));
             });
@@ -42,20 +45,6 @@ class _doctorListsState extends State<doctorLists> {
 
     //   // NewArray =  obj;
     // });
-  }
-
-  Future getValues() async {
-    obj = [];
-    await app.then((QuerySnapshot querySnapshot) => {
-          querySnapshot.docs.forEach((element) {
-            print(element['name'] + element['status']);
-
-            obj.add(doctors(element['name'], element['status']));
-          })
-          // GetData();
-        });
-    // GetData();
-    BlockedDoctor = [];
   }
 
   Widget build(BuildContext context) {

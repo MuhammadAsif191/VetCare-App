@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'FlateListData.dart';
 import 'MakeCall.dart';
@@ -9,36 +10,7 @@ class Hospital extends StatefulWidget {
 }
 
 class _HospitalPage extends State<Hospital> {
-  final List<FlateListData> allData = [
-    FlateListData(
-      3,
-      "Dr.Rizwan",
-      '3101 N Tarrant Pkwy',
-      100,
-      '5:00',
-    ),
-    FlateListData(
-      4,
-      "Dr.Sajid",
-      '3101 N Tarrant Pkwy',
-      120,
-      '00:12',
-    ),
-    FlateListData(
-      2,
-      "Dr.Maryam",
-      '3101 N Tarrant Pkwy',
-      1000,
-      '6:00',
-    ),
-    FlateListData(
-      3,
-      "Dr.Ali",
-      '3101 N Tarrant Pkwy',
-      50,
-      '00:49',
-    ),
-  ];
+  List<FlateListData> allData = [];
 
   Map<dynamic, dynamic> get newMethod {
     return {
@@ -59,6 +31,17 @@ class _HospitalPage extends State<Hospital> {
   @override
   void initState() {
     super.initState();
+    var app = FirebaseFirestore.instance.collection('doctor').get();
+
+    app.then((QuerySnapshot querySnapshot) => {
+          allData = [],
+          querySnapshot.docs.forEach((element) {
+            print(element['email']);
+            setState(() {
+              allData.add(FlateListData(0, element['name'], '', 0, ''));
+            });
+          })
+        });
     setState(() {
       foundList = allData;
     });
@@ -125,17 +108,17 @@ class _HospitalPage extends State<Hospital> {
             ),
           ),
           Expanded(
-            child: foundList.length > 0
+            child: allData.length > 0
                 ? ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: foundList.length,
+                    itemCount: allData.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return hospitalList(
-                        mint: foundList[index].time,
-                        titleName: foundList[index].titleName,
-                        countRating: foundList[index].countRating,
-                        rating: foundList[index].rating,
-                        location: foundList[index].location,
+                        mint: allData[index].time,
+                        titleName: allData[index].titleName,
+                        // countRating: foundList[index].countRating,
+                        // rating: foundList[index].rating,
+                        // location: foundList[index].location,
                       );
                     },
                   )
@@ -220,65 +203,6 @@ class hospitalList extends StatelessWidget {
                           color: Colors.grey[500],
                         ),
                       ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          child: (countRating < 1)
-                              ? Icon(
-                                  Icons.star_border,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
-                        ),
-                        Container(
-                          child: (countRating < 2)
-                              ? Icon(
-                                  Icons.star_border,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
-                        ),
-                        Container(
-                          child: (countRating < 3)
-                              ? Icon(
-                                  Icons.star_border,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
-                        ),
-                        Container(
-                          child: (countRating < 4)
-                              ? Icon(
-                                  Icons.star_border,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
-                        ),
-                        Container(
-                          child: (countRating < 5)
-                              ? Icon(
-                                  Icons.star_border,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
-                        ),
-                      ],
                     ),
                   ],
                 ),

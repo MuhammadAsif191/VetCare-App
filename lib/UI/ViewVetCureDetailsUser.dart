@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class FlateListUser {
@@ -13,26 +14,6 @@ class FlateListUser {
   int likes;
 }
 
-List<FlateListUser> allData = [
-  FlateListUser(
-    userName: 'Qasim',
-    description: 'this Feaver is veru dangerous',
-    picturePath: 'images/Doctor.jpeg',
-    likes: 5,
-  ),
-  FlateListUser(
-    userName: 'Qasim',
-    description: 'this Feaver is veru dangerous',
-    picturePath: 'images/Hospital.jpeg',
-    likes: 225,
-  ),
-  FlateListUser(
-      userName: 'Qasim',
-      description: 'this Feaver is veru dangerous',
-      picturePath: 'images/Doctor.jpeg',
-      likes: 2546),
-];
-
 class ViewSolutionUser extends StatefulWidget {
   ViewSolutionUser({required this.UserName});
   final String UserName;
@@ -41,6 +22,7 @@ class ViewSolutionUser extends StatefulWidget {
 }
 
 class _ViewSolutionUserPage extends State<ViewSolutionUser> {
+  List<FlateListUser> allData = [];
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -48,6 +30,22 @@ class _ViewSolutionUserPage extends State<ViewSolutionUser> {
     // TODO: implement initState
     super.initState();
     allData;
+    var app = FirebaseFirestore.instance.collection('Post').get();
+
+    app.then((QuerySnapshot querySnapshot) => {
+          allData = [],
+          querySnapshot.docs.forEach((element) {
+            print(element['email']);
+            setState(() {
+              allData.add(FlateListUser(
+                  userName: element['email'],
+                  description: element['Description'],
+                  picturePath: element['image'],
+                  likes: 200));
+            });
+          })
+          // GetData();
+        });
   }
 
   Widget build(BuildContext context) {
@@ -103,7 +101,6 @@ class _PostLisysState extends State<PostLisys> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    allData;
   }
 
   Widget build(BuildContext context) {
@@ -177,7 +174,7 @@ class _PostLisysState extends State<PostLisys> {
           ),
           Container(
             height: 250,
-            child: Image.asset(widget.pic),
+            child: Image.network(widget.pic),
           ),
           SizedBox(
             height: 20,

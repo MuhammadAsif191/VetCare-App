@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 Reference get firebaseStorage => FirebaseStorage.instance.ref();
-final app = FirebaseFirestore.instance.collection('Post').get();
 
 class FlateListUser {
   FlateListUser({
@@ -38,6 +37,8 @@ class _PostSolutionDoctorPage extends State<PostSolutionDoctor> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    var app = FirebaseFirestore.instance.collection('Post').get();
+
     app.then((QuerySnapshot querySnapshot) => {
           allData = [],
           querySnapshot.docs.forEach((element) {

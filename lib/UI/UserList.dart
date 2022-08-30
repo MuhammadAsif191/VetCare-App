@@ -8,8 +8,6 @@ class users {
   users(this.userName, this.onlineNow);
 }
 
-final app = FirebaseFirestore.instance.collection('users').get();
-
 class userLists extends StatefulWidget {
   const userLists({Key? key}) : super(key: key);
 
@@ -25,6 +23,8 @@ class _userListsState extends State<userLists> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    var app = FirebaseFirestore.instance.collection('users').get();
+
     app.then((QuerySnapshot querySnapshot) => {
           print("object"),
           obj = [],
