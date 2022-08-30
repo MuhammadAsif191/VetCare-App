@@ -226,10 +226,14 @@ class _LoginPage extends State<Login> {
     app.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((element) {
             if (element['email'] == nameController.text) {
+              var Username = element['name'];
+
               if (element["status"] == 'Unblock') {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UserMenu()),
+                  MaterialPageRoute(
+                      builder: (context) => UserMenu(
+                          Username: Username, Email: element['email'])),
                 );
               } else {
                 showDialog(

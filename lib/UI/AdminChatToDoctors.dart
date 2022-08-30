@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'AdminComplaintsToDoctors.dart';
@@ -16,37 +17,25 @@ class doctorsChatList extends StatefulWidget {
 }
 
 class _doctorsChatListState extends State<doctorsChatList> {
-  List<doctorsChat> obj = [
-    doctorsChat("Dr.Rizwan"),
-    doctorsChat("Dr.Ali"),
-    doctorsChat("Dr.Farhana"),
-    doctorsChat("Dr.Hussnain"),
-    doctorsChat("Dr.Rizwan"),
-    doctorsChat("Dr.Ali"),
-    doctorsChat("Dr.Farhana"),
-    doctorsChat("Dr.Hussnain"),
-    doctorsChat("Dr.Rizwan"),
-    doctorsChat("Dr.Ali"),
-    doctorsChat("Dr.Farhana"),
-    doctorsChat("Dr.Hussnain"),
-    doctorsChat("Dr.Rizwan"),
-    doctorsChat("Dr.Ali"),
-    doctorsChat("Dr.Farhana"),
-    doctorsChat("Dr.Hussnain"),
-    doctorsChat("Dr.Rizwan"),
-    doctorsChat("Dr.Ali"),
-    doctorsChat("Dr.Farhana"),
-    doctorsChat("Dr.Hussnain"),
-    doctorsChat("Dr.Rizwan"),
-    doctorsChat("Dr.Ali"),
-    doctorsChat("Dr.Farhana"),
-    doctorsChat("Dr.Hussnain"),
-    doctorsChat("Dr.Rizwan"),
-    doctorsChat("Dr.Ali"),
-    doctorsChat("Dr.Farhana"),
-    doctorsChat("Dr.Hussnain"),
-  ];
+  List<doctorsChat> obj = [];
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var app = FirebaseFirestore.instance.collection('doctor').get();
+
+    app.then((QuerySnapshot querySnapshot) => {
+          querySnapshot.docs.forEach((element) {
+            print(element['email']);
+            setState(() {
+              // obj.add(doctorsChat(doctorName: element['name']));
+              obj.add(doctorsChat(element['name']));
+            });
+            // GetData();
+          })
+        });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

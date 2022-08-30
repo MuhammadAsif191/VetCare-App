@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'MyAccountMessagesPersons.dart';
 import 'MyAcountQAndA.dart';
+import 'dart:io';
 
 class profile {
   profile({
@@ -33,14 +37,7 @@ class MyAccountMainScreen extends StatefulWidget {
 
 class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
   profile profileData = profile(img: 'images/Doctor.jpeg', shopName: 'daraz');
-  List<SellerProducts> myProductData = [
-    SellerProducts(
-      img: 'images/Doctor.jpeg',
-      Shipping: 'Pakistan',
-      price: 600,
-      productName: 'Cough',
-    ),
-  ];
+  List<SellerProducts> myProductData = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -48,6 +45,23 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
     setState(() {
       myProductData;
     });
+    var app = FirebaseFirestore.instance.collection('StorProducts').get();
+
+    app.then((QuerySnapshot querySnapshot) => {
+          // myProductData = [],
+          querySnapshot.docs.forEach((element) {
+            print(element['P_Name']);
+            // setState(() {
+            //   myProductData.add(SellerProducts(
+            //     img: element['image'],
+            //     Shipping: element['Country'],
+            //     price: 0,
+            //     productName: element['P_Name'],
+            //   ));
+            // });
+          })
+          // GetData();
+        });
   }
 
   Widget build(BuildContext context) {
@@ -146,7 +160,7 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
             padding: EdgeInsets.only(left: 20, top: 20),
             alignment: Alignment.topLeft,
             child: Text(
-              'My Prducts',
+              'Prducts',
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -179,17 +193,85 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
     TextEditingController productPrice = new TextEditingController();
     TextEditingController productImg = new TextEditingController();
     TextEditingController productShipping = new TextEditingController();
+    File _image = new File('/dev/null');
+    @override
+    Future getImage() async {
+      final image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 25,
+      );
+      if (image == null) {
+        print('failed');
+        return;
+      }
+
+      setState(() {
+        var imageTemporary = File(image.path);
+        _image = imageTemporary;
+        print('Not Null');
+        print('${image.path}');
+        print('Pathe::Printed');
+      });
+    }
+
+    void AddDatainFIrebase(String val) async {
+      // print("object");
+      // print(val);
+      // print(widget.DocName);
+      FirebaseFirestore.instance.collection('StorProducts').doc().set({
+        "image": val,
+        "Price": productPrice.text,
+        "P_Name": productName.text,
+        "Country": productShipping.text
+      }).then((value) => Navigator.pop(context));
+    }
+
+    Future uploadImageToFirebase() async {
+      final _firebaseStorage = FirebaseStorage.instance;
+      PickedFile image;
+      //Check Permission
+      //Select Image
+      int date = DateTime.now().microsecondsSinceEpoch;
+      var file = File(_image.path);
+
+      if (_image != null) {
+        //Upload to Firebase
+        var snapshot =
+            await _firebaseStorage.ref().child("${date}/").putFile(file);
+        var downloadUrl = await snapshot.ref.getDownloadURL();
+        print(downloadUrl);
+        AddDatainFIrebase(downloadUrl);
+      } else {
+        print('No Image Path Received');
+      }
+    }
+
     return ListView(
       padding: EdgeInsets.all(20),
       children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: 20, bottom: 20),
-          height: 100,
-          alignment: Alignment.center,
-          // color: Colors.red,
-          child: Icon(
-            Icons.add_a_photo_outlined,
-            size: 100,
+        GestureDetector(
+          onTap: () {
+            print("object");
+
+            setState(() {
+              print('hello');
+              getImage();
+            });
+          },
+          child: Container(
+            margin: EdgeInsets.only(top: 20, bottom: 20),
+            height: 100,
+            alignment: Alignment.center,
+            // color: Colors.red,
+            child: _image.path != '/dev/null'
+                ? Image.file(
+                    _image,
+                    fit: BoxFit.cover,
+                  )
+                : Icon(
+                    Icons.add_a_photo_outlined,
+                    size: 100,
+                  ),
           ),
         ),
         Container(
@@ -231,18 +313,21 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
             ),
           ),
         ),
-        Container(
-          height: 70,
-          // width: 50,
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(left: 50, right: 50, top: 20),
-          decoration: BoxDecoration(
-            color: Colors.green[500],
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            'Submit',
-            style: TextStyle(color: Colors.white, fontSize: 25),
+        GestureDetector(
+          onTap: (() => {uploadImageToFirebase()}),
+          child: Container(
+            height: 70,
+            // width: 50,
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(left: 50, right: 50, top: 20),
+            decoration: BoxDecoration(
+              color: Colors.green[500],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              'Submit',
+              style: TextStyle(color: Colors.white, fontSize: 25),
+            ),
           ),
         ),
       ],
@@ -291,7 +376,7 @@ class MyProducts extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Image.asset(imageLoc),
+                child: Image.network(imageLoc),
               ),
             ),
             Padding(

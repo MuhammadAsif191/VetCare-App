@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Profiles extends StatefulWidget {
+  Profiles({required this.UserName, required this.Email});
+  final String UserName;
+  final String Email;
   @override
   State<Profiles> createState() => myProfile();
 }
@@ -18,9 +21,9 @@ class myProfile extends State<Profiles> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    name = "Sheraz Khalid";
-    email = "sherazkhalid123@gmail.com";
-    number = '+923008546933';
+    name = widget.UserName;
+    email = widget.Email;
+    number = 'Temp Number';
     address = 'Punjab, Gujrat, Marghazasr';
   }
 

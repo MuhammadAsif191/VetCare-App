@@ -10,6 +10,12 @@ import 'ViewVetCureDetailsUser.dart';
 import 'viewCureDetail.dart';
 
 class UserMenu extends StatefulWidget {
+  UserMenu({required this.Username, required this.Email});
+  // UserMenu({required this.Email})
+
+  final String Username;
+  final String Email;
+
   @override
   State<UserMenu> createState() => UserMenuPage();
 }
@@ -55,7 +61,7 @@ class UserMenuPage extends State<UserMenu> {
                 ),
                 Container(
                   child: Text(
-                    User,
+                    widget.Username,
                     style: TextStyle(color: Colors.green, fontSize: 20),
                   ),
                 ),
@@ -83,28 +89,9 @@ class UserMenuPage extends State<UserMenu> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Profiles()),
-                    );
-                  },
-                ),
-              ),
-              Expanded(
-                child: FlatButton(
-                  child: Container(
-                    child: UserCard(
-                      Notification: CureDetailsNoti,
-                      icon: Icon(Icons.payment),
-                      text: 'Make Payment',
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => userpayments()),
+                      MaterialPageRoute(
+                          builder: (context) => Profiles(
+                              UserName: widget.Username, Email: widget.Email)),
                     );
                   },
                 ),
