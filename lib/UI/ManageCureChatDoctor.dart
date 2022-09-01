@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:vet_care_app/UI/ProductDetail.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Message {
   final String text;
@@ -15,9 +16,15 @@ class Message {
 }
 
 class ManageCureDoctorMessageClassed extends StatefulWidget {
-  const ManageCureDoctorMessageClassed({Key? mykey, required this.DoctorName})
+  const ManageCureDoctorMessageClassed(
+      {Key? mykey,
+      required this.userMail,
+      required this.DoctorName,
+      required this.idname})
       : super(key: mykey);
   final String DoctorName;
+  final String userMail;
+  final String idname;
 
   @override
   ManageCureDoctorMessageClassedPage createState() =>
@@ -26,25 +33,14 @@ class ManageCureDoctorMessageClassed extends StatefulWidget {
 
 class ManageCureDoctorMessageClassedPage
     extends State<ManageCureDoctorMessageClassed> {
-  List<Message> message = [
-    Message(
-      text: 'Yes Sure',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
-      isSentByMe: false,
-    ),
-    Message(
-      text: 'No don\'t worry',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
-      isSentByMe: true,
-    ),
-    Message(
-      text: 'great',
-      date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
-      isSentByMe: false,
-    ),
-  ];
+  List<Message> message = [];
   bool meetingButton = true;
   TextEditingController meetingLocation = new TextEditingController();
+  IO.Socket socket =
+      IO.io('https://mix-chat-1.herokuapp.com/', <String, dynamic>{
+    "transports": ["websocket"],
+    "autoconnect": false,
+  });
   @override
   void initState() {
     // TODO: implement initState
@@ -52,6 +48,26 @@ class ManageCureDoctorMessageClassedPage
     message;
     meetingLocation.text = '';
     meetingButton = true;
+    Connect();
+  }
+
+  void Connect() {
+    socket.connect();
+    socket.onConnect((data) => print(socket.id));
+    socket.emit("register", widget.idname);
+    socket.onConnect((data) {
+      print(socket.id);
+      print(widget.idname + ">>" + widget.userMail);
+      socket.on('private_chat', (msg) {
+        print(msg["message"]["msg"]);
+        setState(() {
+          message.add(Message(
+              text: msg["message"]["msg"],
+              date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+              isSentByMe: true));
+        });
+      });
+    });
   }
 
   @override
@@ -182,6 +198,11 @@ class ManageCureDoctorMessageClassedPage
   Widget bottomBar(BuildContext context) {
     var size = MediaQuery.of(context).size;
     TextEditingController chatValue = new TextEditingController();
+    void sendMessage(user, friend, message) {
+      socket.emit(
+          'private_chat', {"user": user, "friend": friend, "message": message});
+    }
+
     return Container(
       width: size.width,
       height: 60,
@@ -211,6 +232,7 @@ class ManageCureDoctorMessageClassedPage
                       isSentByMe: false,
                     ),
                   );
+                sendMessage(widget.idname, widget.userMail, chatValue.text);
               });
             },
             child: Icon(

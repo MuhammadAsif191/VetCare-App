@@ -1,16 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vet_care_app/UI/ManageCureChatDoctor.dart';
 
 class FlateListRecientUser {
   FlateListRecientUser(
     this.userName,
+    this.email,
     this.onlineNow,
   );
   final String userName;
   final bool onlineNow;
+  final String email;
 }
 
 class ManageCureDoctorWithRecientUsers extends StatefulWidget {
+  ManageCureDoctorWithRecientUsers({required this.idname});
+  final String idname;
   @override
   State<ManageCureDoctorWithRecientUsers> createState() =>
       _ManageCureDoctorWithRecientUsersPage();
@@ -18,24 +23,7 @@ class ManageCureDoctorWithRecientUsers extends StatefulWidget {
 
 class _ManageCureDoctorWithRecientUsersPage
     extends State<ManageCureDoctorWithRecientUsers> {
-  final List<FlateListRecientUser> allData = [
-    FlateListRecientUser(
-      "Rizwan",
-      true,
-    ),
-    FlateListRecientUser(
-      "Sajid",
-      false,
-    ),
-    FlateListRecientUser(
-      "Maryam",
-      true,
-    ),
-    FlateListRecientUser(
-      "Ali",
-      false,
-    ),
-  ];
+  List<FlateListRecientUser> allData = [];
 
   List<FlateListRecientUser> foundList = [];
   TextEditingController searchController = TextEditingController();
@@ -50,6 +38,18 @@ class _ManageCureDoctorWithRecientUsersPage
   @override
   void initState() {
     super.initState();
+    var app = FirebaseFirestore.instance.collection('users').get();
+
+    app.then((QuerySnapshot querySnapshot) => {
+          allData = [],
+          querySnapshot.docs.forEach((element) {
+            setState(() {
+              allData.add(FlateListRecientUser(
+                  element["name"], element['email'], false));
+            });
+          })
+          // GetData();
+        });
     setState(() {
       foundList = allData;
     });
@@ -127,15 +127,16 @@ class _ManageCureDoctorWithRecientUsersPage
             child: Row(
               children: <Widget>[
                 Expanded(
-                    child: foundList.length > 0
+                    child: allData.length > 0
                         ? ListView.builder(
                             scrollDirection: Axis.vertical,
-                            itemCount: foundList.length,
+                            itemCount: allData.length,
                             itemBuilder: (BuildContext ctxt, int index) {
                               return RecientUsersList(
-                                userName: foundList[index].userName,
-                                onlineNow: foundList[index].onlineNow,
-                              );
+                                  email: allData[index].email,
+                                  userName: allData[index].userName,
+                                  onlineNow: allData[index].onlineNow,
+                                  idname: widget.idname);
                             },
                           )
                         : Center(
@@ -157,12 +158,15 @@ class _ManageCureDoctorWithRecientUsersPage
 }
 
 class RecientUsersList extends StatelessWidget {
-  RecientUsersList({
-    required this.userName,
-    required this.onlineNow,
-  });
+  RecientUsersList(
+      {required this.userName,
+      required this.email,
+      required this.onlineNow,
+      required this.idname});
   final String userName;
+  final String email;
   final bool onlineNow;
+  final String idname;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -203,7 +207,9 @@ class RecientUsersList extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ManageCureDoctorMessageClassed(
+              userMail: email,
               DoctorName: userName,
+              idname: idname,
             ),
           ),
         );

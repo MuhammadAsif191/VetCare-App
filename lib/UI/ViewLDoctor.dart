@@ -1,33 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'FlateListData.dart';
 import 'MakeCall.dart';
 
+class FlateListData1 {
+  final String titleName;
+  final String doctorMail;
+  FlateListData1(this.titleName, this.doctorMail);
+}
+
 class Hospital extends StatefulWidget {
-  Hospital({Key? key}) : super(key: key);
+  Hospital({Key? key, required this.userMail}) : super(key: key);
+  final String userMail;
   @override
   State<Hospital> createState() => _HospitalPage();
 }
 
 class _HospitalPage extends State<Hospital> {
-  List<FlateListData> allData = [];
+  List<FlateListData1> allData = [];
 
-  Map<dynamic, dynamic> get newMethod {
-    return {
-      "countRating": 2,
-      "titleName": "apple",
-      "location": '3101 N Tarrant Pkwy',
-      "rating": 3,
-      "time": '12:12',
-    };
-  }
+  // Map<dynamic, dynamic> get newMethod {
+  //   return {
+  //     "countRating": 2,
+  //     "titleName": "apple",
+  //     "location": '3101 N Tarrant Pkwy',
+  //     "rating": 3,
+  //     "time": '12:12',
+  //   };
+  // }
 
-  List<FlateListData> foundList = [];
+  List<FlateListData1> foundList = [];
   String? search_ListView = '';
   TextEditingController searchController = TextEditingController();
   Icon CostumIcon = Icon(Icons.search);
   bool IconControl = false;
   Widget TextInput = Text('View Doctors');
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +45,7 @@ class _HospitalPage extends State<Hospital> {
           querySnapshot.docs.forEach((element) {
             print(element['email']);
             setState(() {
-              allData.add(FlateListData(element['name']));
+              allData.add(FlateListData1(element['name'], element['email']));
             });
           })
         });
@@ -50,7 +57,7 @@ class _HospitalPage extends State<Hospital> {
   onSearch(String search) {
     setState(() {
       foundList = allData
-          .where((FlateListData) => FlateListData.titleName
+          .where((FlateListData1) => FlateListData1.titleName
               .toLowerCase()
               .contains(search.toLowerCase()))
           .toList();
@@ -115,7 +122,9 @@ class _HospitalPage extends State<Hospital> {
                     itemBuilder: (BuildContext ctxt, int index) {
                       return hospitalList(
                         titleName: allData[index].titleName,
-                        // countRating: foundList[index].countRating,
+                        userMail: widget.userMail,
+                        doctormail: allData[index]
+                            .doctorMail, // countRating: foundList[index].countRating,
                         // rating: foundList[index].rating,
                         // location: foundList[index].location,
                       );
@@ -143,11 +152,15 @@ class hospitalList extends StatelessWidget {
     this.location = 'asif',
     this.rating = 1,
     this.countRating = 3,
+    this.userMail = '',
+    this.doctormail = '',
   });
   String mint;
   int countRating;
   String titleName;
   String location;
+  String userMail;
+  String doctormail;
   int rating;
   @override
   Widget build(BuildContext context) {
@@ -159,8 +172,9 @@ class hospitalList extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => makeCalls(
-                DoctorName: titleName,
-              ),
+                  DoctorName: titleName,
+                  doctorMail: doctormail,
+                  userMail: userMail),
             ),
           );
         },

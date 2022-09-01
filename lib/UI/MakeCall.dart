@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Message {
   final String text;
   final DateTime date;
   final bool isSentByMe;
+
   const Message({
     required this.text,
     required this.date,
@@ -14,13 +16,24 @@ class Message {
 }
 
 class makeCalls extends StatefulWidget {
-  const makeCalls({Key? mykey, required this.DoctorName}) : super(key: mykey);
+  const makeCalls(
+      {Key? mykey,
+      required this.DoctorName,
+      required this.doctorMail,
+      required this.userMail})
+      : super(key: mykey);
   final String DoctorName;
+  final String doctorMail;
+  final String userMail;
 
   @override
   makeCallToDoctorPage createState() => makeCallToDoctorPage();
 }
-
+ IO.Socket socket =
+      IO.io('https://mix-chat-1.herokuapp.com/', <String, dynamic>{
+    "transports": ["websocket"],
+    "autoconnect": false,
+  });
 class makeCallToDoctorPage extends State<makeCalls> {
   List<Message> message = [
     Message(
@@ -46,6 +59,26 @@ class makeCallToDoctorPage extends State<makeCalls> {
     super.initState();
     message;
     physicalMeeting = true;
+    Connect();
+  }
+
+  void Connect() {
+    socket.connect();
+    socket.onConnect((data) => print(socket.id));
+    socket.emit("register", widget.userMail);
+    socket.onConnect((data) {
+      print(socket.id);
+      print(widget.userMail + ">>" + widget.DoctorName);
+      socket.on('private_chat', (msg) {
+        print(msg["message"]["msg"]);
+        setState(() {
+          message.add(Message(
+              text: msg["message"]["msg"],
+              date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+              isSentByMe: true));
+        });
+      });
+    });
   }
 
   @override
@@ -156,6 +189,11 @@ class makeCallToDoctorPage extends State<makeCalls> {
   Widget bottomBar(BuildContext context) {
     var size = MediaQuery.of(context).size;
     TextEditingController chatValue = new TextEditingController();
+     void sendMessage(user, friend, message) {
+      socket.emit(
+          'private_chat', {"user": user, "friend": friend, "message": message});
+    }
+
     return Container(
       width: size.width,
       height: 60,
@@ -186,6 +224,7 @@ class makeCallToDoctorPage extends State<makeCalls> {
                     ),
                   );
               });
+              sendMessage(widget.userMail widget.doctorMail, chatValue.text);
             },
             child: Icon(
               Icons.send,

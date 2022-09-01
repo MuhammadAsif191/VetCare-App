@@ -240,7 +240,9 @@ class _DoctorLoginPage extends State<DoctorLogin> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DoctorMenu(DoctorName: Username)),
+                      builder: (context) => DoctorMenu(
+                          DoctorName: element['name'],
+                          DoctorEmail: element['email'])),
                 );
               } else {
                 showDialog(

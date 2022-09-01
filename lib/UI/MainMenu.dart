@@ -171,7 +171,9 @@ class UserMenuPage extends State<UserMenu> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Hospital()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Hospital(userMail: widget.Email)),
                     );
                   },
                 ),

@@ -8,8 +8,9 @@ import 'ViewUser.dart';
 import 'DoctorPaymentCardDetail.dart';
 
 class DoctorMenu extends StatefulWidget {
-  DoctorMenu({required this.DoctorName});
+  DoctorMenu({required this.DoctorName, required this.DoctorEmail});
   final String DoctorName;
+  final String DoctorEmail;
   @override
   State<DoctorMenu> createState() => DoctorMenuPage();
 }
@@ -89,7 +90,9 @@ class DoctorMenuPage extends State<DoctorMenu> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    ManageCureDoctorWithRecientUsers()),
+                                    ManageCureDoctorWithRecientUsers(
+                                      idname: widget.DoctorEmail,
+                                    )),
                           );
                         },
                       ),
