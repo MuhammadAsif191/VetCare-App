@@ -4,6 +4,7 @@ import 'AdminLogin.dart';
 import 'StoreLoginAndRegistration.dart';
 import 'UseMain.dart';
 import 'DocterMan.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -13,6 +14,26 @@ class Home extends StatefulWidget {
 
 class Homepage extends State<Home> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("object");
+    Connect();
+    // socket.onconnect((id) => print(id));
+    // socket.onconnect((id) => print("object"));
+  }
+
+  void Connect() {
+    IO.Socket socket =
+        IO.io('https://mix-chat-1.herokuapp.com/', <String, dynamic>{
+      "transports": ["websocket"],
+      "autoconnect": false,
+    });
+    socket.connect();
+    socket.onConnect((data) => print(socket.id));
+    // print(socket.connected);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
