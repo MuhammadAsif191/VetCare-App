@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'FlateListData.dart';
@@ -10,47 +11,31 @@ class feedback extends StatefulWidget {
 }
 
 class _feedbackPage extends State<feedback> {
-  final List<FlateListData> allData = [
+  List<FlateListData> allData = [
     FlateListData(
-      3,
-      "Dr.Waleed",
       '3101 N Tarrant Pkwy',
-      100,
-      '5:00',
     ),
     FlateListData(
-      4,
-      "Dr.Farhana",
       '3101 N Tarrant Pkwy',
-      120,
-      '00:12',
     ),
     FlateListData(
-      2,
-      "Dr.Khalid",
       '3101 N Tarrant Pkwy',
-      1000,
-      '6:00',
     ),
     FlateListData(
-      3,
       "Dr.Rizwan",
-      '3101 N Tarrant Pkwy',
-      50,
-      '00:49',
     ),
   ];
 
-  Map<dynamic, dynamic> get newMethod {
-    return {
-      "countRating": 2,
-      "titleName": "Dr.Bilal",
-      "location": '3101 N Tarrant Pkwy',
-      "rating": 3,
-      "distance": 1200,
-      "time": '12:12',
-    };
-  }
+  // Map<dynamic, dynamic> get newMethod {
+  //   return {
+  //     "countRating": 2,
+  //     "titleName": "Dr.Bilal",
+  //     "location": '3101 N Tarrant Pkwy',
+  //     "rating": 3,
+  //     "distance": 1200,
+  //     "time": '12:12',
+  //   };
+  // }
 
   List<FlateListData> foundList = [];
   String? search_ListView = '';
@@ -61,20 +46,33 @@ class _feedbackPage extends State<feedback> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      foundList = allData;
-    });
+    // setState(() {
+    //   foundList = allData;
+    // });
+
+    var app = FirebaseFirestore.instance.collection('doctor').get();
+
+    app.then((QuerySnapshot querySnapshot) => {
+          // allData=[],
+          allData = [],
+          querySnapshot.docs.forEach((element) {
+            print(element['name']);
+            setState(() {
+              allData.add(FlateListData(element['name']));
+            });
+          })
+        });
   }
 
-  onSearch(String search) {
-    setState(() {
-      foundList = allData
-          .where((FlateListData) => FlateListData.titleName
-              .toLowerCase()
-              .contains(search.toLowerCase()))
-          .toList();
-    });
-  }
+  // onSearch(String search) {
+  //   setState(() {
+  //     foundList = allData
+  //         .where((FlateListData) => FlateListData.titleName
+  //             .toLowerCase()
+  //             .contains(search.toLowerCase()))
+  //         .toList();
+  //   });
+  // }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,15 +99,15 @@ class _feedbackPage extends State<feedback> {
                         border: UnderlineInputBorder(),
                         labelText: "Search doctor name",
                       ),
-                      onChanged: (Text) => onSearch(Text),
+                      // onChanged: (Text) => onSearch(Text),
                     );
                   } else {
                     CostumIcon = Icon(Icons.search);
                     TextInput = Text('Feedback');
                     searchController.text = '';
-                    setState(() {
-                      foundList = allData;
-                    });
+                    // setState(() {
+                    //   foundList = allData;
+                    // });
                   }
                 },
               );
@@ -130,17 +128,13 @@ class _feedbackPage extends State<feedback> {
             ),
           ),
           Expanded(
-            child: foundList.length > 0
+            child: allData.length > 0
                 ? ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: foundList.length,
+                    itemCount: allData.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return hospitalList(
-                        mint: foundList[index].time,
-                        titleName: foundList[index].titleName,
-                        countRating: foundList[index].countRating,
-                        rating: foundList[index].rating,
-                        location: foundList[index].location,
+                        titleName: allData[index].titleName,
                       );
                     },
                   )
@@ -161,17 +155,9 @@ class _feedbackPage extends State<feedback> {
 
 class hospitalList extends StatelessWidget {
   hospitalList({
-    this.mint = '12:12',
     this.titleName = 'hello',
-    this.location = 'asif',
-    this.rating = 1,
-    this.countRating = 3,
   });
-  String mint;
-  int countRating;
   String titleName;
-  String location;
-  int rating;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -215,74 +201,6 @@ class hospitalList extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        location,
-                        style: TextStyle(
-                          color: Colors.grey[400],
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          child: (countRating < 1)
-                              ? Icon(
-                                  Icons.star_border,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
-                        ),
-                        Container(
-                          child: (countRating < 2)
-                              ? Icon(
-                                  Icons.star_border,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
-                        ),
-                        Container(
-                          child: (countRating < 3)
-                              ? Icon(
-                                  Icons.star_border,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
-                        ),
-                        Container(
-                          child: (countRating < 4)
-                              ? Icon(
-                                  Icons.star_border,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
-                        ),
-                        Container(
-                          child: (countRating < 5)
-                              ? Icon(
-                                  Icons.star_border,
-                                  color: Colors.yellow,
-                                )
-                              : Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
-                        ),
-                      ],
                     ),
                   ],
                 ),

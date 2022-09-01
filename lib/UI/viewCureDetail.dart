@@ -11,32 +11,16 @@ class viewCureDetail extends StatefulWidget {
 class _viewCureDetailPage extends State<viewCureDetail> {
   final List<FlateListData> allData = [
     FlateListData(
-      3,
-      "Dr.Rizwa",
       '3101 N Tarrant Pkwy',
-      100,
-      '5:00',
     ),
     FlateListData(
-      4,
-      "Dr.Ahmad",
       '3101 N Tarrant Pkwy',
-      120,
-      '00:12',
     ),
     FlateListData(
-      2,
-      "Dr.Shabana",
       '3101 N Tarrant Pkwy',
-      1000,
-      '6:00',
     ),
     FlateListData(
-      3,
-      "Dr.Marya",
       '3101 N Tarrant Pkwy',
-      50,
-      '00:49',
     ),
   ];
 
@@ -138,11 +122,7 @@ class _viewCureDetailPage extends State<viewCureDetail> {
                             itemCount: foundList.length,
                             itemBuilder: (BuildContext ctxt, int index) {
                               return hospitalList(
-                                mint: foundList[index].time,
                                 titleName: foundList[index].titleName,
-                                countRating: foundList[index].countRating,
-                                rating: foundList[index].rating,
-                                location: foundList[index].location,
                               );
                             },
                           )

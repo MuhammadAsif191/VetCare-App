@@ -196,29 +196,6 @@ class _LoginPage extends State<Login> {
                 ),
               ),
             ),
-            Row(
-              children: <Widget>[
-                const Text('I forget'),
-                TextButton(
-                  child: const Text(
-                    'password',
-                    style: TextStyle(color: Colors.green),
-                  ),
-                  onPressed: () {
-                    GetData();
-
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => forgetPass(),
-                    //   ),
-                    // );
-                    // Navigator.pop(context);
-                  },
-                ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
-            ),
           ],
         ),
       ),

@@ -38,7 +38,7 @@ class _HospitalPage extends State<Hospital> {
           querySnapshot.docs.forEach((element) {
             print(element['email']);
             setState(() {
-              allData.add(FlateListData(0, element['name'], '', 0, ''));
+              allData.add(FlateListData(element['name']));
             });
           })
         });
@@ -114,7 +114,6 @@ class _HospitalPage extends State<Hospital> {
                     itemCount: allData.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return hospitalList(
-                        mint: allData[index].time,
                         titleName: allData[index].titleName,
                         // countRating: foundList[index].countRating,
                         // rating: foundList[index].rating,

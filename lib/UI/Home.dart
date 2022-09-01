@@ -13,6 +13,11 @@ class Home extends StatefulWidget {
 }
 
 class Homepage extends State<Home> {
+  IO.Socket socket =
+      IO.io('https://mix-chat-1.herokuapp.com/', <String, dynamic>{
+    "transports": ["websocket"],
+    "autoconnect": false,
+  });
   @override
   void initState() {
     // TODO: implement initState
@@ -24,14 +29,16 @@ class Homepage extends State<Home> {
   }
 
   void Connect() {
-    IO.Socket socket =
-        IO.io('https://mix-chat-1.herokuapp.com/', <String, dynamic>{
-      "transports": ["websocket"],
-      "autoconnect": false,
-    });
     socket.connect();
     socket.onConnect((data) => print(socket.id));
-    // print(socket.connected);
+    socket.emit("register", "asif12@gmail.com");
+    socket.onConnect((data) {
+      print(socket.id);
+      socket.on('private_chat', (msg) {
+        // console.log(msg);
+        print(msg);
+      });
+    });
   }
 
   Widget build(BuildContext context) {
