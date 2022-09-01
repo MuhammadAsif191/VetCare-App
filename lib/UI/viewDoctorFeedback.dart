@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -19,27 +20,24 @@ class feedbackDoctors extends StatefulWidget {
 }
 
 class feedbackDoctorPage extends State<feedbackDoctors> {
-  List<Message> message = [
-    Message(
-        text: 'Yes Sure',
-        date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
-        doctorName: 'Rizwan'),
-    Message(
-      text: 'No don\'t worry',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
-      doctorName: 'Ali',
-    ),
-    Message(
-      text: 'great',
-      date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
-      doctorName: 'Aysha',
-    ),
-  ];
+  List<Message> message = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     message;
+    var app = FirebaseFirestore.instance.collection('FeedBack');
+    app.get().then((QuerySnapshot querySnapshot) => {
+          message = [],
+          querySnapshot.docs.forEach((element) {
+            setState(() {
+              message.add(Message(
+                  text: element['FeedBack'],
+                  date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
+                  doctorName: element['Submitted_By']));
+            });
+          })
+        });
   }
 
   @override

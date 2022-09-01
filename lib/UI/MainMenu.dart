@@ -72,6 +72,7 @@ class UserMenuPage extends State<UserMenu> {
             height: 5,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: FlatButton(
@@ -96,10 +97,35 @@ class UserMenuPage extends State<UserMenu> {
                   },
                 ),
               ),
+              Expanded(
+                child: FlatButton(
+                    child: Container(
+                      child: UserCard(
+                        Notification: ReportNoti,
+                        icon: Icon(Icons.shopping_cart_outlined),
+                        text: 'Store',
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StoreMainScreen(),
+                        ),
+                      );
+                    }),
+              ),
+              SizedBox(
+                width: 5,
+              ),
             ],
           ),
           SizedBox(
-            height: 5,
+            height: 50,
           ),
           Row(
             children: [
@@ -156,7 +182,7 @@ class UserMenuPage extends State<UserMenu> {
             ],
           ),
           SizedBox(
-            height: 5,
+            height: 50,
           ),
           Row(
             children: [
@@ -179,7 +205,8 @@ class UserMenuPage extends State<UserMenu> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => feedback()),
+                      MaterialPageRoute(
+                          builder: (context) => feedback(Email: widget.Email)),
                     );
                   },
                 ),
@@ -199,7 +226,7 @@ class UserMenuPage extends State<UserMenu> {
                     child: UserCard(
                       Notification: CureDetailsNoti,
                       icon: Icon(Icons.data_saver_off_rounded),
-                      text: 'View Vet Cure Details',
+                      text: 'Vet Cure Details',
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -214,45 +241,7 @@ class UserMenuPage extends State<UserMenu> {
             ],
           ),
           SizedBox(
-            height: 5.0,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: FlatButton(
-                    child: Container(
-                      child: UserCard(
-                        Notification: ReportNoti,
-                        icon: Icon(Icons.shopping_cart_outlined),
-                        text: 'Store',
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => StoreMainScreen(),
-                        ),
-                      );
-                    }),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child: Container(),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 5,
+            height: 50,
           ),
         ],
       ),

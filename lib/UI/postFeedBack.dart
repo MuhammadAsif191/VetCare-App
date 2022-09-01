@@ -5,7 +5,9 @@ import 'FlateListData.dart';
 import 'PostFeedBackSent.dart';
 
 class feedback extends StatefulWidget {
-  feedback({Key? key}) : super(key: key);
+  feedback({Key? key, required this.Email}) : super(key: key);
+  final String Email;
+
   @override
   State<feedback> createState() => _feedbackPage();
 }
@@ -134,8 +136,8 @@ class _feedbackPage extends State<feedback> {
                     itemCount: allData.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return hospitalList(
-                        titleName: allData[index].titleName,
-                      );
+                          titleName: allData[index].titleName,
+                          Email: widget.Email);
                     },
                   )
                 : Center(
@@ -154,10 +156,9 @@ class _feedbackPage extends State<feedback> {
 }
 
 class hospitalList extends StatelessWidget {
-  hospitalList({
-    this.titleName = 'hello',
-  });
+  hospitalList({this.titleName = 'hello', this.Email = ''});
   String titleName;
+  String Email;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -167,9 +168,8 @@ class hospitalList extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => PostFeedback(
-                      userName: titleName,
-                    )),
+                builder: (context) =>
+                    PostFeedback(userName: titleName, Email: Email)),
           );
         },
         style: ButtonStyle(

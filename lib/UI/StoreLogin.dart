@@ -231,7 +231,8 @@ class _StoreLoginPage extends State<StoreLogin> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MyAccountMainScreen()),
+                      builder: (context) =>
+                          MyAccountMainScreen(shopName: element['name'])),
                 );
               } else {
                 showDialog(
@@ -263,6 +264,26 @@ class _StoreLoginPage extends State<StoreLogin> {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(
             email: nameController.text, password: passwordController.text)
-        .then(((value) => {CheckStatus()}));
+        .then(((value) => {CheckStatus()}))
+        .catchError((onError) => {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // return object of type Dialog
+                    return AlertDialog(
+                      title: new Text("Vet Care App"),
+                      content: new Text("Your Password or Email incorect"),
+                      actions: <Widget>[
+                        // usually buttons at the bottom of the dialog
+                        new FlatButton(
+                          child: new Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  })
+            });
   }
 }

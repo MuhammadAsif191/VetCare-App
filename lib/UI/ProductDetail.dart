@@ -9,22 +9,17 @@ import 'ShopStoreBuyProducts.dart';
 String locationBotom = 'Punjab,Gujrat,Marghaza';
 
 class ProductDetails extends StatefulWidget {
-  ProductDetails({
-    Key? key,
-    required this.imagePath,
-    required this.productDesc,
-    required this.productPrice,
-    required this.productRating,
-    required this.productShipping,
-    required this.productTitle,
-  }) : super(key: key);
-  final String imagePath;
+  ProductDetails(
+      {Key? key,
+      required this.imagePath,
+      required this.productPrice,
+      required this.Shipping,
+      required this.productTitle})
+      : super(key: key);
   final String productTitle;
+  final String imagePath;
   final int productPrice;
-  final String productShipping;
-  final int productRating;
-  final String productDesc;
-
+  final String Shipping;
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }
@@ -36,216 +31,87 @@ class _ProductDetailsState extends State<ProductDetails> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey[350],
-      bottomNavigationBar: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      ShopScreenOfProduct(shopName: ShopTitle, name: 'Thrifty'),
-                ),
-              );
-            },
-            child: Container(
-              padding: EdgeInsets.only(top: 10),
-              height: 60,
-              width: size.width / 3,
-              decoration: BoxDecoration(
-                color: Colors.green[500],
-              ),
-              child: Column(
-                children: <Widget>[
-                  Icon(
-                    Icons.store,
-                    color: Colors.red,
-                  ),
-                  Text(
-                    'Store',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
+      bottomNavigationBar: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BuyNowScreen(
+                imagePath: widget.imagePath,
+                productPrice: widget.productPrice.toString(),
+                productShipping: widget.Shipping,
+                productTitle: widget.productTitle,
+                shopName: ShopTitle,
               ),
             ),
+          );
+        },
+        child: Container(
+          // padding: EdgeInsets.only(top: 20, left: (size.width / 9) - 20),
+          alignment: Alignment.center,
+          height: 60,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.green[500],
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SellerChatBox(
-                    shopName: ShopTitle,
-                  ),
-                ),
-              );
-            },
-            child: Container(
-              padding: EdgeInsets.only(top: 10),
-              height: 60,
-              width: size.width / 3,
-              decoration: BoxDecoration(
-                color: Colors.green[500],
-              ),
-              child: Column(
-                children: <Widget>[
-                  Icon(
-                    Icons.chat,
-                    color: Colors.red,
-                  ),
-                  Text('Chat', style: TextStyle(color: Colors.white)),
-                ],
-              ),
-            ),
+          child: Text(
+            'Buy Now',
+            style: TextStyle(color: Colors.white),
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BuyNowScreen(
-                    imagePath: widget.imagePath,
-                    productDesc: widget.productDesc,
-                    productPrice: widget.productPrice,
-                    productRating: widget.productRating,
-                    productShipping: widget.productShipping,
-                    productTitle: widget.productTitle,
-                    shopName: ShopTitle,
-                  ),
-                ),
-              );
-            },
-            child: Container(
-              padding: EdgeInsets.only(top: 20, left: (size.width / 9) - 20),
-              height: 60,
-              width: size.width / 3,
-              decoration: BoxDecoration(
-                color: Colors.green[500],
-              ),
-              child: Text(
-                'Buy Now',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: Text(widget.productTitle),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DisplayStoredBuyProducts(),
-                ),
-              );
-            },
-            icon: Icon(Icons.shopping_cart_outlined),
-          ),
-          // PopupMenuButton(
-          //   onSelected: (value) {
-          //     if (value == 1) {
-          //       Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (context) => MyAccountScreen(),
-          //         ),
-          //       );
-          //     }
-          //   },
-          //   itemBuilder: (context) => [
-          //     PopupMenuItem(
-          //       value: 1,
-          //       child: Text('My Account'),
-          //     ),
-          //   ],
-          // ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (context) => DisplayStoredBuyProducts(),
+        //         ),
+        //       );
+        //     },
+        //     icon: Icon(Icons.shopping_cart_outlined),
+        //   ),
+        //   // PopupMenuButton(
+        //   //   onSelected: (value) {
+        //   //     if (value == 1) {
+        //   //       Navigator.push(
+        //   //         context,
+        //   //         MaterialPageRoute(
+        //   //           builder: (context) => MyAccountScreen(),
+        //   //         ),
+        //   //       );
+        //   //     }
+        //   //   },
+        //   //   itemBuilder: (context) => [
+        //   //     PopupMenuItem(
+        //   //       value: 1,
+        //   //       child: Text('My Account'),
+        //   //     ),
+        //   //   ],
+        //   // ),
+        // ],
       ),
       body: Column(
         children: [
           Expanded(
             flex: 5,
-            child: Image.asset(widget.imagePath),
+            child: Image.network(widget.imagePath),
           ),
           Expanded(
             flex: 5,
             child: DetailsOfProducts(
+              shipping: widget.Shipping,
+              imgloc: widget.imagePath,
               shopName: ShopTitle,
               title: widget.productTitle,
-              description: widget.productDesc,
               price: widget.productPrice,
-              rating: widget.productRating,
-              shipping: widget.productShipping,
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: BottomContainer(
-              locations: locationBotom,
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class BottomContainer extends StatelessWidget {
-  const BottomContainer({Key? key, required this.locations}) : super(key: key);
-  final String locations;
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: () => showModalBottomSheet(
-        context: context,
-        builder: (context) => GetLocationBottomSheet(),
-      ),
-      padding: EdgeInsets.all(0),
-      child: Container(
-        margin: EdgeInsets.only(top: 20),
-        color: Colors.white,
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              width: 20,
-            ),
-            Expanded(
-              flex: 2,
-              child: Text('Delivery'),
-            ),
-            Expanded(
-              flex: 3,
-              child: Container(
-                margin: EdgeInsets.only(top: 20),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        locations,
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ),
-                    Icon(
-                      Icons.map_outlined,
-                      color: Colors.red,
-                    ),
-                    Text('Standard Delivery , 3-6 Day(s)'),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Icon(Icons.arrow_forward_ios_sharp),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -323,17 +189,15 @@ class DetailsOfProducts extends StatelessWidget {
     Key? key,
     required this.shopName,
     required this.title,
-    required this.description,
+    required this.imgloc,
     required this.price,
-    required this.rating,
     required this.shipping,
   }) : super(key: key);
+  final String imgloc;
   final String shopName;
   final String title;
   final int price;
   final String shipping;
-  final int rating;
-  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -394,77 +258,7 @@ class DetailsOfProducts extends StatelessWidget {
             indent: 15,
             endIndent: 15,
           ),
-          AskAnyQuestion(context, ''),
-          ShopHomeScreen(context, shopName, title),
         ],
-      ),
-    );
-  }
-
-  Widget ShopHomeScreen(BuildContext context, String ShopName, String name) {
-    return RaisedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                ShopScreenOfProduct(shopName: shopName, name: name),
-          ),
-        );
-      },
-      color: Colors.white,
-      shape: null,
-      child: Row(
-        children: [
-          Icon(Icons.shopping_bag_rounded),
-          SizedBox(
-            width: 10,
-          ),
-          Container(
-            child: Text(
-              ShopName,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 200,
-          ),
-          Icon(Icons.arrow_forward_ios_sharp),
-        ],
-      ),
-    );
-  }
-
-  Widget AskAnyQuestion(BuildContext context, String chatId) {
-    return RaisedButton(
-      color: Colors.white,
-      shape: null,
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => QuestionAndAnswer(),
-          ),
-        );
-      },
-      child: Container(
-        width: double.infinity,
-        height: 50,
-        child: Row(
-          children: [
-            Icon(Icons.question_answer_outlined),
-            SizedBox(
-              width: 10,
-            ),
-            Text('Ask any Questions of the product'),
-            SizedBox(
-              width: 10,
-            ),
-            Icon(Icons.arrow_forward_ios_sharp),
-          ],
-        ),
       ),
     );
   }

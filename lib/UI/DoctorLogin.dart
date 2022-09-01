@@ -272,6 +272,27 @@ class _DoctorLoginPage extends State<DoctorLogin> {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(
             email: nameController.text, password: passwordController.text)
-        .then(((value) => {CheckStatus()}));
+        .then(((value) => {CheckStatus()}))
+        .catchError((onError) => {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // return object of type Dialog
+                    return AlertDialog(
+                      title: new Text("Vet Care App"),
+                      content: new Text(
+                          "PLease try to connect support of Vet Care App"),
+                      actions: <Widget>[
+                        // usually buttons at the bottom of the dialog
+                        new FlatButton(
+                          child: new Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  })
+            });
   }
 }

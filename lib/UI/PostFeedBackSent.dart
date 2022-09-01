@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -16,29 +17,16 @@ class Message {
 class PostFeedback extends StatefulWidget {
   PostFeedback({
     required this.userName,
+    required this.Email,
   });
   final String userName;
+  final String Email;
   @override
   PostFeedbackPage createState() => PostFeedbackPage();
 }
 
 class PostFeedbackPage extends State<PostFeedback> {
-  List<Message> message = [
-    Message(
-        text: 'Yes Sure',
-        date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
-        userName: 'Rizwan'),
-    Message(
-      text: 'No don\'t worry',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
-      userName: 'Ali',
-    ),
-    Message(
-      text: 'great',
-      date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
-      userName: 'Aysha',
-    ),
-  ];
+  List<Message> message = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -115,6 +103,14 @@ class PostFeedbackPage extends State<PostFeedback> {
   Widget bottomBar(BuildContext context) {
     var size = MediaQuery.of(context).size;
     TextEditingController chatValue = new TextEditingController();
+    Future AddDatainFIrebase() async {
+      FirebaseFirestore.instance.collection('FeedBack').doc().set({
+        "Submitted_By": widget.Email,
+        "Doctor_Name": widget.userName,
+        "FeedBack": chatValue.text
+      }).then((value) => Navigator.pop(context));
+    }
+
     return Container(
       width: size.width,
       height: 60,
@@ -145,6 +141,7 @@ class PostFeedbackPage extends State<PostFeedback> {
                     ),
                   );
               });
+              AddDatainFIrebase();
             },
             child: Icon(
               Icons.send,

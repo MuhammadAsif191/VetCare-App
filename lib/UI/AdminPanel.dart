@@ -80,33 +80,28 @@ class _adminPanelsState extends State<adminPanels> {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FlatButton(
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                  ),
-                  // alignment: Alignment.center,
-                  child: UserCard(
-                    text: "Access Doctor/User",
-                    icon: Icon(Icons.supervisor_account_outlined),
-                    // Notification: monitorDoctorNoti,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UserAndDoctor(),
-                    ),
-                  );
-                },
+          FlatButton(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
               ),
-            ],
+              // alignment: Alignment.center,
+              child: UserCard(
+                text: "Access Doctor/User",
+                icon: Icon(Icons.supervisor_account_outlined),
+                // Notification: monitorDoctorNoti,
+              ),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UserAndDoctor(),
+                ),
+              );
+            },
           ),
         ],
       ),

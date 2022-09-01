@@ -1,187 +1,20 @@
 import 'package:flutter/material.dart';
 import 'ProductDetail.dart';
-import 'MyAccountScreen.dart';
-import 'StoreData.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-List<VetStoredata> Cate1 = [
-  VetStoredata(
-    imageLocation: 'images/Doctor.jpeg',
-    productDescription: "Nice One",
-    productName: 'head ech',
-    productPrice: 60,
-    productRating: 2,
-    productShipping: 'Pakistan',
-  ),
-  VetStoredata(
-    imageLocation: 'images/Doctor.jpeg',
-    productDescription: "Nice One",
-    productName: 'head ech',
-    productPrice: 40,
-    productRating: 2,
-    productShipping: 'Pakistan',
-  ),
-  VetStoredata(
-    imageLocation: 'images/Doctor.jpeg',
-    productDescription: "Nice One",
-    productName: 'head ech',
-    productPrice: 50,
-    productRating: 2,
-    productShipping: 'Pakistan',
-  ),
-];
-List<VetStoredata> Cate2 = [
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-];
-List<VetStoredata> Cate3 = [
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-];
-List<VetStoredata> Cate4 = [
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-  VetStoredata(
-      imageLocation: 'images/Doctor.jpeg',
-      productDescription: "Nice One",
-      productName: 'head ech',
-      productPrice: 50,
-      productRating: 2,
-      productShipping: 'Pakistan'),
-];
+class SellerProducts {
+  SellerProducts({
+    required this.img,
+    required this.Shipping,
+    required this.price,
+    required this.productName,
+  });
+  final String img;
+  final String productName;
+  final String price;
+  final String Shipping;
+}
 
 class StoreMainScreen extends StatefulWidget {
   const StoreMainScreen({Key? key}) : super(key: key);
@@ -190,20 +23,33 @@ class StoreMainScreen extends StatefulWidget {
   State<StoreMainScreen> createState() => StoreMainScreenState();
 }
 
-class StoreMainScreenState extends State<StoreMainScreen>
-    with TickerProviderStateMixin {
-  late TabController tabController;
-  int selectedTabIndex = 0;
+class StoreMainScreenState extends State<StoreMainScreen> {
+  List<SellerProducts> Cate1 = [];
+
   @override
+  Future<void> getValue() async {
+    var app = FirebaseFirestore.instance.collection('StorProducts').get();
+
+    app.then((QuerySnapshot querySnapshot) => {
+          Cate1 = [],
+          querySnapshot.docs.forEach((element) {
+            print(element['P_Name']);
+            setState(() {
+              Cate1.add(SellerProducts(
+                img: element['image'],
+                Shipping: element['Country'],
+                price: element['Price'],
+                productName: element['P_Name'],
+              ));
+            });
+          })
+        });
+  }
+
   void initState() {
+    // TODO: implement initState
     super.initState();
-    tabController =
-        TabController(length: 4, vsync: this, initialIndex: selectedTabIndex);
-    tabController.addListener(() {
-      setState(() {
-        selectedTabIndex = tabController.index;
-      });
-    });
+    getValue();
   }
 
   Widget build(BuildContext context) {
@@ -235,97 +81,39 @@ class StoreMainScreenState extends State<StoreMainScreen>
         //   ],
         // ),
         // ],
-        bottom: TabBar(
-          controller: tabController,
-          indicatorColor: Colors.white,
-          tabs: [
-            Tab(
-              text: "Vaccines",
-            ),
-            Tab(
-              text: "Pharmaceuticals",
-            ),
-            Tab(
-              text: "Tick Medicinies",
-            ),
-            Tab(
-              text: "Flea",
-            ),
-          ],
-        ),
+        // bottom: TabBar(
+        //   controller: tabController,
+        //   indicatorColor: Colors.white,
+        //   tabs: [
+        //     Tab(
+        //       text: "Vaccines",
+        //     ),
+        //     Tab(
+        //       text: "Pharmaceuticals",
+        //     ),
+        //     Tab(
+        //       text: "Tick Medicinies",
+        //     ),
+        //     Tab(
+        //       text: "Flea",
+        //     ),
+        //   ],
+        // ),
       ),
-      body: TabBarView(
-        controller: tabController,
-        children: <Widget>[
-          GridView.builder(
-            itemCount: Cate1.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 4.0,
-              mainAxisSpacing: 4.0,
-              childAspectRatio: 0.75,
-            ),
-            itemBuilder: ((context, index) => ProductContainer(
-                  imageLoc: Cate1[index].imageLocation,
-                  description: Cate1[index].productDescription,
-                  price: Cate1[index].productPrice,
-                  rating: Cate1[index].productRating,
-                  shipping: Cate1[index].productShipping,
-                  title: Cate1[index].productName,
-                )),
-          ),
-          GridView.builder(
-            itemCount: Cate2.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 4.0,
-              mainAxisSpacing: 4.0,
-              childAspectRatio: 0.75,
-            ),
-            itemBuilder: ((context, index) => ProductContainer(
-                  imageLoc: Cate2[index].imageLocation,
-                  description: Cate2[index].productDescription,
-                  price: Cate2[index].productPrice,
-                  rating: Cate2[index].productRating,
-                  shipping: Cate2[index].productShipping,
-                  title: Cate2[index].productName,
-                )),
-          ),
-          GridView.builder(
-            itemCount: Cate3.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 4.0,
-              mainAxisSpacing: 4.0,
-              childAspectRatio: 0.75,
-            ),
-            itemBuilder: ((context, index) => ProductContainer(
-                  imageLoc: Cate3[index].imageLocation,
-                  description: Cate3[index].productDescription,
-                  price: Cate3[index].productPrice,
-                  rating: Cate3[index].productRating,
-                  shipping: Cate3[index].productShipping,
-                  title: Cate3[index].productName,
-                )),
-          ),
-          GridView.builder(
-            itemCount: Cate4.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 4.0,
-              mainAxisSpacing: 4.0,
-              childAspectRatio: 0.75,
-            ),
-            itemBuilder: ((context, index) => ProductContainer(
-                  imageLoc: Cate4[index].imageLocation,
-                  description: Cate4[index].productDescription,
-                  price: Cate4[index].productPrice,
-                  rating: Cate4[index].productRating,
-                  shipping: Cate4[index].productShipping,
-                  title: Cate4[index].productName,
-                )),
-          ),
-        ],
+      body: GridView.builder(
+        itemCount: Cate1.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 4.0,
+          mainAxisSpacing: 4.0,
+          childAspectRatio: 0.75,
+        ),
+        itemBuilder: ((context, index) => ProductContainer(
+              imageLoc: Cate1[index].img,
+              price: Cate1[index].price,
+              shipping: Cate1[index].Shipping,
+              title: Cate1[index].productName,
+            )),
       ),
     );
   }
@@ -335,18 +123,14 @@ class ProductContainer extends StatelessWidget {
   ProductContainer({
     Key? key,
     required this.imageLoc,
-    required this.description,
     required this.price,
-    required this.rating,
     required this.shipping,
     required this.title,
   }) : super(key: key);
   String imageLoc;
   String title;
-  int price;
+  String price;
   String shipping;
-  int rating;
-  String description;
 
   @override
   Widget build(BuildContext context) {
@@ -363,10 +147,8 @@ class ProductContainer extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => ProductDetails(
               imagePath: imageLoc,
-              productPrice: price,
-              productDesc: description,
-              productRating: rating,
-              productShipping: shipping,
+              productPrice: int.parse(price),
+              Shipping: shipping,
               productTitle: title,
             ),
           ),
@@ -392,7 +174,7 @@ class ProductContainer extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Image.asset(imageLoc),
+                child: Image.network(imageLoc),
               ),
             ),
             Padding(
@@ -415,7 +197,7 @@ class ProductContainer extends StatelessWidget {
                 0,
               ),
               child: Text(
-                'Rs. ' + price.toString(),
+                'Rs. ' + price,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),

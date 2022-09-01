@@ -179,11 +179,9 @@ class ProductContainer extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ProductDetails(
+              Shipping: shipping,
               imagePath: imageLoc,
               productPrice: price,
-              productDesc: description,
-              productRating: rating,
-              productShipping: shipping,
               productTitle: title,
             ),
           ),

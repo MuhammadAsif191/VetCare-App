@@ -4,9 +4,7 @@ class BuyNowScreen extends StatefulWidget {
   BuyNowScreen({
     Key? key,
     required this.imagePath,
-    required this.productDesc,
     required this.productPrice,
-    required this.productRating,
     required this.productShipping,
     required this.productTitle,
     required this.shopName,
@@ -14,10 +12,8 @@ class BuyNowScreen extends StatefulWidget {
   final String shopName;
   final String imagePath;
   final String productTitle;
-  final int productPrice;
+  final String productPrice;
   final String productShipping;
-  final int productRating;
-  final String productDesc;
 
   @override
   State<BuyNowScreen> createState() => _BuyNowScreenState();
@@ -29,8 +25,9 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
   void initState() {
     super.initState();
     setState(() {
-      totalPriceBuy = widget.productPrice;
+      totalPriceBuy = int.parse(widget.productPrice);
       totalProduct = 1;
+      totalPriceBuy = 0;
     });
   }
 
@@ -113,7 +110,7 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
               children: [
                 Expanded(
                   flex: 3,
-                  child: Image.asset('images/Doctor.jpeg'),
+                  child: Image.network(widget.imagePath),
                 ),
                 Expanded(
                   flex: 5,
@@ -230,7 +227,7 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                     onTap: () {
                       setState(() {
                         totalProduct += 1;
-                        totalPriceBuy += widget.productPrice;
+                        totalPriceBuy += int.parse(widget.productPrice);
                       });
                     },
                     child: Container(
@@ -251,7 +248,7 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                       setState(() {
                         if (totalProduct != 0) {
                           totalProduct -= 1;
-                          totalPriceBuy -= widget.productPrice;
+                          totalPriceBuy -= int.parse(widget.productPrice);
                         }
                       });
                     },

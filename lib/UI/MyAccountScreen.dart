@@ -1,19 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'MyAccountMessagesPersons.dart';
 import 'MyAcountQAndA.dart';
 import 'dart:io';
-
-class profile {
-  profile({
-    required this.img,
-    required this.shopName,
-  });
-  final String img;
-  final String shopName;
-}
 
 class SellerProducts {
   SellerProducts({
@@ -24,57 +16,57 @@ class SellerProducts {
   });
   final String img;
   final String productName;
-  final int price;
+  final String price;
   final String Shipping;
 }
 
 class MyAccountMainScreen extends StatefulWidget {
-  const MyAccountMainScreen({Key? key}) : super(key: key);
-
+  const MyAccountMainScreen({Key? key, required this.shopName})
+      : super(key: key);
+  final String shopName;
   @override
   State<MyAccountMainScreen> createState() => _MyAccountMainScreenState();
 }
 
 class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
-  profile profileData = profile(img: 'images/Doctor.jpeg', shopName: 'daraz');
   List<SellerProducts> myProductData = [];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('Hello Asif');
     setState(() {
       myProductData;
     });
+    getValue();
+  }
+
+  Future<void> getValue() async {
     var app = FirebaseFirestore.instance.collection('StorProducts').get();
 
     app.then((QuerySnapshot querySnapshot) => {
-          // myProductData = [],
+          myProductData = [],
           querySnapshot.docs.forEach((element) {
             print(element['P_Name']);
-            // setState(() {
-            //   myProductData.add(SellerProducts(
-            //     img: element['image'],
-            //     Shipping: element['Country'],
-            //     price: 0,
-            //     productName: element['P_Name'],
-            //   ));
-            // });
+            setState(() {
+              myProductData.add(SellerProducts(
+                img: element['image'],
+                Shipping: element['Country'],
+                price: element['Price'],
+                productName: element['P_Name'],
+              ));
+            });
           })
-          // GetData();
         });
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: GestureDetector(
-        onTap: () => showModalBottomSheet(
-          isScrollControlled: true,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20),
-          )),
-          context: context,
-          builder: (context) => CreateProduct(),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CreateProduct()),
         ),
         child: Container(
           // alignment: ,
@@ -94,107 +86,118 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
       appBar: AppBar(
         backgroundColor: Colors.green[500],
         title: Text('My Account'),
-        actions: [
-          PopupMenuButton(
-            onSelected: (value) {
-              if (value == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyAcountQuestionAndAnswer(),
-                  ),
-                );
-              } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MessagesPersons(),
-                  ),
-                );
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 1,
-                child: Text('Q/A'),
-              ),
-              PopupMenuItem(
-                value: 2,
-                child: Text('My Orders'),
-              ),
-            ],
-          ),
-        ],
+        // actions: [
+        //   PopupMenuButton(
+        //     onSelected: (value) {
+        //       if (value == 1) {
+        //         Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //             builder: (context) => MyAcountQuestionAndAnswer(),
+        //           ),
+        //         );
+        //       } else {
+        //         Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //             builder: (context) => MessagesPersons(),
+        //           ),
+        //         );
+        //       }
+        //     },
+        //     itemBuilder: (context) => [
+        //       PopupMenuItem(
+        //         value: 1,
+        //         child: Text('Q/A'),
+        //       ),
+        //       PopupMenuItem(
+        //         value: 2,
+        //         child: Text('My Orders'),
+        //       ),
+        //     ],
+        //   ),
+        // ],
       ),
-      body: Column(
-        children: [
-          Container(
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Shop Name :',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      body: RefreshIndicator(
+        onRefresh: () => getValue(),
+        child: Column(
+          children: [
+            Container(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Shop Name :',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      profileData.shopName,
-                      style:
-                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        widget.shopName,
+                        style: TextStyle(
+                            fontSize: 23, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 20, top: 20),
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Prducts',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              itemCount: myProductData.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 4.0,
-                mainAxisSpacing: 4.0,
-                childAspectRatio: 0.75,
+                ],
               ),
-              itemBuilder: ((context, index) => MyProducts(
-                  imageLoc: myProductData[index].img,
-                  price: myProductData[index].price,
-                  shipping: myProductData[index].Shipping,
-                  title: myProductData[index].productName)),
             ),
-          ),
-        ],
+            Container(
+              padding: EdgeInsets.only(left: 20, top: 20),
+              alignment: Alignment.topLeft,
+              child: Text(
+                'Prducts',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+            ),
+            Expanded(
+              child: GridView.builder(
+                itemCount: myProductData.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 4.0,
+                  childAspectRatio: 0.75,
+                ),
+                itemBuilder: ((context, index) => MyProducts(
+                    imageLoc: myProductData[index].img,
+                    price: myProductData[index].price,
+                    shipping: myProductData[index].Shipping,
+                    title: myProductData[index].productName)),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
 
-  Widget CreateProduct() {
-    TextEditingController productName = new TextEditingController();
-    TextEditingController productPrice = new TextEditingController();
-    TextEditingController productImg = new TextEditingController();
-    TextEditingController productShipping = new TextEditingController();
-    File _image = new File('/dev/null');
-    @override
+class CreateProduct extends StatefulWidget {
+  const CreateProduct({Key? key}) : super(key: key);
+  @override
+  State<CreateProduct> createState() => _CreateProductState();
+}
+
+class _CreateProductState extends State<CreateProduct> {
+  TextEditingController productName = new TextEditingController();
+  TextEditingController productPrice = new TextEditingController();
+  TextEditingController productImg = new TextEditingController();
+  TextEditingController productShipping = new TextEditingController();
+  File _image = new File('/dev/null');
+  @override
+  Widget build(BuildContext context) {
     Future getImage() async {
       final image = await ImagePicker().pickImage(
         source: ImageSource.gallery,
@@ -208,9 +211,7 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
       setState(() {
         var imageTemporary = File(image.path);
         _image = imageTemporary;
-        print('Not Null');
         print('${image.path}');
-        print('Pathe::Printed');
       });
     }
 
@@ -227,7 +228,7 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
     }
 
     Future uploadImageToFirebase() async {
-      final _firebaseStorage = FirebaseStorage.instance;
+      var _firebaseStorage = FirebaseStorage.instance;
       PickedFile image;
       //Check Permission
       //Select Image
@@ -246,91 +247,124 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
       }
     }
 
-    return ListView(
-      padding: EdgeInsets.all(20),
-      children: <Widget>[
-        GestureDetector(
-          onTap: () {
-            print("object");
+    bool isEmpty = false;
+    String valid = '';
+    return Scaffold(
+      body: ListView(
+        padding: EdgeInsets.all(20),
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              print("object");
 
-            setState(() {
-              print('hello');
-              getImage();
-            });
-          },
-          child: Container(
-            margin: EdgeInsets.only(top: 20, bottom: 20),
-            height: 100,
-            alignment: Alignment.center,
-            // color: Colors.red,
-            child: _image.path != '/dev/null'
-                ? Image.file(
-                    _image,
-                    fit: BoxFit.cover,
-                  )
-                : Icon(
-                    Icons.add_a_photo_outlined,
-                    size: 100,
-                  ),
-          ),
-        ),
-        Container(
-          width: 200,
-          alignment: Alignment.topCenter,
-          child: TextField(
-            controller: productName,
-            decoration: InputDecoration(
-              labelText: 'Product Name',
-              hintText: 'Enter Product Name',
+              setState(() {
+                print('hello');
+                getImage();
+              });
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 20, bottom: 20),
+              height: 100,
+              alignment: Alignment.center,
+              // color: Colors.red,
+              child: _image.path != '/dev/null'
+                  ? Image.file(
+                      _image,
+                      fit: BoxFit.cover,
+                    )
+                  : Icon(
+                      Icons.add_a_photo_outlined,
+                      size: 100,
+                    ),
             ),
           ),
-        ),
-        Container(
-          height: 20,
-        ),
-        Container(
-          width: 200,
-          alignment: Alignment.topCenter,
-          child: TextField(
-            controller: productPrice,
-            decoration: InputDecoration(
-              labelText: 'Product Price',
-              hintText: 'Enter Product Price',
+          Container(
+            width: 200,
+            alignment: Alignment.topCenter,
+            child: TextField(
+              controller: productName,
+              decoration: InputDecoration(
+                labelText: 'Product Name',
+                hintText: 'Enter Product Name',
+              ),
             ),
           ),
-        ),
-        Container(
-          height: 20,
-        ),
-        Container(
-          width: 200,
-          alignment: Alignment.topCenter,
-          child: TextField(
-            controller: productShipping,
-            decoration: InputDecoration(
-              labelText: 'Shipping Country',
-              hintText: 'Enter Product Shipping Country',
+          Container(
+            height: 20,
+          ),
+          Container(
+            width: 200,
+            alignment: Alignment.topCenter,
+            child: TextField(
+              keyboardType: TextInputType.number,
+              controller: productPrice,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              decoration: InputDecoration(
+                labelText: 'Product Price',
+                hintText: 'Enter Product Price',
+              ),
             ),
           ),
-        ),
-        GestureDetector(
-          onTap: (() => {uploadImageToFirebase()}),
-          child: Container(
-            height: 70,
-            // width: 50,
-            alignment: Alignment.center,
-            margin: EdgeInsets.only(left: 50, right: 50, top: 20),
-            decoration: BoxDecoration(
-              color: Colors.green[500],
-              borderRadius: BorderRadius.circular(20),
+          Container(
+            height: 20,
+          ),
+          Container(
+            width: 200,
+            alignment: Alignment.topCenter,
+            child: TextField(
+              controller: productShipping,
+              decoration: InputDecoration(
+                labelText: 'Shipping Country',
+                hintText: 'Enter Product Shipping Country',
+              ),
             ),
+          ),
+          Container(
             child: Text(
-              'Submit',
-              style: TextStyle(color: Colors.white, fontSize: 25),
+              valid.toString(),
+              style: TextStyle(color: Colors.red, fontSize: 15),
             ),
           ),
-        ),
-      ],
+          GestureDetector(
+            onTap: (() => {
+                  // isEmpty = false,
+                  if (_image.path != '/dev/null')
+                    if (productName.text != '' && productName.text != ' ')
+                      if (productPrice.text != '' && productPrice.text != ' ')
+                        if (productShipping.text != '' &&
+                            productShipping.text != ' ')
+                          {
+                            isEmpty = true,
+                            uploadImageToFirebase(),
+                            Navigator.pop(context),
+                          },
+                  if (isEmpty)
+                    {
+                      setState(() {
+                        valid = '* All Text flied Must be Filled';
+                      })
+                    }
+                }),
+            child: Container(
+              height: 70,
+              // width: 50,
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(left: 50, right: 50, top: 20),
+              decoration: BoxDecoration(
+                color: Colors.green[500],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                'Submit',
+                style: TextStyle(color: Colors.white, fontSize: 25),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -345,7 +379,7 @@ class MyProducts extends StatelessWidget {
   }) : super(key: key);
   final String imageLoc;
   final String title;
-  final int price;
+  final String price;
   final String shipping;
 
   @override
@@ -399,7 +433,7 @@ class MyProducts extends StatelessWidget {
                 0,
               ),
               child: Text(
-                'Rs. ' + price.toString(),
+                'Rs. ' + price,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
