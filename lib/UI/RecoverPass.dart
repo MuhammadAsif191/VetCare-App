@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'validMail.dart';
 import 'UserData.dart';
@@ -15,6 +16,20 @@ class _forgetPassPage extends State<forgetPass> {
   String validmail = '';
   bool flagMail = false;
   @override
+  void dispose() {
+    EmailController.dispose();
+    super.dispose();
+  }
+
+  Future passwordReset() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: EmailController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -106,11 +121,7 @@ class _forgetPassPage extends State<forgetPass> {
                   validmail = 'Enter valid email';
                   flagMail = true;
                 }
-                if (!flagMail) {
-                  if (Objforget.findMail(EmailController.text)) {
-                    EMAIL = Objforget.forgetPass(EmailController.text);
-                  }
-                }
+                if (!flagMail) {}
               },
             ),
           ),

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'UserData.dart';
 import 'validMail.dart';
-// import 'FlatList.dart';
+import 'findEmailHost.dart';
 
 class DoctorRegistration extends StatefulWidget {
   const DoctorRegistration({Key? key}) : super(key: key);
@@ -264,19 +264,39 @@ class _DoctorRegistrationPage extends State<DoctorRegistration> {
                         _errorDetector = true;
                       });
                     }
+                    if (NameValid != 'Required Name') {
+                      if (!HaveNumber(NameController.text.trim(), 1)) {
+                        setState(() {
+                          NameValid = 'Please Don\'t use [0-9] number';
+                          _errorDetector = true;
+                        });
+                      }
+                    }
+
+                    // if (NameValid != 'Required Name') if (!HaveNumber(
+                    //     NameController.text.trim(), 2)) {
+                    //   setState(() {
+                    //     NameValid = 'Please Don\'t use Special Charactor';
+                    //     _errorDetector = true;
+                    //   });
+                    // }
+                    if (EmailController.text.length > 0) if (EmailController
+                            .text
+                            .substring(
+                                findAtTheRate(EmailController.text.trim())) !=
+                        '@gmail.com') {
+                      setState(() {
+                        ValidMail = 'Only accept example@gmail.com';
+                        _errorDetector = true;
+                      });
+                    }
                     if (!_errorDetector) {
                       obj.setName(NameController.text);
                       obj.setEmail(EmailController.text);
                       obj.setPassword(PasswordController.text);
                       if (obj.signUp()) {
                         Register();
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             CustomCard(index: 5, onPress: ,),),);
                       }
-                      // Navigator.pop(context);
 
                       obj.Display();
                     } else

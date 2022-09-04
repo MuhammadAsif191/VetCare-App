@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'findEmailHost.dart';
 import 'validMail.dart';
 
 class StoreRegistration extends StatefulWidget {
@@ -264,9 +265,34 @@ class _StoreRegistrationPage extends State<StoreRegistration> {
                         _errorDetector = true;
                       });
                     }
+
+                    if (NameValid != 'Required Name') {
+                      if (!HaveNumber(NameController.text.trim(), 1)) {
+                        setState(() {
+                          NameValid = 'Please Don\'t use [0-9] number';
+                          _errorDetector = true;
+                        });
+                      }
+                    }
+
+                    // if (NameValid != 'Required Name') if (!HaveNumber(
+                    //     NameController.text.trim(), 2)) {
+                    //   setState(() {
+                    //     NameValid = 'Please Don\'t use Special Charactor';
+                    //     _errorDetector = true;
+                    //   });
+                    // }
+                    if (EmailController.text.length > 0) if (EmailController
+                            .text
+                            .substring(
+                                findAtTheRate(EmailController.text.trim())) !=
+                        '@gmail.com') {
+                      setState(() {
+                        ValidMail = 'Only accept example@gmail.com';
+                        _errorDetector = true;
+                      });
+                    }
                     if (!_errorDetector) {
-                      // if (obj.signUp()) {}
-                      // Navigator.pop(context);
                       Register();
                     } else
                       print('Not Found');

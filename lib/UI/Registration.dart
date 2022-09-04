@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:vet_care_app/UI/findEmailHost.dart';
 import 'UserData.dart';
 import 'validMail.dart';
 // import 'FlatList.dart';
@@ -249,12 +250,28 @@ class _RegistrationPage extends State<Registration> {
                         });
                       }
                     }
-                    if (NameController.text == '') {
+                    if (NameController.text.trim() == '') {
                       setState(() {
                         NameValid = 'Required Name';
                         _errorDetector = true;
                       });
                     }
+                    if (NameValid != 'Required Name') {
+                      if (!HaveNumber(NameController.text.trim(), 1)) {
+                        setState(() {
+                          NameValid = 'Please Don\'t use [0-9] number';
+                          _errorDetector = true;
+                        });
+                      }
+                    }
+
+                    // if (NameValid != 'Required Name') if (!HaveNumber(
+                    //     NameController.text.trim(), 2)) {
+                    //   setState(() {
+                    //     NameValid = 'Please Don\'t use Special Charactor';
+                    //     _errorDetector = true;
+                    //   });
+                    // }
                     if (ConfirmPasswordController.text == '') {
                       setState(() {
                         ConfirmPass = 'Required Confirmation Password';
@@ -264,6 +281,16 @@ class _RegistrationPage extends State<Registration> {
                     if (PasswordController.text == '') {
                       setState(() {
                         Password = 'Required Password';
+                        _errorDetector = true;
+                      });
+                    }
+                    if (EmailController.text.length > 0) if (EmailController
+                            .text
+                            .substring(
+                                findAtTheRate(EmailController.text.trim())) !=
+                        '@gmail.com') {
+                      setState(() {
+                        ValidMail = 'Only accept example@gmail.com';
                         _errorDetector = true;
                       });
                     }

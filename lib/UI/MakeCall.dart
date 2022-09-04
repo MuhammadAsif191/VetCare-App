@@ -29,11 +29,12 @@ class makeCalls extends StatefulWidget {
   @override
   makeCallToDoctorPage createState() => makeCallToDoctorPage();
 }
- IO.Socket socket =
-      IO.io('https://mix-chat-1.herokuapp.com/', <String, dynamic>{
-    "transports": ["websocket"],
-    "autoconnect": false,
-  });
+
+IO.Socket socket = IO.io('https://mix-chat-1.herokuapp.com/', <String, dynamic>{
+  "transports": ["websocket"],
+  "autoconnect": false,
+});
+
 class makeCallToDoctorPage extends State<makeCalls> {
   List<Message> message = [
     Message(
@@ -189,7 +190,7 @@ class makeCallToDoctorPage extends State<makeCalls> {
   Widget bottomBar(BuildContext context) {
     var size = MediaQuery.of(context).size;
     TextEditingController chatValue = new TextEditingController();
-     void sendMessage(user, friend, message) {
+    void sendMessage(user, friend, message) {
       socket.emit(
           'private_chat', {"user": user, "friend": friend, "message": message});
     }
@@ -224,7 +225,7 @@ class makeCallToDoctorPage extends State<makeCalls> {
                     ),
                   );
               });
-              sendMessage(widget.userMail widget.doctorMail, chatValue.text);
+              sendMessage(widget.userMail, widget.doctorMail, chatValue.text);
             },
             child: Icon(
               Icons.send,

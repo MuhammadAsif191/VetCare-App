@@ -49,7 +49,7 @@ class _DoctorLoginPage extends State<DoctorLogin> {
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
               child: const Text(
-                'Login',
+                'Login to doctor account',
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -211,14 +211,13 @@ class _DoctorLoginPage extends State<DoctorLogin> {
                     ),
                   ),
                   onPressed: () {
-                    GetData();
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => forgetDoctorPass(),
-                    //   ),
-                    // );
-                    // Navigator.pop(context);
+                    // GetData();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => forgetDoctorPass(),
+                      ),
+                    );
                   },
                 ),
               ],
