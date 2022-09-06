@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -5,11 +6,13 @@ import 'package:intl/intl.dart';
 class Message {
   final String text;
   final DateTime date;
+  final String userName;
   final String doctorName;
   const Message({
+    required this.doctorName,
     required this.text,
     required this.date,
-    required this.doctorName,
+    required this.userName,
   });
 }
 
@@ -19,26 +22,28 @@ class complaintBoxforAdmin extends StatefulWidget {
 }
 
 class complaintBoxforAdminPage extends State<complaintBoxforAdmin> {
-  List<Message> message = [
-    Message(
-        text: 'Yes Sure',
-        date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
-        doctorName: 'Rizwan'),
-    Message(
-      text: 'No don\'t worry',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
-      doctorName: 'Ali',
-    ),
-    Message(
-      text: 'great',
-      date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
-      doctorName: 'Aysha',
-    ),
-  ];
+  List<Message> message = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    var app = FirebaseFirestore.instance.collection('Complains');
+    app.get().then((QuerySnapshot querySnapshot) => {
+          setState(() {
+            message = [];
+          }),
+          querySnapshot.docs.forEach((element) {
+            // print(element['Doctor_Name']);
+            setState(() {
+              message.add(Message(
+                text: element['Complain'],
+                date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
+                userName: element['Submitted_By'],
+                doctorName: element['Doctor_Name'],
+              ));
+            });
+          })
+        });
     message;
   }
 
@@ -84,18 +89,37 @@ class complaintBoxforAdminPage extends State<complaintBoxforAdmin> {
                     padding: const EdgeInsets.all(12),
                     child: Column(
                       children: [
-                        Container(
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.fromLTRB(5, 10, 40, 0),
-                          child: Text(
-                            message.doctorName.toString() + ' :',
-                            style: TextStyle(color: Colors.white),
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.topLeft,
+                                margin: EdgeInsets.fromLTRB(5, 10, 40, 0),
+                                child: Text(
+                                  'To :  ' + message.doctorName,
+                                  style: TextStyle(color: Colors.green[800]),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.topRight,
+                                margin: EdgeInsets.fromLTRB(5, 10, 40, 0),
+                                child: Text(
+                                  'From :  ' + message.userName.toString(),
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                           alignment: Alignment.topLeft,
-                          child: Text(message.text),
+                          child: Text('Message :  ' + message.text),
                         ),
                       ],
                     ),

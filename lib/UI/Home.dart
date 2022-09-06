@@ -22,22 +22,8 @@ class Homepage extends State<Home> {
     // TODO: implement initState
     super.initState();
     print("object");
-    Connect();
     // socket.onconnect((id) => print(id));
     // socket.onconnect((id) => print("object"));
-  }
-
-  void Connect() {
-    socket.connect();
-    socket.onConnect((data) => print(socket.id));
-    socket.emit("register", "asif12@gmail.com");
-    socket.onConnect((data) {
-      print(socket.id);
-      socket.on('private_chat', (msg) {
-        // console.log(msg);
-        print(msg);
-      });
-    });
   }
 
   Widget build(BuildContext context) {

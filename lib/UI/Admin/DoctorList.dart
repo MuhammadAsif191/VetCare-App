@@ -40,12 +40,6 @@ class _doctorListsState extends State<doctorLists> {
           })
           // GetData();
         });
-    // getValues();
-    // setState(() {
-    //   obj = [];
-
-    //   // NewArray =  obj;
-    // });
   }
 
   Widget build(BuildContext context) {
@@ -82,6 +76,26 @@ class doctorAccess extends StatefulWidget {
 
 class _doctorAccessState extends State<doctorAccess> {
   @override
+  void Delete(String name, String status) {
+    var app = FirebaseFirestore.instance.collection('doctor').get();
+
+    app.then((QuerySnapshot querySnapshot) => {
+          obj = [],
+
+          querySnapshot.docs.forEach((element) {
+            //  element
+            if (element["name"] == name) {
+              FirebaseFirestore.instance
+                  .collection("doctor")
+                  .doc(element.id)
+                  .update({"status": status});
+            }
+            // print(element.id);
+          })
+          // GetData();
+        });
+  }
+
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () => showModalBottomSheet(
@@ -93,6 +107,9 @@ class _doctorAccessState extends State<doctorAccess> {
             FlatButton(
               minWidth: double.infinity,
               onPressed: () {
+                widget.onlineNow == 'Unblock'
+                    ? Delete(widget.doctorName, "block")
+                    : Delete(widget.doctorName, "Unblock");
                 Navigator.pop(context);
               },
               child: widget.onlineNow == 'Unblock'

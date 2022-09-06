@@ -22,12 +22,17 @@ class _forgetPassPage extends State<forgetDoctorPass> {
   }
 
   Future passwordReset() async {
-    try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: EmailController.text.trim());
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
+    FirebaseAuth.instance
+        .sendPasswordResetEmail(email: EmailController.text)
+        .then((value) => {print("sebdd")})
+        .catchError((onError) => {print(onError)});
+
+    // try {
+    //   await FirebaseAuth.instance
+    //       .sendPasswordResetEmail("email": EmailController.text.trim()).then((value) => null)
+    // } on FirebaseAuthException catch (e) {
+    //   print(e);
+    // }
   }
 
   Widget build(BuildContext context) {

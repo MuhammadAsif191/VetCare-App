@@ -72,6 +72,26 @@ class userAccess extends StatefulWidget {
 
 class _userAccessState extends State<userAccess> {
   @override
+  void Delete(String name, String status) {
+    var app = FirebaseFirestore.instance.collection('users').get();
+
+    app.then((QuerySnapshot querySnapshot) => {
+          obj = [],
+
+          querySnapshot.docs.forEach((element) {
+            //  element
+            if (element["name"] == name) {
+              FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(element.id)
+                  .update({"status": status});
+            }
+            // print(element.id);
+          })
+          // GetData();
+        });
+  }
+
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () => showModalBottomSheet(
@@ -88,6 +108,9 @@ class _userAccessState extends State<userAccess> {
                   // obj.removeAt(widget.ind);
                 });
                 Navigator.pop(context);
+                widget.onlineNow == 'Unblock'
+                    ? Delete(widget.userName, "block")
+                    : Delete(widget.userName, "Unblock");
               },
               child: widget.onlineNow == 'Unblock'
                   ? Text('block')
