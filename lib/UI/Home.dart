@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vet_care_app/UI/storeForVetCare.dart';
-import 'AdminLogin.dart';
-import 'StoreLoginAndRegistration.dart';
-import 'UseMain.dart';
-import 'DocterMan.dart';
+import 'Admin/AdminLogin.dart';
+import 'Store/StoreLoginAndRegistration.dart';
+import 'User/UseMain.dart';
+import 'Doctor/DocterMan.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Home extends StatefulWidget {
