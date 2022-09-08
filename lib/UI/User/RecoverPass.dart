@@ -22,12 +22,10 @@ class _forgetPassPage extends State<forgetPass> {
   }
 
   Future passwordReset() async {
-    try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: EmailController.text.trim());
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
+    FirebaseAuth.instance
+        .sendPasswordResetEmail(email: EmailController.text)
+        .then((value) => {print("sebdd")})
+        .catchError((onError) => {print(onError)});
   }
 
   Widget build(BuildContext context) {
@@ -121,7 +119,10 @@ class _forgetPassPage extends State<forgetPass> {
                   validmail = 'Enter valid email';
                   flagMail = true;
                 }
-                if (!flagMail) {}
+                if (!flagMail) {
+                  passwordReset();
+                  Navigator.pop(context);
+                }
               },
             ),
           ),

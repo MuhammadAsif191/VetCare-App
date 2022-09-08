@@ -29,7 +29,7 @@ class _UsersState extends State<Users> {
   @override
   void initState() {
     super.initState();
-    var app = FirebaseFirestore.instance.collection('doctor').get();
+    var app = FirebaseFirestore.instance.collection('users').get();
 
     app.then((QuerySnapshot querySnapshot) => {
           setState(() {

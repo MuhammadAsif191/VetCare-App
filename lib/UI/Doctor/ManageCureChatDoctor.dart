@@ -35,8 +35,6 @@ class ManageCureDoctorMessageClassed extends StatefulWidget {
 class ManageCureDoctorMessageClassedPage
     extends State<ManageCureDoctorMessageClassed> {
   List<Message> message = [];
-  bool meetingButton = true;
-  TextEditingController meetingLocation = new TextEditingController();
   IO.Socket socket =
       IO.io('https://mix-chat-1.herokuapp.com/', <String, dynamic>{
     "transports": ["websocket"],
@@ -47,8 +45,6 @@ class ManageCureDoctorMessageClassedPage
     // TODO: implement initState
     super.initState();
     message;
-    meetingLocation.text = '';
-    meetingButton = true;
     Connect();
   }
 
@@ -75,67 +71,6 @@ class ManageCureDoctorMessageClassedPage
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: meetingButton
-          ? GestureDetector(
-              onTap: () => showModalBottomSheet(
-                  context: context,
-                  builder: (context) => Container(
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: 20, right: 20),
-                              child: TextField(
-                                controller: meetingLocation,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter Your Loacation...',
-                                  labelText: 'Loaction',
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  Navigator.pop(context);
-                                  meetingButton = false;
-                                  message.add(
-                                    Message(
-                                      text: meetingLocation.text,
-                                      date: DateTime.now().subtract(
-                                          Duration(days: 3, minutes: 3)),
-                                      isSentByMe: false,
-                                    ),
-                                  );
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(top: 15),
-                                alignment: Alignment.center,
-                                height: 50,
-                                width: 170,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.green,
-                                ),
-                                child: Text('Submit Meeting'),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )),
-              child: Container(
-                alignment: Alignment.center,
-                height: 60,
-                width: 150,
-                margin: EdgeInsets.fromLTRB(
-                    0, 10, size.width / 4, size.height - 250),
-                decoration: BoxDecoration(
-                  color: Colors.teal,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Text('Create Meeting'),
-              ),
-            )
-          : Container(),
       appBar: AppBar(
         backgroundColor: Colors.green[800],
         title: Text('${widget.DoctorName}'),

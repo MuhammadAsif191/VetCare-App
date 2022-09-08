@@ -55,13 +55,11 @@ class makeCallToDoctorPage extends State<makeCalls> {
       isSentByMe: false,
     ),
   ];
-  bool physicalMeeting = true;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     message;
-    physicalMeeting = true;
     Connect();
   }
 
@@ -71,7 +69,7 @@ class makeCallToDoctorPage extends State<makeCalls> {
     socket.emit("register", widget.userMail);
     socket.onConnect((data) {
       print(socket.id);
-      print(widget.userMail + ">>" + widget.DoctorName);
+      print(widget.userMail + ">>" + widget.doctorMail);
       socket.on('private_chat', (msg) {
         print(msg["message"]["msg"]);
         setState(() {
@@ -88,41 +86,6 @@ class makeCallToDoctorPage extends State<makeCalls> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: physicalMeeting
-          ? GestureDetector(
-              onTap: () {
-                setState(() {
-                  physicalMeeting = false;
-                  message.add(
-                    Message(
-                      text: 'Please Arange physical Meeting',
-                      date: DateTime.now()
-                          .subtract(Duration(days: 3, minutes: 3)),
-                      isSentByMe: false,
-                    ),
-                  );
-                });
-              },
-              child: Container(
-                alignment: Alignment.center,
-                height: 60,
-                width: 170,
-                margin: EdgeInsets.only(
-                    bottom: size.height - 220, right: size.width / 6),
-                decoration: BoxDecoration(
-                  color: Colors.teal,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  'Arange Meeting',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            )
-          : Container(),
       appBar: AppBar(
         backgroundColor: Colors.green[800],
         title: Text('${widget.DoctorName}'),

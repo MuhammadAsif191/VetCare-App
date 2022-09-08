@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../emailConfiguration/validMail.dart';
 
@@ -13,6 +14,18 @@ class _forgetStorePasswordPage extends State<forgetStorePassword> {
   String validmail = '';
   bool flagMail = false;
   @override
+  void dispose() {
+    EmailController.dispose();
+    super.dispose();
+  }
+
+  Future passwordReset() async {
+    FirebaseAuth.instance
+        .sendPasswordResetEmail(email: EmailController.text)
+        .then((value) => {print("sebdd")})
+        .catchError((onError) => {print(onError)});
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -104,7 +117,10 @@ class _forgetStorePasswordPage extends State<forgetStorePassword> {
                   validmail = 'Enter valid email';
                   flagMail = true;
                 }
-                if (!flagMail) {}
+                if (!flagMail) {
+                  passwordReset();
+                  Navigator.pop(context);
+                }
               },
             ),
           ),

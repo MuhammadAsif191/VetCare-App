@@ -5,8 +5,8 @@ import 'AdminComplaintsToDoctors.dart';
 
 class doctorsChat {
   String doctorName;
-  // String img;
-  doctorsChat(this.doctorName);
+  String email;
+  doctorsChat(this.doctorName, this.email);
 }
 
 class doctorsChatList extends StatefulWidget {
@@ -29,7 +29,7 @@ class _doctorsChatListState extends State<doctorsChatList> {
             print(element['email']);
             setState(() {
               // obj.add(doctorsChat(doctorName: element['name']));
-              obj.add(doctorsChat(element['name']));
+              obj.add(doctorsChat(element['name'], element['email']));
             });
             // GetData();
           })
@@ -48,6 +48,7 @@ class _doctorsChatListState extends State<doctorsChatList> {
           itemBuilder: (context, index) {
             return doctorsComplaintChat(
               doctorName: obj[index].doctorName,
+              email: obj[index].email,
             );
           },
         ),
@@ -59,8 +60,10 @@ class _doctorsChatListState extends State<doctorsChatList> {
 class doctorsComplaintChat extends StatelessWidget {
   doctorsComplaintChat({
     this.doctorName = '',
+    required this.email,
     // this.img = '',
   });
+  final String email;
   final String doctorName;
   // String img;
   @override
@@ -70,7 +73,9 @@ class doctorsComplaintChat extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => complaintBoxforAdminDoctors(),
+            builder: (context) => complaintBoxforAdminDoctors(
+              email: email,
+            ),
           ),
         );
       },

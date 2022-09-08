@@ -53,35 +53,14 @@ class AdminDoctorChatPage extends State<AdminDoctorChat> {
       isSentByMe: false,
     ),
   ];
-  bool physicalMeeting = true;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     message;
-    physicalMeeting = true;
     Connect();
   }
 
-  // void Connect() {
-  // socket.connect();
-  // socket.onConnect((data) => print(socket.id));
-  // socket.emit("register", widget.doctorMail);
-  // socket.onConnect((data) {
-  //   print(socket.id);
-  //   print(widget.doctorMail);
-  //   print(widget.userMail + ">>" + widget.DoctorName);
-  //   socket.on('private_chat', (msg) {
-  //     print(msg);
-  //     print(msg["message"]["msg"]);
-  //     setState(() {
-  //       message.add(AdminDoctorChatModel(
-  //           text: msg["message"]["msg"],
-  //           date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
-  //           isSentByMe: true));
-  //     });
-  //   });
-  // });
   void Connect() {
     print(widget.doctorMail);
     socket.connect();
