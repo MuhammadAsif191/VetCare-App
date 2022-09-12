@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:http/http.dart' as http;
+import 'dart:convert' as json;
 
 class AdminDoctorChatModel {
   final String text;
@@ -57,7 +59,8 @@ class AdminDoctorChatPage extends State<AdminDoctorChat> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    message;
+    message = [];
+    backupChat();
     Connect();
   }
 
@@ -78,10 +81,48 @@ class AdminDoctorChatPage extends State<AdminDoctorChat> {
               isSentByMe: true));
         });
       });
-      // });
     });
   }
-  // }
+
+  Future<void> backupChat() async {
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request(
+        'POST', Uri.parse('https://mix-chat-1.herokuapp.com/pchat/backupsms'));
+    request.body = json.jsonEncode(
+        {"username": widget.doctorMail, "friendname": 'admin@gmail.com'});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var sms = json.jsonDecode(await response.stream.bytesToString()) as Map;
+      var sms1 = sms['sms'];
+      for (int i = 0; i < sms1.length; i++) {
+        print(sms1[i]['msg'] + '>>>' + sms1[i]['status'] + '\n');
+        if (sms1[i]['status'] == 'out') {
+          setState(() {
+            message.add(
+              AdminDoctorChatModel(
+                  text: sms1[i]['msg'],
+                  date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+                  isSentByMe: false),
+            );
+          });
+        } else {
+          setState(() {
+            message.add(
+              AdminDoctorChatModel(
+                  text: sms1[i]['msg'],
+                  date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+                  isSentByMe: true),
+            );
+          });
+        }
+      }
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
