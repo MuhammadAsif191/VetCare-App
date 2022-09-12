@@ -46,6 +46,7 @@ class makeCallToDoctorPage extends State<makeCalls> {
     // TODO: implement initState
     super.initState();
     message = [];
+    backupChat();
     Connect();
   }
 
