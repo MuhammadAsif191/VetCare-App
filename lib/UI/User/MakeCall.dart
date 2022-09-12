@@ -40,23 +40,7 @@ IO.Socket socket = IO.io('https://mix-chat-1.herokuapp.com/', <String, dynamic>{
 });
 
 class makeCallToDoctorPage extends State<makeCalls> {
-  List<Message> message = [
-    Message(
-      text: 'Yes Sure',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
-      isSentByMe: false,
-    ),
-    Message(
-      text: 'No don\'t worry',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
-      isSentByMe: true,
-    ),
-    Message(
-      text: 'great',
-      date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
-      isSentByMe: false,
-    ),
-  ];
+  List<Message> message = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -77,7 +61,7 @@ class makeCallToDoctorPage extends State<makeCalls> {
         setState(() {
           message.add(Message(
               text: msg["message"]["msg"],
-              date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+              date: DateTime.now().subtract(Duration()),
               isSentByMe: true));
         });
       });
@@ -104,7 +88,7 @@ class makeCallToDoctorPage extends State<makeCalls> {
             message.add(
               Message(
                   text: sms1[i]['msg'],
-                  date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+                  date: DateTime.now().subtract(Duration()),
                   isSentByMe: false),
             );
           });
@@ -113,7 +97,7 @@ class makeCallToDoctorPage extends State<makeCalls> {
             message.add(
               Message(
                   text: sms1[i]['msg'],
-                  date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+                  date: DateTime.now().subtract(Duration()),
                   isSentByMe: true),
             );
           });
@@ -238,8 +222,7 @@ class makeCallToDoctorPage extends State<makeCalls> {
                   message.add(
                     Message(
                       text: chatValue.text,
-                      date: DateTime.now()
-                          .subtract(Duration(days: 3, minutes: 3)),
+                      date: DateTime.now().subtract(Duration()),
                       isSentByMe: false,
                     ),
                   );

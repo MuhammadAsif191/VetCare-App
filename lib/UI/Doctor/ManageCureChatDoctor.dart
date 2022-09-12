@@ -62,7 +62,7 @@ class ManageCureDoctorMessageClassedPage
         setState(() {
           message.add(Message(
               text: msg["message"]["msg"],
-              date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+              date: DateTime.now().subtract(Duration()),
               isSentByMe: true));
         });
       });
@@ -89,7 +89,7 @@ class ManageCureDoctorMessageClassedPage
             message.add(
               Message(
                   text: sms1[i]['msg'],
-                  date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+                  date: DateTime.now().subtract(Duration()),
                   isSentByMe: false),
             );
           });
@@ -98,7 +98,7 @@ class ManageCureDoctorMessageClassedPage
             message.add(
               Message(
                   text: sms1[i]['msg'],
-                  date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+                  date: DateTime.now().subtract(Duration()),
                   isSentByMe: true),
             );
           });
@@ -256,8 +256,7 @@ class ManageCureDoctorMessageClassedPage
                   message.add(
                     Message(
                       text: chatValue.text,
-                      date: DateTime.now()
-                          .subtract(Duration(days: 3, minutes: 3)),
+                      date: DateTime.now().subtract(Duration()),
                       isSentByMe: false,
                     ),
                   );
@@ -695,8 +694,7 @@ class _PreseptionState extends State<Preseption> {
                   message.add(
                     Message(
                       text: messagePreseption,
-                      date: DateTime.now()
-                          .subtract(Duration(days: 3, minutes: 3)),
+                      date: DateTime.now().subtract(Duration()),
                       isSentByMe: false,
                     ),
                   );
@@ -885,8 +883,9 @@ class _PhysicalMeetingState extends State<PhysicalMeeting> {
                   message.add(
                     Message(
                       text: physicalMeetingLocation,
-                      date: DateTime.now()
-                          .subtract(Duration(days: 3, minutes: 3)),
+                      date: DateTime.now().subtract(Duration(
+                        days: 1,
+                      )),
                       isSentByMe: false,
                     ),
                   );

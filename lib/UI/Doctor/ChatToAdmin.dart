@@ -41,17 +41,19 @@ class AdminDoctorChatPage extends State<AdminDoctorChat> {
   List<AdminDoctorChatModel> message = [
     AdminDoctorChatModel(
       text: 'Yes Sure',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+      date: DateTime.now().subtract(Duration(
+        days: 1,
+      )),
       isSentByMe: false,
     ),
     AdminDoctorChatModel(
       text: 'No don\'t worry',
-      date: DateTime.now().subtract(Duration(days: 3, minutes: 4)),
+      date: DateTime.now().subtract(Duration()),
       isSentByMe: true,
     ),
     AdminDoctorChatModel(
       text: 'great',
-      date: DateTime.now().subtract(Duration(days: 4, minutes: 1)),
+      date: DateTime.now().subtract(Duration()),
       isSentByMe: false,
     ),
   ];
@@ -77,7 +79,7 @@ class AdminDoctorChatPage extends State<AdminDoctorChat> {
         setState(() {
           message.add(AdminDoctorChatModel(
               text: msg["message"]["msg"],
-              date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+              date: DateTime.now().subtract(Duration()),
               isSentByMe: true));
         });
       });
@@ -104,7 +106,7 @@ class AdminDoctorChatPage extends State<AdminDoctorChat> {
             message.add(
               AdminDoctorChatModel(
                   text: sms1[i]['msg'],
-                  date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+                  date: DateTime.now().subtract(Duration()),
                   isSentByMe: false),
             );
           });
@@ -113,7 +115,7 @@ class AdminDoctorChatPage extends State<AdminDoctorChat> {
             message.add(
               AdminDoctorChatModel(
                   text: sms1[i]['msg'],
-                  date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+                  date: DateTime.now().subtract(Duration()),
                   isSentByMe: true),
             );
           });
@@ -221,8 +223,7 @@ class AdminDoctorChatPage extends State<AdminDoctorChat> {
                   message.add(
                     AdminDoctorChatModel(
                       text: chatValue.text,
-                      date: DateTime.now()
-                          .subtract(Duration(days: 3, minutes: 3)),
+                      date: DateTime.now().subtract(Duration()),
                       isSentByMe: false,
                     ),
                   );

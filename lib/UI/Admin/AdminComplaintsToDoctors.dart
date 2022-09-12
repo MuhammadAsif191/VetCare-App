@@ -70,7 +70,7 @@ class _complaintBoxforAdminDoctors extends State<complaintBoxforAdminDoctors> {
         setState(() {
           message.add(Message(
               text: msg["message"]["msg"],
-              date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+              date: DateTime.now().subtract(Duration()),
               isSentByMe: true));
         });
       });
@@ -98,7 +98,9 @@ class _complaintBoxforAdminDoctors extends State<complaintBoxforAdminDoctors> {
             message.add(
               Message(
                   text: sms1[i]['msg'],
-                  date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+                  date: DateTime.now().subtract(Duration(
+                    days: 1,
+                  )),
                   isSentByMe: false),
             );
           });
@@ -107,7 +109,7 @@ class _complaintBoxforAdminDoctors extends State<complaintBoxforAdminDoctors> {
             message.add(
               Message(
                   text: sms1[i]['msg'],
-                  date: DateTime.now().subtract(Duration(days: 3, minutes: 3)),
+                  date: DateTime.now().subtract(Duration()),
                   isSentByMe: true),
             );
           });
@@ -215,8 +217,7 @@ class _complaintBoxforAdminDoctors extends State<complaintBoxforAdminDoctors> {
                   message.add(
                     Message(
                       text: chatValue.text,
-                      date: DateTime.now()
-                          .subtract(Duration(days: 3, minutes: 3)),
+                      date: DateTime.now().subtract(Duration()),
                       isSentByMe: false,
                     ),
                   );
