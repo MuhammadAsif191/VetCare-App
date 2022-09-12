@@ -5,13 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import 'Orders.dart';
+import 'editProduct.dart';
+
 class SellerProducts {
   SellerProducts({
     required this.img,
     required this.Shipping,
     required this.price,
     required this.productName,
+    required this.productID,
   });
+  final String productID;
   final String img;
   final String productName;
   final String price;
@@ -49,6 +54,7 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
             print(element['P_Name']);
             setState(() {
               myProductData.add(SellerProducts(
+                productID: element.id,
                 img: element['image'],
                 Shipping: element['Country'],
                 price: element['Price'],
@@ -84,27 +90,26 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
       appBar: AppBar(
         backgroundColor: Colors.green[500],
         title: Text('My Account'),
-        // actions: [
-        //   PopupMenuButton(
-        //     onSelected: (value) {
-        //       if (value == 1) {
-        //         Navigator.push(
-        //           context,
-        //           MaterialPageRoute(
-        //             builder: (context) => MessagesPersons(),
-        //           ),
-        //         );
-        //       }
-        //     },
-        //     itemBuilder: (context) => [
-
-        //       PopupMenuItem(
-        //         value: 2,
-        //         child: Text('My Orders'),
-        //       ),
-        //     ],
-        //   ),
-        // ],
+        actions: [
+          PopupMenuButton(
+            onSelected: (value) {
+              if (value == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderProductScreen(),
+                  ),
+                );
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 1,
+                child: Text('My Orders'),
+              ),
+            ],
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () => getValue(),
@@ -159,10 +164,12 @@ class _MyAccountMainScreenState extends State<MyAccountMainScreen> {
                   childAspectRatio: 0.75,
                 ),
                 itemBuilder: ((context, index) => MyProducts(
-                    imageLoc: myProductData[index].img,
-                    price: myProductData[index].price,
-                    shipping: myProductData[index].Shipping,
-                    title: myProductData[index].productName)),
+                      productID: myProductData[index].productID,
+                      imageLoc: myProductData[index].img,
+                      price: myProductData[index].price,
+                      shipping: myProductData[index].Shipping,
+                      title: myProductData[index].productName,
+                    )),
               ),
             ),
           ],
@@ -364,7 +371,9 @@ class MyProducts extends StatelessWidget {
     required this.price,
     required this.shipping,
     required this.title,
+    required this.productID,
   }) : super(key: key);
+  final String productID;
   final String imageLoc;
   final String title;
   final String price;
@@ -372,16 +381,66 @@ class MyProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const kDefaultPaddin = 20.0;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: Colors.white,
         onPrimary: Colors.grey[500],
         padding: EdgeInsets.all(0),
       ),
-      onPressed: () {},
+      onLongPress: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // return object of type Dialog
+              return AlertDialog(
+                title: new Text("Vet Care App"),
+                content: Wrap(
+                  children: [
+                    Text("are you sure you delete "),
+                    Text(
+                      '${title}',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(' ?'),
+                  ],
+                ),
+                actions: <Widget>[
+                  // usually buttons at the bottom of the dialog
+                  new InkWell(
+                    child: new Text("Cencel"),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  new InkWell(
+                    child: new Text("Ok"),
+                    onTap: () {
+                      FirebaseFirestore.instance
+                          .collection('StorProducts')
+                          .doc(productID)
+                          .delete()
+                        ..then((value) => Navigator.pop(context));
+                    },
+                  ),
+                ],
+              );
+            });
+      },
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => editProduct(productID: productID),
+          ),
+        );
+      },
       child: Container(
-        padding: EdgeInsets.all(kDefaultPaddin / 4),
         decoration: BoxDecoration(
           color: Colors.white54,
           borderRadius: BorderRadius.circular(16),
@@ -391,7 +450,7 @@ class MyProducts extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(kDefaultPaddin / 4),
+                // padding: EdgeInsets.all(kDefaultPaddin / 4),
                 // height: 180,
                 // width: 160,
                 decoration: BoxDecoration(
@@ -401,38 +460,15 @@ class MyProducts extends StatelessWidget {
                 child: Image.network(imageLoc),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                kDefaultPaddin / 4,
-                kDefaultPaddin / 4,
-                0,
-                0,
-              ),
-              child: Text(
-                title,
-                style: TextStyle(color: Colors.black),
-              ),
+            Text(
+              title,
+              style: TextStyle(color: Colors.black),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                kDefaultPaddin / 5,
-                kDefaultPaddin / 5,
-                0,
-                0,
-              ),
-              child: Text(
-                'Rs. ' + price,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+            Text(
+              'Rs. ' + price,
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Padding(
-                padding: EdgeInsets.fromLTRB(
-                  kDefaultPaddin / 5,
-                  kDefaultPaddin / 5,
-                  0,
-                  0,
-                ),
-                child: Text(shipping))
+            Text(shipping)
           ],
         ),
       ),

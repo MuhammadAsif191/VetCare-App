@@ -17,8 +17,12 @@ class SellerProducts {
 }
 
 class StoreMainScreen extends StatefulWidget {
-  const StoreMainScreen({Key? key}) : super(key: key);
+  const StoreMainScreen({
+    Key? key,
+    required this.userName,
+  }) : super(key: key);
 
+  final String userName;
   @override
   State<StoreMainScreen> createState() => StoreMainScreenState();
 }
@@ -75,6 +79,7 @@ class StoreMainScreenState extends State<StoreMainScreen> {
               price: Cate1[index].price,
               shipping: Cate1[index].Shipping,
               title: Cate1[index].productName,
+              userName: widget.userName,
             )),
       ),
     );
@@ -88,8 +93,10 @@ class ProductContainer extends StatelessWidget {
     required this.price,
     required this.shipping,
     required this.title,
+    required this.userName,
   }) : super(key: key);
   String imageLoc;
+  String userName;
   String title;
   String price;
   String shipping;
@@ -112,6 +119,7 @@ class ProductContainer extends StatelessWidget {
               productPrice: int.parse(price),
               Shipping: shipping,
               productTitle: title,
+              userName: userName,
             ),
           ),
         );

@@ -111,7 +111,9 @@ class UserMenuPage extends State<UserMenu> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => StoreMainScreen(),
+                          builder: (context) => StoreMainScreen(
+                            userName: widget.Username,
+                          ),
                         ),
                       );
                     }),

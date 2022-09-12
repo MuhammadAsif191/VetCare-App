@@ -141,7 +141,13 @@ class makeCallToDoctorPage extends State<makeCalls> {
                       ? Alignment.centerLeft
                       : Alignment.centerRight,
                   child: Card(
-                    color: message.isSentByMe ? Colors.white : Colors.green,
+                    color: message.text.contains('Prescription :')
+                        ? Colors.grey[500]
+                        : message.text.contains('Physical Meeting Location :')
+                            ? Colors.blue
+                            : message.isSentByMe
+                                ? Colors.white
+                                : Colors.green,
                     elevation: 8,
                     child: Padding(
                       padding: const EdgeInsets.all(12),

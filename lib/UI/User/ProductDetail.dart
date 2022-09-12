@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'BuNowScreen.dart';
 
-String locationBotom = 'Punjab,Gujrat,Marghaza';
-
 class ProductDetails extends StatefulWidget {
-  ProductDetails(
-      {Key? key,
-      required this.imagePath,
-      required this.productPrice,
-      required this.Shipping,
-      required this.productTitle})
-      : super(key: key);
+  ProductDetails({
+    Key? key,
+    required this.imagePath,
+    required this.productPrice,
+    required this.Shipping,
+    required this.productTitle,
+    required this.userName,
+  }) : super(key: key);
+  final String userName;
   final String productTitle;
   final String imagePath;
   final int productPrice;
@@ -37,6 +37,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 productShipping: widget.Shipping,
                 productTitle: widget.productTitle,
                 shopName: ShopTitle,
+                userName: widget.userName,
               ),
             ),
           );
@@ -73,75 +74,9 @@ class _ProductDetailsState extends State<ProductDetails> {
               shopName: ShopTitle,
               title: widget.productTitle,
               price: widget.productPrice,
+              userName: widget.userName,
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class GetLocationBottomSheet extends StatefulWidget {
-  const GetLocationBottomSheet({Key? key}) : super(key: key);
-
-  @override
-  State<GetLocationBottomSheet> createState() => _GetLocationBottomSheetState();
-}
-
-class _GetLocationBottomSheetState extends State<GetLocationBottomSheet> {
-  TextEditingController locationChanger = new TextEditingController();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {
-      locationChanger.text = '';
-    });
-  }
-
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(20),
-            child: TextField(
-              controller: locationChanger,
-              decoration: InputDecoration(
-                // border: InputBorder.none,
-                labelText: 'Enter Your Location',
-                hintText: 'Enter Your Location',
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-              setState(() {
-                locationBotom = locationChanger.text;
-              });
-            },
-            child: Container(
-              alignment: Alignment.center,
-              height: 70,
-              width: 200,
-              // padding: EdgeInsets.only(top: 20),
-              decoration: BoxDecoration(
-                color: Colors.green[700],
-                borderRadius: BorderRadius.circular(60),
-              ),
-              child: Text(
-                'Submit',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          )
         ],
       ),
     );
@@ -156,7 +91,9 @@ class DetailsOfProducts extends StatelessWidget {
     required this.imgloc,
     required this.price,
     required this.shipping,
+    required this.userName,
   }) : super(key: key);
+  final String userName;
   final String imgloc;
   final String shopName;
   final String title;

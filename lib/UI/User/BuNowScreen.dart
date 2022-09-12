@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'AddLocationForProduct.dart';
 
 class BuyNowScreen extends StatefulWidget {
   BuyNowScreen({
@@ -8,7 +9,9 @@ class BuyNowScreen extends StatefulWidget {
     required this.productShipping,
     required this.productTitle,
     required this.shopName,
+    required this.userName,
   }) : super(key: key);
+  final String userName;
   final String shopName;
   final String imagePath;
   final String productTitle;
@@ -26,7 +29,6 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
     setState(() {
       totalPriceBuy = int.parse(widget.productPrice);
       totalProduct = 1;
-      // totalPriceBuy = 1;
     });
     super.initState();
   }
@@ -65,25 +67,19 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
             flex: 2,
             child: GestureDetector(
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      // return object of type Dialog
-                      return AlertDialog(
-                        title: new Text("Payment Proceed"),
-                        content:
-                            new Text("You Purchase ${totalProduct} Products"),
-                        actions: <Widget>[
-                          // usually buttons at the bottom of the dialog
-                          new FlatButton(
-                            child: new Text("Ok"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => getLocationandPost(
+                            totalProduct: totalProduct.toString(),
+                            userName: widget.userName,
+                            imagePath: widget.imagePath,
+                            productPrice: totalPriceBuy.toString(),
+                            productShipping: widget.productShipping,
+                            productTitle: widget.productTitle,
+                            shopName: widget.shopName,
+                          )),
+                );
               },
               child: Container(
                   margin: EdgeInsets.only(right: 10, bottom: 10),
@@ -288,26 +284,24 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
       ),
     );
   }
-  // Widget ShowDailogsBox(BuildContext context){
-  //   return
-  //               showDialog(
-  //                   context: context,
-  //                   builder: (BuildContext context) {
-  //                     // return object of type Dialog
-  //                     return AlertDialog(
-  //                       title: new Text("Vet Care App"),
-  //                       content: new Text(
-  //                           "PLease try to connect support of Vet Care App"),
-  //                       actions: <Widget>[
-  //                         // usually buttons at the bottom of the dialog
-  //                         new FlatButton(
-  //                           child: new Text("Close"),
-  //                           onPressed: () {
-  //                             Navigator.of(context).pop();
-  //                           },
-  //                         ),
-  //                       ],
-  //                     );
-  //                   });
-  // }
 }
+
+                // showDialog(
+                //     context: context,
+                //     builder: (BuildContext context) {
+                //       // return object of type Dialog
+                //       return AlertDialog(
+                //         title: new Text("Payment Proceed"),
+                //         content:
+                //             new Text("You Purchase ${totalProduct} Products"),
+                //         actions: <Widget>[
+                //           // usually buttons at the bottom of the dialog
+                //           new FlatButton(
+                //             child: new Text("Ok"),
+                //             onPressed: () {
+                //               Navigator.of(context).pop();
+                //             },
+                //           ),
+                //         ],
+                //       );
+                //     });
