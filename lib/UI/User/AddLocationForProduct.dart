@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class getLocationandPost extends StatefulWidget {
   getLocationandPost({
@@ -81,6 +82,11 @@ class _getLocationandPostState extends State<getLocationandPost> {
               margin: EdgeInsets.only(left: 30.0, right: 30.0),
               child: TextField(
                 controller: _phoneNoController,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 decoration: InputDecoration(
                   label: Text('Phone No'),
                   hintText: 'Enter Your Phone Number ... ',

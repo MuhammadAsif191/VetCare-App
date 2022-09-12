@@ -291,8 +291,8 @@ class _CreateProductState extends State<CreateProduct> {
             width: 200,
             alignment: Alignment.topCenter,
             child: TextField(
-              keyboardType: TextInputType.number,
               controller: productPrice,
+              keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 FilteringTextInputFormatter.digitsOnly,
